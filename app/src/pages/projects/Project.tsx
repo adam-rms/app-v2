@@ -41,7 +41,7 @@ const Project = () => {
   //get individual project data
   useEffect(() => {
     refreshProjectData(parseInt(projectId));
-  }, []);
+  }, [projectId, refreshProjectData]);
 
   //Check project name
   let project_name = "AdamRMS Project";

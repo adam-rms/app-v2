@@ -27,7 +27,7 @@ const ProjectFab = () => {
    * Scans a barcode and then goes to that asset
    */
   const redirectToAsset = async () => {
-    const asset = await GetAssetFromBarcode();
+    const asset = await GetAssetFromBarcode(location);
     if (asset) {
       router.push("/assets/" + asset.assetTypes_id + "/" + asset.assets_id);
     } else {
@@ -42,7 +42,10 @@ const ProjectFab = () => {
    */
   const addAsset = async () => {
     if (projectData) {
-      const result = await AddAssetToProject(projectData.project.projects_id);
+      const result = await AddAssetToProject(
+        projectData.project.projects_id,
+        location,
+      );
 
       if (result) {
         if (typeof result === "string") {
@@ -58,12 +61,13 @@ const ProjectFab = () => {
       }
     } else {
       //we don't have a project so something has gone very wrong!
-      throw new Error("addAssett() can only be called within a project");
+      throw new Error("addAsset() can only be called within a project");
     }
   };
 
   const setLocation = async () => {
-    await getLocation();
+    const thisLocation = await getLocation();
+    present(thisLocation.name, 2000);
   };
 
   return (

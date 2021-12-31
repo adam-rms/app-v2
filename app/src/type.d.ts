@@ -108,5 +108,5 @@ interface IProjectData {
 interface ILocation {
   name: string;
   value: string;
-  type: "barcode" | "asset" | "custom";
+  type: "barcode" | "asset" | "custom" | undefined;
 }

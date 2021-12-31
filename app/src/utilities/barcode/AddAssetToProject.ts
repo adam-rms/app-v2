@@ -8,8 +8,8 @@ import GetAssetFromBarcode from "./GetAssetFromBarcode";
  * @returns {boolean | string} false if asset not found
  * @returns {boolean | string} assignment error message
  */
-const AddAssetToProject = async (project_id: string) => {
-  const asset = await GetAssetFromBarcode();
+const AddAssetToProject = async (project_id: string, location: ILocation) => {
+  const asset = await GetAssetFromBarcode(location);
 
   if (asset) {
     const assignment = await Api("projects/assets/assign.php", {

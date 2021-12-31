@@ -6,11 +6,14 @@ import {
   IonFabButton,
   IonFabList,
 } from "@ionic/react";
+import { useContext } from "react";
+import { LocationContext } from "../../contexts/utility/LocationContext";
 import GetAssetFromBarcode from "../../utilities/barcode/GetAssetFromBarcode";
 
 const AssetsFab = () => {
   const router = useIonRouter();
   const [present] = useIonToast();
+  const { location } = useContext(LocationContext);
 
   //Define actual button functions here, that then call utility functions
   /**
@@ -18,7 +21,7 @@ const AssetsFab = () => {
    * Scans a barcode and then goes to that asset
    */
   const redirectToAsset = async () => {
-    const asset = await GetAssetFromBarcode();
+    const asset = await GetAssetFromBarcode(location);
     if (asset) {
       router.push("/assets/" + asset.assetTypes_id + "/" + asset.assets_id);
     } else {

@@ -18,6 +18,7 @@ import { useContext } from "react";
 import { useParams } from "react-router";
 import AssetItem from "../../components/assets/AssetItem";
 import Page from "../../components/Page";
+import ProjectFab from "../../components/projects/ProjectFAB";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import { MassFormatter, MoneyFormatter } from "../../utilities/Formatters";
 
@@ -167,6 +168,7 @@ const ProjectAssets = () => {
       <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
         <IonRefresherContent />
       </IonRefresher>
+      <ProjectFab />
       {assets}
     </Page>
   );

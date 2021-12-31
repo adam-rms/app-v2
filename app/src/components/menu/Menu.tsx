@@ -1,4 +1,4 @@
-import { IonMenu, IonMenuToggle } from "@ionic/react";
+import { IonFooter, IonMenu, IonMenuToggle } from "@ionic/react";
 import { useLocation } from "react-router-dom";
 import {
   faCube,
@@ -13,6 +13,8 @@ import StyledIonLabel from "./components/StyledIonLabel";
 import BrandImage from "./components/BrandImage";
 import BrandContainer from "./components/BrandContainer";
 import BrandText from "./components/BrandText";
+import { useContext } from "react";
+import { LocationContext } from "../../contexts/utility/LocationContext";
 
 interface AppPage {
   url: string;
@@ -35,7 +37,8 @@ const appPages: AppPage[] = [
 ];
 
 const Menu: React.FC = () => {
-  const location = useLocation();
+  const thisPage = useLocation();
+  const { location } = useContext(LocationContext);
 
   return (
     <IonMenu contentId="main" type="overlay">
@@ -50,7 +53,7 @@ const Menu: React.FC = () => {
               <IonMenuToggle key={index} autoHide={false}>
                 <StyledIonItem
                   className={
-                    location.pathname === appPage.url ? "selected" : ""
+                    thisPage.pathname === appPage.url ? "selected" : ""
                   }
                   routerLink={appPage.url}
                   routerDirection="none"
@@ -67,6 +70,11 @@ const Menu: React.FC = () => {
           })}
         </StyledIonList>
       </StyledIonContent>
+      <IonFooter>
+        <BrandText className="ion-padding-horizontal ion-text-center">
+          Current Location: {location.name}
+        </BrandText>
+      </IonFooter>
     </IonMenu>
   );
 };

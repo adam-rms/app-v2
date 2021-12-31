@@ -83,8 +83,8 @@ const OpenScanner = async () => {
  */
 const WebPrompt = async () => {
   const { value, cancelled } = await Dialog.prompt({
-    title: "Asset Tag",
-    message: "What is the Asset Tag?",
+    title: "Barcode",
+    message: "What is the Barcode?",
   });
 
   if (cancelled) {
