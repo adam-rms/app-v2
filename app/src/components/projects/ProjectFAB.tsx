@@ -1,14 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  IonFab,
-  IonFabButton,
-  IonFabList,
-  useIonRouter,
-  useIonToast,
-} from "@ionic/react";
+import { IonFab, IonFabButton, IonFabList, useIonRouter } from "@ionic/react";
 import { useContext } from "react";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import { LocationContext } from "../../contexts/utility/LocationContext";
+import { useRMSToast } from "../../hooks/useRMSToast";
 import AddAssetToProject from "../../utilities/barcode/AddAssetToProject";
 import GetAssetFromBarcode from "../../utilities/barcode/GetAssetFromBarcode";
 
@@ -17,7 +12,7 @@ import GetAssetFromBarcode from "../../utilities/barcode/GetAssetFromBarcode";
  */
 const ProjectFab = () => {
   const router = useIonRouter();
-  const [present] = useIonToast();
+  const [present] = useRMSToast();
   const { projectData } = useContext(ProjectDataContext);
   const { location, getLocation } = useContext(LocationContext);
 
@@ -31,7 +26,12 @@ const ProjectFab = () => {
     if (asset) {
       router.push("/assets/" + asset.assetTypes_id + "/" + asset.assets_id);
     } else {
-      present("Asset Not found", 2000);
+      if (location.value) {
+        //if there is a valid location, the asset couldn't be found
+        present("Asset Not found");
+      } else {
+        present("Please set your location");
+      }
     }
   };
 
@@ -50,14 +50,18 @@ const ProjectFab = () => {
       if (result) {
         if (typeof result === "string") {
           //we've got an error message
-          present(result, 2500);
+          present(result);
         } else {
           //successfully added
-          present("Added to " + projectData.project.projects_name, 2500);
+          present("Added to " + projectData.project.projects_name);
         }
       } else {
-        //asset not found
-        present("There was an error adding this asset", 2500);
+        if (location.value) {
+          //if there is a valid location, the asset couldn't be found
+          present("There was an error adding this asset");
+        } else {
+          present("Please set your location");
+        }
       }
     } else {
       //we don't have a project so something has gone very wrong!
@@ -67,7 +71,7 @@ const ProjectFab = () => {
 
   const setLocation = async () => {
     const thisLocation = await getLocation();
-    present(thisLocation.name, 2000);
+    present(thisLocation.name);
   };
 
   return (

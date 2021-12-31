@@ -7,7 +7,7 @@ import DoScan from "./Scanner";
  */
 const GetAssetFromBarcode = async (location: ILocation) => {
   //locations are requred before scanning
-  if (location) {
+  if (location.type) {
     const [scanResult, barcodeType] = await DoScan();
 
     if (scanResult) {
