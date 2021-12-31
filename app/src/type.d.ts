@@ -103,3 +103,10 @@ interface IProjectData {
   assetsAssignmentsStatus: [...any];
   FINANCIALS: any;
 }
+
+/* AdamRMS Location */
+interface ILocation {
+  name: string;
+  value: string;
+  type: "barcode" | "asset" | "custom";
+}

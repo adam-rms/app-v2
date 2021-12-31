@@ -8,6 +8,7 @@ import {
 } from "@ionic/react";
 import { useContext } from "react";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
+import { LocationContext } from "../../contexts/utility/LocationContext";
 import AddAssetToProject from "../../utilities/barcode/AddAssetToProject";
 import GetAssetFromBarcode from "../../utilities/barcode/GetAssetFromBarcode";
 
@@ -18,6 +19,7 @@ const ProjectFab = () => {
   const router = useIonRouter();
   const [present] = useIonToast();
   const { projectData } = useContext(ProjectDataContext);
+  const { location, getLocation } = useContext(LocationContext);
 
   //Define actual button functions here, that then call utility functions
   /**
@@ -60,6 +62,10 @@ const ProjectFab = () => {
     }
   };
 
+  const setLocation = async () => {
+    await getLocation();
+  };
+
   return (
     <IonFab vertical="bottom" horizontal="end" slot="fixed">
       <IonFabButton color="light">
@@ -68,6 +74,9 @@ const ProjectFab = () => {
       <IonFabList side="top">
         <IonFabButton onClick={redirectToAsset}>
           <FontAwesomeIcon icon="search" />
+        </IonFabButton>
+        <IonFabButton onClick={setLocation}>
+          <FontAwesomeIcon icon="map-pin" />
         </IonFabButton>
         {projectData && (
           <IonFabButton onClick={addAsset}>
