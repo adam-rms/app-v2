@@ -13,7 +13,6 @@ export const baseURL = "http://admin.test/";
  * @param data any parameter data for the endpoint
  * @param method the HTTP Method used
  * @returns response data as an Object
- * @link https://adam-rms.com/docs/api/intro for V1 endpoints
  */
 const Api = async (
   endpoint: string,

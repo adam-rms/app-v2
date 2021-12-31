@@ -4,31 +4,27 @@
 
 AdamRMS is an advanced Rental Management System for Theatre, AV & Broadcast, written in Typescript. It is available as a hosted solution or to be self-hosted.
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/bstudios/adam-rms)
-![GitHub repo size](https://img.shields.io/github/repo-size/bstudios/adam-rms)
-![GitHub issues](https://img.shields.io/github/issues/bstudios/adam-rms)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/bstudios/adam-rms)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/bstudios/adam-rms)
-![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/bstudios/adam-rms)
-![GitHub](https://img.shields.io/github/license/bstudios/adam-rms)
-![GitHub stars](https://img.shields.io/github/stars/bstudios/adam-rms)
-![GitHub contributors](https://img.shields.io/github/contributors/bstudios/adam-rms)
-![GitHub](https://img.shields.io/github/release/bstudios/adam-rms/all)
-
-![Banner](assets/marketing/banner.jpg)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/adam-rms/adam-rms-v2)
+![GitHub repo size](https://img.shields.io/github/repo-size/adam-rms/adam-rms-v2)
+![GitHub issues](https://img.shields.io/github/issues/adam-rms/adam-rms-v2)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/adam-rms/adam-rms-v2)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/adam-rms/adam-rms-v2)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/adam-rms/adam-rms-v2)
+![GitHub](https://img.shields.io/github/license/adam-rms/adam-rms-v2)
+![GitHub stars](https://img.shields.io/github/stars/adam-rms/adam-rms-v2)
+![GitHub contributors](https://img.shields.io/github/contributors/adam-rms/adam-rms-v2)
+![GitHub](https://img.shields.io/github/release/adam-rms/adam-rms-v2/all)
 
 ## The Repo
 
-> **This branch is the development branch for v2, which is not currently released.** For the current version of AdamRMS see the [v1 branch](https://github.com/bstudios/adam-rms/tree/v1).
+> **This repo is the development repo for v2, which is not currently released.** For the current version of AdamRMS see [v1](https://github.com/adam-rms/adam-rms).
 
-This repo is a [monorepo](https://www.atlassian.com/git/tutorials/monorepos), containing three distinct applications:
+This repo is a [monorepo](https://www.atlassian.com/git/tutorials/monorepos), containing two distinct applications:
 
 Directory|Description
 :-----|:-----
 `/api`|NestJS API
 `/app`|React App
-`/docs`|Public Facing Marketing & Documentation Website
-`/assets`|*Logos/Marketing Assets*
 
 ## The Stack
 
@@ -50,29 +46,11 @@ Directory|Description
 - [Ionic Framework](https://github.com/ionic-team/ionic-framework): Frontend Framework
 - [Capacitor](https://github.com/ionic-team/capacitor): Native Code Execution Layer
 
-### Public Website
-
-- [Docusaurus](https://github.com/facebook/docusaurus): Public Site & User Guide
-
 ## Developing, Releases & Contributing 
 
-Contributions are very welcome - please see [the website](https://adam-rms.com/docs/next/developer/contributing) for a guide, or feel free to open a [Discussion](https://github.com/bstudios/adam-rms/discussions)
+Contributions are very welcome - please see [the website](https://adam-rms.com/contributing) for a guide, or feel free to open a [Discussion](https://github.com/adam-rms/adam-rms-v2/discussions)
 
-Contributions to versions 2.x are governed by an Individual Contributor License Agreement, and cannot be merged until this agreement has been signed.
-
-## Repositories
-
-> AdamRMS has only recently become a monorepo, before this it was a large set of different repositories.
-
-Repo|Repo Name||Link
-:-----|:-----|:-----|:-----
-Project Source Code & Public Site|adam-rms| :white_check_mark: |https://github.com/bstudios/adam-rms
-v1 Deployment Script Templates|adam-rms-deployment|:white_check_mark:|https://github.com/bstudios/adam-rms-deployment
-v1 Mobile App|adam-rms-app|__DEPRECATED__|https://github.com/bstudios/adam-rms-app
-v1 Image Compressor Worker|adam-rms-imageCompressor|__DEPRECATED__|https://github.com/bstudios/adam-rms-imageCompressor
-v1 File Deleter Worker|adam-rms-s3Deletor|__DEPRECATED__|https://github.com/bstudios/adam-rms-s3Deletor
-Old Status Site|adam-rms-status|__DEPRECATED__|https://github.com/bstudios/adam-rms-status
-
+Contributions are governed by an Individual Contributor License Agreement, and cannot be merged until this agreement has been signed.
 
 ## Licence
 
@@ -92,5 +70,3 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-![This website is hosted Green - checked by thegreenwebfoundation.org](https://api.thegreenwebfoundation.org/greencheckimage/adam-rms.com?nocache=true)
