@@ -1,7 +1,3 @@
-<p align="center">
-  <a href="https://adam-rms.com/" target="blank"><img src="assets/marketing/github-readme-logo.png" width="420" alt="Logo" /></a>
-</p>
-
 AdamRMS is an advanced Rental Management System for Theatre, AV & Broadcast, written in Typescript. It is available as a hosted solution or to be self-hosted.
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/adam-rms/adam-rms-v2)
