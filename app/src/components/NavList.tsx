@@ -95,7 +95,7 @@ const NavList: React.FC<NavListType> = ({
 
             {/*Add the arrow at the right, if there is a link*/}
             <IonNote slot={"end"}>
-              {item.link && <FontAwesomeIcon icon={"arrow-right"} />}
+              {item.link && <FontAwesomeIcon icon={"chevron-right"} />}
             </IonNote>
           </IonItem>
 
