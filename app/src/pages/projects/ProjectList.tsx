@@ -28,7 +28,7 @@ const ProjectList = () => {
   //Get data from API
   useEffect(() => {
     refreshProjects();
-  }, []);
+  }, [refreshProjects]);
 
   //generate project list if there are projects
   let projectList;
