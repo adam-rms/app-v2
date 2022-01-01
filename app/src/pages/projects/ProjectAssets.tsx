@@ -10,8 +10,6 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonRefresher,
-  IonRefresherContent,
   IonRow,
 } from "@ionic/react";
 import { useContext } from "react";
@@ -21,6 +19,7 @@ import Page from "../../components/Page";
 import ProjectFab from "../../components/projects/ProjectFAB";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import { MassFormatter, MoneyFormatter } from "../../utilities/Formatters";
+import Refresher from "../../components/Refresher";
 
 export interface IProjectAssets {
   assets: [IAssetTypeData];
@@ -165,9 +164,7 @@ const ProjectAssets = () => {
 
   return (
     <Page title="Project Assets">
-      <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-        <IonRefresherContent />
-      </IonRefresher>
+      <Refresher onRefresh={doRefresh} />
       <ProjectFab />
       {assets}
     </Page>

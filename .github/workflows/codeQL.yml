@@ -1,7 +1,5 @@
 name: "Code Scanning"
-on:
-  pull_request:
-    branches: [v2]
+on: [pull_request]
 jobs:
   CodeQL-Build:
     runs-on: ubuntu-latest

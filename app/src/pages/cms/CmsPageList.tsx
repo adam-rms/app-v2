@@ -1,0 +1,86 @@
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+} from "@ionic/react";
+import Page from "../../components/Page";
+import NavList, { NavListItemType } from "../../components/NavList";
+import { useContext, useEffect, useState } from "react";
+import { CmsPageContext } from "../../contexts/cms/CmsPageContext";
+import Refresher from "../../components/Refresher";
+import GenerateIconFromString from "../../utilities/GenerateIconFromString";
+
+/**
+ * CMS Page List
+ * Displays a single CMS Page
+ */
+const CmsPageList = () => {
+  const { CmsPages, refreshPages } = useContext(CmsPageContext);
+  const [isLoading, setIsLoading] = useState(false);
+
+  /**
+   * Refresh the page while setting the isLoading flag
+   * @param event the refresh event
+   */
+  async function doRefresh(event?: CustomEvent) {
+    setIsLoading(true);
+    await refreshPages();
+    setIsLoading(false);
+    if (event) event.detail.complete();
+  }
+
+  /**
+   * Take the raw data from the api call can generate the correct format for the NavList.
+   * This uses recursion meaning that there can be an infinite number of sub pages in the nav tree.
+   * @param pageArray The page list from the api
+   */
+  function generateListItems(pageArray: ICmsPageProvider): NavListItemType[] {
+    return pageArray.map((page: CmsPageList): NavListItemType => {
+      return {
+        link: `/cms/${page.cmsPages_id}/`,
+        content: page.cmsPages_name,
+        ...(page.cmsPages_fontAwesome && {
+          icon: GenerateIconFromString(page.cmsPages_fontAwesome),
+        }),
+        ...(page.SUBPAGES && { subItems: generateListItems(page.SUBPAGES) }),
+      };
+    });
+  }
+
+  //Get data from API
+  useEffect(() => {
+    doRefresh();
+  }, []);
+
+  let content;
+  //If there are no pages and there is nothing currently loading
+  if (CmsPages.length == 0 && !isLoading) {
+    content = (
+      <IonCard>
+        <IonCardHeader>
+          <IonCardTitle>There are no CMS pages!</IonCardTitle>
+        </IonCardHeader>
+        <IonCardContent>Log in to the dashboard to create some!</IonCardContent>
+      </IonCard>
+    );
+  } else {
+    // NavList is ued to both generate the items when there is a list and display the skeleton loading when there isn't
+    content = (
+      <NavList
+        items={generateListItems(CmsPages)}
+        isLoading={CmsPages.length == 0 && isLoading}
+      />
+    );
+  }
+
+  return (
+    <Page title={"CMS Pages"}>
+      <Refresher onRefresh={doRefresh} />
+
+      {content}
+    </Page>
+  );
+};
+
+export default CmsPageList;

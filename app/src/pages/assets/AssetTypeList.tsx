@@ -9,14 +9,13 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonRefresher,
-  IonRefresherContent,
   IonTitle,
 } from "@ionic/react";
 import styled from "styled-components";
 import { useContext, useEffect } from "react";
 import { AssetTypeContext } from "../../contexts/asset/AssetTypeContext";
 import Page from "../../components/Page";
+import Refresher from "../../components/Refresher";
 import AssetsFab from "../../components/assets/AssetsFAB";
 
 /**
@@ -86,9 +85,7 @@ const AssetTypeList = () => {
 
   return (
     <Page title="Asset List">
-      <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-        <IonRefresherContent />
-      </IonRefresher>
+      <Refresher onRefresh={doRefresh} />
       <AssetsFab />
       <IonCard>
         <IonList>{assetList}</IonList>

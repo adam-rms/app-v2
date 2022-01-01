@@ -1,1 +1,0 @@
-This directory contains assets (such as logos/marketing materials)

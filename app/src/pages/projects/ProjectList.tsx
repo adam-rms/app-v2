@@ -1,16 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  IonCard,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonRefresher,
-  IonRefresherContent,
-  IonTitle,
-} from "@ionic/react";
+import { IonCard, IonItem, IonList, IonTitle } from "@ionic/react";
 import { useContext, useEffect } from "react";
 import { ProjectContext } from "../../contexts/project/ProjectContext";
 import Page from "../../components/Page";
+import NavList, { NavListItemType } from "../../components/NavList";
+import Refresher from "../../components/Refresher";
 
 /**
  * Project List Page
@@ -33,30 +26,19 @@ const ProjectList = () => {
   //generate project list if there are projects
   let projectList;
   if (projects) {
-    projectList = projects.map((item: IProject) => {
-      return (
-        <IonItem
-          key={item.projects_id}
-          routerLink={"/projects/" + item.projects_id}
-        >
-          <div slot="start">
-            {item.thisProjectManager && (
-              <FontAwesomeIcon icon="star" size="lg" />
-            )}
-            {!item.thisProjectManager && (
-              <FontAwesomeIcon icon={["far", "circle"]} size="lg" />
-            )}
-          </div>
-          <IonLabel>
-            <h2>{item.projects_name}</h2>
-            <p>{item.clients_name}</p>
-          </IonLabel>
-          <div slot="end">
-            <FontAwesomeIcon icon="arrow-right" />
-          </div>
-        </IonItem>
-      );
+    const listItems = projects.map((project: IProject): NavListItemType => {
+      return {
+        link: `/projects/${project.projects_id}/`,
+        icon: project.thisProjectManager ? "star" : ["far", "circle"],
+        content: (
+          <>
+            <h2>{project.projects_name}</h2>
+            <p>{project.clients_name}</p>
+          </>
+        ),
+      };
     });
+    projectList = <NavList items={listItems} />;
   } else {
     projectList = (
       <IonItem>
@@ -67,9 +49,7 @@ const ProjectList = () => {
 
   return (
     <Page title="Project List">
-      <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-        <IonRefresherContent />
-      </IonRefresher>
+      <Refresher onRefresh={doRefresh} />
       <IonCard>
         <IonList>{projectList}</IonList>
       </IonCard>

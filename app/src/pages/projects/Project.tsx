@@ -9,8 +9,6 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonRefresher,
-  IonRefresherContent,
   IonRow,
   IonTitle,
   IonPopover,
@@ -23,6 +21,7 @@ import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import Page from "../../components/Page";
 import { baseURL } from "../../utilities/Api";
 import ProjectFab from "../../components/projects/ProjectFAB";
+import Refresher from "../../components/Refresher";
 
 /**
  * Project Page
@@ -51,9 +50,7 @@ const Project = () => {
 
   return (
     <Page title={project_name}>
-      <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-        <IonRefresherContent />
-      </IonRefresher>
+      <Refresher onRefresh={doRefresh} />
       <ProjectFab />
 
       {/* Project Data*/}
@@ -177,8 +174,11 @@ const Project = () => {
 
                         <IonPopover
                           trigger={item.crewAssignments_id + "-comment"}
+                          side="left"
+                          translucent={true}
                         >
-                          <IonContent>
+                          <IonContent className="ion-padding ion-text-center">
+                            <IonTitle>{item.crewAssignments_role}</IonTitle>
                             {item.crewAssignments_comment}
                           </IonContent>
                         </IonPopover>
