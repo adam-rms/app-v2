@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { CmsPageContext } from "../../../contexts/cms/CmsPageContext";
-import { AppPage } from "../Menu";
 import GenerateIconFromString from "../../../utilities/GenerateIconFromString";
+import { MenuItem } from "./MenuItem";
 
 /**
  * Gets the CMS page data from the api and converts it to a format for the menu
  */
-const CmsPages = () => {
+const CmsPages = (): MenuItem[] => {
   const { CmsPages, refreshPages } = useContext(CmsPageContext);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,19 +22,20 @@ const CmsPages = () => {
   if (isLoading) {
     return [
       {
-        url: undefined,
+        type: "item",
         isLoading: true,
       },
       {
-        url: undefined,
+        type: "item",
         isLoading: true,
       },
     ];
   }
 
   //Map the pages to the url, icon and title for use in the menu
-  return CmsPages.map(function (page: CmsPageList): AppPage {
+  return CmsPages.map(function (page: CmsPageList): MenuItem {
     return {
+      type: "route",
       url: `/cms/${page.cmsPages_id}/`,
       title: page.cmsPages_name,
       ...(page.cmsPages_fontAwesome && {
