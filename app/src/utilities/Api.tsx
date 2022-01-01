@@ -3,7 +3,7 @@ import axios, { Method as MethodType } from "axios";
 /* Where is the API hosted?
  * N.B This is a temporary variable to be replaced when auth is added to the app!
  */
-export const baseURL = "http://192.168.19.128/admin/";
+export const baseURL = "http://admin.test/";
 
 //TODO: @jbithell will come back and wrap this into a class, and probably remove axios
 
