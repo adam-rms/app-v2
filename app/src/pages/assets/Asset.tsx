@@ -9,8 +9,6 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonRefresher,
-  IonRefresherContent,
   IonRow,
 } from "@ionic/react";
 import { useContext } from "react";
@@ -19,6 +17,7 @@ import { AssetTypeContext } from "../../contexts/asset/AssetTypeContext";
 import { s3url, fileExtensionToIcon, formatSize } from "../../utilities/Files";
 import Page from "../../components/Page";
 import { faBan, faFlag } from "@fortawesome/free-solid-svg-icons";
+import Refresher from "../../components/Refresher";
 
 /**
  * Asset Page
@@ -48,9 +47,7 @@ const Asset = () => {
     //return page layout
     return (
       <Page title={thisAsset.assets_tag_format}>
-        <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-          <IonRefresherContent />
-        </IonRefresher>
+        <Refresher onRefresh={doRefresh} />
 
         {/* Maintenance */}
         {thisAsset.flagsblocks.BLOCK.map((block: any) => {

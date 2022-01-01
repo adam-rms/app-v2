@@ -11,7 +11,7 @@ import {
 import PageTitle from "./PageTitle";
 
 type Props = {
-  title?: string;
+  title?: any;
   children?: any;
 };
 

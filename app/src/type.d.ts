@@ -103,3 +103,65 @@ interface IProjectData {
   assetsAssignmentsStatus: [...any];
   FINANCIALS: any;
 }
+
+/**
+ * CMS Page List
+ */
+interface CmsPageList {
+  cmsPages_fontAwesome: string | null;
+  cmsPages_name: string;
+  cmsPages_id: number;
+  SUBPAGES?: [...CmsPageList];
+}
+
+/**
+ * CMS Content
+ */
+interface CmsContent extends CmsPageList {
+  instances_id: number;
+  cmsPages_showNav: number;
+  cmsPages_showPublic: number;
+  cmsPages_showPublicNav: number;
+  cmsPages_visibleToGroups: number;
+  cmsPages_navOrder: number;
+  cmsPages_description: string;
+  cmsPages_archived: boolean;
+  cmsPages_deleted: boolean;
+  cmsPages_subOf: number | null;
+  cmsPages_added: Date;
+  DRAFTS: null | {
+    cmsPagesDrafts_id: number;
+    cmsPagesDrafts_data: string;
+    cmsPagesDrafts_revisionID: number;
+    cmsPagesDrafts_dataARRAY: Array<CmsContentCard>;
+  };
+  CONTENT: string;
+}
+
+/**
+ * The content of a Card on a CMS page
+ */
+interface CmsContentCard {
+  color: string;
+  content: string;
+  outline: string;
+  title: string;
+  width: string;
+}
+
+/**
+ * The Cms Card Color Map type defined in the CMS Page
+ */
+interface CmsCardColorMapType {
+  [index: string]: string | undefined;
+}
+
+/**
+ * The CMS Context Provider type
+ */
+type ICmsPageProvider = Array<CmsPageList>;
+
+/**
+ * The CMS Context Provider type
+ */
+type ICmsContentProvider = Array<CmsContent>;

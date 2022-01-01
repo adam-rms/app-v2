@@ -9,8 +9,6 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonRefresher,
-  IonRefresherContent,
   IonRow,
   IonTitle,
   IonPopover,
@@ -22,6 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import Page from "../../components/Page";
 import { baseURL } from "../../utilities/Api";
+import Refresher from "../../components/Refresher";
 
 /**
  * Project Page
@@ -40,7 +39,7 @@ const Project = () => {
   //get individual project data
   useEffect(() => {
     refreshProjectData(parseInt(projectId));
-  }, []);
+  }, [projectId]);
 
   //Check project name
   let project_name = "AdamRMS Project";
@@ -50,9 +49,7 @@ const Project = () => {
 
   return (
     <Page title={project_name}>
-      <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-        <IonRefresherContent />
-      </IonRefresher>
+      <Refresher onRefresh={doRefresh} />
 
       {/* Project Data*/}
       <IonCard>

@@ -10,13 +10,12 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonRefresher,
-  IonRefresherContent,
 } from "@ionic/react";
 import styled from "styled-components";
 import { useContext, useEffect } from "react";
 import { AssetTypeContext } from "../../contexts/asset/AssetTypeContext";
 import Page from "../../components/Page";
+import Refresher from "../../components/Refresher";
 
 /**
  * Asset Type List Page
@@ -46,9 +45,7 @@ const AssetTypeList = () => {
   if (AssetTypes) {
     return (
       <Page title="Asset List">
-        <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-          <IonRefresherContent />
-        </IonRefresher>
+        <Refresher onRefresh={doRefresh} />
         <IonCard>
           <IonList>
             {AssetTypes.assets.map((item: IAssetTypeData) => {
@@ -96,9 +93,7 @@ const AssetTypeList = () => {
     //If there is still no assets, it's probably a network issue
     return (
       <Page title="Asset List">
-        <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-          <IonRefresherContent />
-        </IonRefresher>
+        <Refresher onRefresh={doRefresh} />
         <IonCard>
           <IonCardTitle>No Assets found</IonCardTitle>
         </IonCard>
