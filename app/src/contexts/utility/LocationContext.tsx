@@ -112,7 +112,6 @@ const LocationProvider: React.FC<React.ReactNode> = ({ children }) => {
     }
     //actually set the location
     setLocation(thisLocation);
-    return thisLocation;
   }
 
   // Don't forget to add new functions to the value of the provider!

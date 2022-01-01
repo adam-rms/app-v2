@@ -60,7 +60,7 @@ const ProjectList = () => {
   } else {
     projectList = (
       <IonItem>
-        <IonTitle>No Projects Found</IonTitle>
+        <IonTitle className="ion-text-center">No Projects Found</IonTitle>
       </IonItem>
     );
   }

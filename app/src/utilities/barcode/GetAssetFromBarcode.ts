@@ -6,7 +6,7 @@ import DoScan from "./Scanner";
  * @returns {IAsset | false} an Asset or false if asset can't be found
  */
 const GetAssetFromBarcode = async (location: ILocation) => {
-  //locations are requred before scanning
+  //locations are required before scanning
   if (location.type) {
     const [scanResult, barcodeType] = await DoScan();
 
@@ -19,10 +19,10 @@ const GetAssetFromBarcode = async (location: ILocation) => {
         locationType: location.type,
       });
 
-      if (asset.asset) {
+      if (asset && asset.asset) {
         //this is the asset you are looking for
         return asset.asset;
-      } else if (asset.assetSuggest) {
+      } else if (asset && asset.assetSuggest) {
         //we've not found the exact asset so return the closest suggestion
         return asset.assetSuggest;
       }
