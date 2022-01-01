@@ -9,8 +9,6 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonRefresher,
-  IonRefresherContent,
   IonRow,
   IonSlide,
   IonSlides,
@@ -22,6 +20,7 @@ import { fileExtensionToIcon, formatSize, s3url } from "../../utilities/Files";
 import { AssetTypeContext } from "../../contexts/asset/AssetTypeContext";
 import Page from "../../components/Page";
 import AssetItem from "../../components/assets/AssetItem";
+import Refresher from "../../components/Refresher";
 
 /**
  * Asset Type Page
@@ -99,9 +98,7 @@ const AssetType = () => {
     //return page layout
     return (
       <Page title={thisAssetType.assetTypes_name}>
-        <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-          <IonRefresherContent />
-        </IonRefresher>
+        <Refresher onRefresh={doRefresh} />
         {images}
         <IonCard>
           <IonCardContent>
