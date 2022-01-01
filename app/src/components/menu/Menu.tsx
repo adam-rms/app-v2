@@ -1,6 +1,5 @@
 import { IonMenu, IonMenuToggle } from "@ionic/react";
 import { useLocation } from "react-router-dom";
-import { faCube, faList } from "@fortawesome/free-solid-svg-icons";
 import { IconProp, SizeProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StyledIonContent from "./components/StyledIonContent";
@@ -31,7 +30,7 @@ const Menu: React.FC = () => {
     {
       title: "Assets",
       url: "/assets/",
-      icon: faCube,
+      icon: "cube",
     },
     {
       title: "CMS Pages",
@@ -42,7 +41,7 @@ const Menu: React.FC = () => {
     {
       title: "Projects",
       url: "/projects/",
-      icon: faList,
+      icon: "list",
     },
   ];
 
