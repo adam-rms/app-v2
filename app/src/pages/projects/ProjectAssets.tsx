@@ -74,16 +74,19 @@ const ProjectAssets = () => {
                   </IonCol>
                 </IonRow>
                 <IonRow>
-                  <IonCol size="3">
+                  <IonCol size="2">
                     <h3>Assets</h3>
                   </IonCol>
-                  <IonCol size="2">
+                  <IonCol size="4">
+                    <h3>Status/Location</h3>
+                  </IonCol>
+                  <IonCol size="1">
                     <h3>Mass</h3>
                   </IonCol>
-                  <IonCol size="2">
+                  <IonCol size="1">
                     <h3>Price</h3>
                   </IonCol>
-                  <IonCol size="3">
+                  <IonCol size="2">
                     <h3>Discounted Price</h3>
                   </IonCol>
                 </IonRow>
@@ -94,22 +97,23 @@ const ProjectAssets = () => {
                 <IonItem>
                   <IonGrid>
                     <IonRow>
-                      <IonCol size="3">
+                      <IonCol size="2">
                         <IonLabel>
                           {typedValue.assets.length} asset
                           {typedValue.assets.length > 1 ? "s" : ""}
                         </IonLabel>
                       </IonCol>
-                      <IonCol size="2">
+                      <IonCol size="4">{typedValue.totals.status}</IonCol>
+                      <IonCol size="1">
                         {MassFormatter(typedValue.totals.mass)}
                       </IonCol>
-                      <IonCol size="2">
+                      <IonCol size="1">
                         {MoneyFormatter(
                           typedValue.totals.price.currency,
                           typedValue.totals.price.amount,
                         )}
                       </IonCol>
-                      <IonCol size="2">
+                      <IonCol size="1">
                         {MoneyFormatter(
                           typedValue.totals.discountPrice.currency,
                           typedValue.totals.discountPrice.amount,

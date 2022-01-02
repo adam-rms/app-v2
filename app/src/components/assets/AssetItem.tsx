@@ -7,15 +7,50 @@ const AssetItem = (props: any) => {
   if (props.item.price) {
     additionalInfo = (
       <>
-        <IonCol size="2">
+        <IonCol size="4">
+          <IonLabel>
+            {/*Status*/}
+            {props.item.assetsAssignmentsStatus_name}
+            {props.item.assetsAssignmentsStatus_name &&
+              props.item.latestScan &&
+              "/"}
+            {/*Location Scan*/}
+            {props.item.latestScan && props.item.latestScan.locations_name && (
+              <span
+                className="badge badge-default"
+                title="GPS Not Verified, but location barcode scanned"
+              >
+                <FontAwesomeIcon icon={["fas", "map-marker-alt"]} />
+              </span>
+            )}
+            {props.item.latestScan && props.item.latestScan.assetTypes_name && (
+              <span
+                className="badge badge-info"
+                title="Asset Scan was Verified"
+              >
+                <FontAwesomeIcon icon={["fas", "check"]} />
+              </span>
+            )}
+            {props.item.latestScan &&
+              props.item.latestScan.assetsBarcodes_customLocation && (
+                <span
+                  className="badge badge-danger"
+                  title="Location was entered as text"
+                >
+                  <FontAwesomeIcon icon={["fas", "times"]} />
+                </span>
+              )}
+          </IonLabel>
+        </IonCol>
+        <IonCol size="1">
           <IonLabel>{MassFormatter(props.item.assetTypes_mass)}</IonLabel>
         </IonCol>
-        <IonCol size="2">
+        <IonCol size="1">
           <IonLabel>
             {MoneyFormatter(props.item.price.currency, props.item.price.amount)}
           </IonLabel>
         </IonCol>
-        <IonCol size="2">
+        <IonCol size="1">
           <IonLabel>
             {MoneyFormatter(
               props.item.discountPrice.currency,
@@ -25,6 +60,9 @@ const AssetItem = (props: any) => {
         </IonCol>
       </>
     );
+  } else {
+    //Add blank column for formatting
+    additionalInfo = <IonCol size="7" />;
   }
   return (
     <IonItem
@@ -32,7 +70,7 @@ const AssetItem = (props: any) => {
     >
       <IonGrid>
         <IonRow>
-          <IonCol size="3">
+          <IonCol size="2">
             <IonLabel>
               <h2>{props.item.assets_tag}</h2>
             </IonLabel>
