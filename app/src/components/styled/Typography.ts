@@ -37,3 +37,9 @@ export const StyledH6 = styled.h6`
   font-weight: 500 !important;
   color: black !important;
 `;
+
+export const StyledText = styled.p`
+  font-size: larger;
+  font-weight: 700;
+  padding-bottom: 3px !important;
+`;

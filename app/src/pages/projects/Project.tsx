@@ -22,8 +22,7 @@ import Page from "../../components/Page";
 import { baseURL } from "../../utilities/Api";
 import Refresher from "../../components/Refresher";
 import { MassFormatter } from "../../utilities/Formatters";
-import StyledText from "../../components/styled/generic/StyledText";
-import { StyledH5 } from "../../components/styled/generic/StyledHeadings";
+import { StyledText, StyledH5 } from "../../components/styled/Typography";
 
 /**
  * Project Page
@@ -42,7 +41,7 @@ const Project = () => {
   //get individual project data
   useEffect(() => {
     refreshProjectData(parseInt(projectId));
-  }, []);
+  }, [projectId]);
 
   //Check project name
   let project_name = "AdamRMS Project";
