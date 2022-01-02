@@ -1,1 +1,1 @@
-Please see [https://adam-rms.com/docs/next/developer/repo/app/intro](https://adam-rms.com/docs/next/developer/repo/app/intro) for more information.
+Please see [https://adam-rms.com/app-docs](https://adam-rms.com/app-docs) for more information.

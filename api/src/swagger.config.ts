@@ -19,9 +19,9 @@ An [Open API Spec](/docs-json) is available, which can be imported into Postman.
 
 ### Useful Links
 
-[GitHub](https://github.com/bstudios/adam-rms)
+[GitHub](https://github.com/adam-rms/adam-rms-v2)
 
-[Style Guide](https://adam-rms.com/docs/next/developer/style-guide)
+[Style Guide](https://adam-rms.com/style-guide)
 `;
 
 export const swaggerDocumentBuilder = new DocumentBuilder()
@@ -32,7 +32,7 @@ export const swaggerDocumentBuilder = new DocumentBuilder()
   .setLicense("AGPLv3", "https://www.gnu.org/licenses/agpl-3.0.html")
   .setExternalDoc(
     "Developer Guide",
-    "https://adam-rms.com/docs/next/developer/intro",
+    "https://adam-rms.com/dev-guide",
   )
   .setTermsOfService("https://adam-rms.com/legal")
   .addTag("Meta", "Meta about the api")
