@@ -21,6 +21,9 @@ import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import Page from "../../components/Page";
 import { baseURL } from "../../utilities/Api";
 import Refresher from "../../components/Refresher";
+import { MassFormatter } from "../../utilities/Formatters";
+import StyledText from "../../components/styled/generic/StyledText";
+import { StyledH5 } from "../../components/styled/generic/StyledHeadings";
 
 /**
  * Project Page
@@ -39,7 +42,7 @@ const Project = () => {
   //get individual project data
   useEffect(() => {
     refreshProjectData(parseInt(projectId));
-  }, [projectId]);
+  }, []);
 
   //Check project name
   let project_name = "AdamRMS Project";
@@ -47,6 +50,15 @@ const Project = () => {
     project_name = projectData.project.projects_name;
   }
 
+  let numAssetTypes = 0;
+  if (projectData.FINANCIALS.assetsAssigned) {
+    numAssetTypes += Object.keys(projectData.FINANCIALS.assetsAssigned).length;
+  }
+  if (projectData.FINANCIALS.assetsAssignedSUB) {
+    numAssetTypes += Object.keys(
+      projectData.FINANCIALS.assetsAssignedSUB,
+    ).length;
+  }
   return (
     <Page title={project_name}>
       <Refresher onRefresh={doRefresh} />
@@ -140,7 +152,29 @@ const Project = () => {
           <IonCardTitle>Project Assets</IonCardTitle>
         </IonCardHeader>
         <IonCardContent>
+          <div className="ion-margin-horizontal">
+            <StyledText>
+              {numAssetTypes} Asset Type
+              {numAssetTypes != 1 ? "s" : ""} assigned to{" "}
+              {projectData.project.projects_name} (
+              {MassFormatter(projectData.FINANCIALS.mass)})
+            </StyledText>
+            {projectData.FINANCIALS && projectData.FINANCIALS.priceMaths && (
+              <>
+                <StyledH5>Hire Charges</StyledH5>
+                <StyledText>
+                  Days: {projectData.FINANCIALS.priceMaths.days}
+                  <br />
+                  Weeks: {projectData.FINANCIALS.priceMaths.weeks}
+                </StyledText>
+                <StyledText>
+                  {projectData.FINANCIALS.priceMaths.string}
+                </StyledText>
+              </>
+            )}
+          </div>
           <IonButton
+            className="ion-margin-vertical"
             routerLink={"/projects/" + projectId + "/assets"}
             expand="block"
           >
@@ -162,7 +196,7 @@ const Project = () => {
                   <IonItem key={item.crewAssignments_id}>
                     <IonLabel>
                       {item.users_name1} {item.users_name2}
-                      <p>{item.crewAssignments_role}</p>
+                      <StyledText>{item.crewAssignments_role}</StyledText>
                     </IonLabel>
                     {item.crewAssignments_comment && (
                       <>

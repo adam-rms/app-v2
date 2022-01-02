@@ -1,8 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   IonAccordion,
   IonAccordionGroup,
-  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
