@@ -1,5 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  IonAccordion,
+  IonAccordionGroup,
   IonButton,
   IonCard,
   IonCardContent,
@@ -19,6 +21,7 @@ import Page from "../../components/Page";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import { MassFormatter, MoneyFormatter } from "../../utilities/Formatters";
 import Refresher from "../../components/Refresher";
+import BrandText from "../../components/menu/components/BrandText";
 
 export interface IProjectAssets {
   assets: [IAssetTypeData];
@@ -50,125 +53,107 @@ const ProjectAssets = () => {
   }
 
   //Generate Project Assets
-  const assets: JSX.Element[] = [];
+  let content;
   if (
     projectData.FINANCIALS &&
     projectData.FINANCIALS.assetsAssigned &&
     Object.keys(projectData.FINANCIALS.assetsAssigned).length > 0
   ) {
-    for (const [key, value] of Object.entries(
+    const assets: JSX.Element[] = [];
+
+    for (const [assetTypeKey, assetTypeValue] of Object.entries(
       projectData.FINANCIALS.assetsAssigned,
     )) {
-      if (value) {
-        const typedValue = value as IProjectAssets;
+      if (assetTypeValue) {
+        const typedAsset = assetTypeValue as IProjectAssets;
         //append list to main asset list
         assets.push(
-          <IonCard key={key}>
-            <IonCardHeader>
-              <IonGrid>
-                <IonRow>
-                  <IonCol>
-                    <IonCardTitle>
-                      {typedValue.assets[0].assetTypes_name}
-                    </IonCardTitle>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol size="2">
-                    <h3>Assets</h3>
-                  </IonCol>
-                  <IonCol size="4">
-                    <h3>Status/Location</h3>
-                  </IonCol>
-                  <IonCol size="1">
-                    <h3>Mass</h3>
-                  </IonCol>
-                  <IonCol size="1">
-                    <h3>Price</h3>
-                  </IonCol>
-                  <IonCol size="2">
-                    <h3>Discounted Price</h3>
-                  </IonCol>
-                </IonRow>
-              </IonGrid>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonList>
-                <IonItem>
-                  <IonGrid>
-                    <IonRow>
-                      <IonCol size="2">
-                        <IonLabel>
-                          {typedValue.assets.length} asset
-                          {typedValue.assets.length > 1 ? "s" : ""}
-                        </IonLabel>
-                      </IonCol>
-                      <IonCol size="4">{typedValue.totals.status}</IonCol>
-                      <IonCol size="1">
-                        {MassFormatter(typedValue.totals.mass)}
-                      </IonCol>
-                      <IonCol size="1">
-                        {MoneyFormatter(
-                          typedValue.totals.price.currency,
-                          typedValue.totals.price.amount,
-                        )}
-                      </IonCol>
-                      <IonCol size="1">
-                        {MoneyFormatter(
-                          typedValue.totals.discountPrice.currency,
-                          typedValue.totals.discountPrice.amount,
-                        )}
-                      </IonCol>
-                      <IonCol size="3">
-                        <IonButton
-                          routerLink={"/assets/" + key}
-                          className="ion-margin-end ion-float-end"
-                        >
-                          View Asset
-                          <FontAwesomeIcon
-                            icon="arrow-right"
-                            className="ion-margin-start ion-float-end"
-                          />
-                        </IonButton>
-                      </IonCol>
-                    </IonRow>
-                  </IonGrid>
-                </IonItem>
+          <IonAccordionGroup multiple={true} key={assetTypeKey}>
+            <IonAccordion value={assetTypeKey}>
+              <IonItem slot="header">
+                <IonGrid>
+                  <IonRow>
+                    <IonCol size="2">
+                      <IonLabel>
+                        {typedAsset.assets.length}x{" "}
+                        {typedAsset.assets[0].assetTypes_name}
+                      </IonLabel>
+                    </IonCol>
+                    <IonCol size="4">{typedAsset.totals.status}</IonCol>
+                    <IonCol size="1">
+                      {MassFormatter(typedAsset.totals.mass)}
+                    </IonCol>
+                    <IonCol size="1">
+                      {MoneyFormatter(
+                        typedAsset.totals.price.currency,
+                        typedAsset.totals.price.amount,
+                      )}
+                    </IonCol>
+                    <IonCol size="1">
+                      {MoneyFormatter(
+                        typedAsset.totals.discountPrice.currency,
+                        typedAsset.totals.discountPrice.amount,
+                      )}
+                    </IonCol>
+                  </IonRow>
+                </IonGrid>
+              </IonItem>
+              <IonList slot="content">
                 {
                   //generate list of individual assets
-                  typedValue.assets.map((item: any) => {
+                  typedAsset.assets.map((item: any) => {
                     return (
                       <AssetItem
                         key={item.assets_id}
-                        AssetTypeId={key}
+                        AssetTypeId={assetTypeKey}
                         item={item}
                       />
                     );
                   })
                 }
               </IonList>
-            </IonCardContent>
-          </IonCard>,
+            </IonAccordion>
+          </IonAccordionGroup>,
         );
       }
     }
-  } else {
-    //If there are no assets, refresh context to see if they've not been fetched yet
-    refreshProjectData(parseInt(projectId));
-    //If there are still no assets, there actually aren't any
-    assets.push(
-      <IonCard key="NoAssets">
+    content = (
+      <>
         <IonCardHeader>
-          <IonCardTitle>No Assets Assigned to this Project</IonCardTitle>
+          <IonGrid>
+            <IonRow className="ion-padding-horizontal">
+              <IonCol size="2">
+                <BrandText>Assets</BrandText>
+              </IonCol>
+              <IonCol size="4">
+                <BrandText>Status/Location</BrandText>
+              </IonCol>
+              <IonCol size="1">
+                <BrandText>Mass</BrandText>
+              </IonCol>
+              <IonCol size="1">
+                <BrandText>Price</BrandText>
+              </IonCol>
+              <IonCol size="2">
+                <BrandText>Discounted Price</BrandText>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
         </IonCardHeader>
-      </IonCard>,
+        <IonCardContent>{assets}</IonCardContent>
+      </>
+    );
+  } else {
+    content = (
+      <IonCardHeader>
+        <IonCardTitle>No Assets Assigned to this Project</IonCardTitle>
+      </IonCardHeader>
     );
   }
-
   return (
     <Page title="Project Assets">
       <Refresher onRefresh={doRefresh} />
-      {assets}
+      <IonCard>{content}</IonCard>
     </Page>
   );
 };
