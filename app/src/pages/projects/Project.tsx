@@ -21,7 +21,6 @@ import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import Page from "../../components/Page";
 import { baseURL } from "../../utilities/Api";
 import Refresher from "../../components/Refresher";
-import { MassFormatter } from "../../utilities/Formatters";
 import { StyledText, StyledH5 } from "../../components/styled/Typography";
 
 /**
@@ -156,7 +155,7 @@ const Project = () => {
               {numAssetTypes} Asset Type
               {numAssetTypes != 1 ? "s" : ""} assigned to{" "}
               {projectData.project.projects_name} (
-              {MassFormatter(projectData.FINANCIALS.mass)})
+              {projectData.FINANCIALS.formattedMass})
             </StyledText>
             {projectData.FINANCIALS && projectData.FINANCIALS.priceMaths && (
               <>

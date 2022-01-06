@@ -17,7 +17,6 @@ import { useParams } from "react-router";
 import AssetItem from "../../components/assets/AssetItem";
 import Page from "../../components/Page";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
-import { MassFormatter, MoneyFormatter } from "../../utilities/Formatters";
 import Refresher from "../../components/Refresher";
 import BrandText from "../../components/menu/components/BrandText";
 
@@ -29,11 +28,14 @@ export interface IProjectAssets {
       amount: string;
       currency: string;
     };
+    formattedDiscountPrice: string;
     price: {
       amount: string;
       currency: string;
     };
+    formattedPrice: string;
     mass: number;
+    formattedMass: string;
   };
 }
 
@@ -78,20 +80,10 @@ const ProjectAssets = () => {
                       </IonLabel>
                     </IonCol>
                     <IonCol size="4">{typedAsset.totals.status}</IonCol>
+                    <IonCol size="1">{typedAsset.totals.formattedMass}</IonCol>
+                    <IonCol size="1">{typedAsset.totals.formattedPrice}</IonCol>
                     <IonCol size="1">
-                      {MassFormatter(typedAsset.totals.mass)}
-                    </IonCol>
-                    <IonCol size="1">
-                      {MoneyFormatter(
-                        typedAsset.totals.price.currency,
-                        typedAsset.totals.price.amount,
-                      )}
-                    </IonCol>
-                    <IonCol size="1">
-                      {MoneyFormatter(
-                        typedAsset.totals.discountPrice.currency,
-                        typedAsset.totals.discountPrice.amount,
-                      )}
+                      {typedAsset.totals.formattedDiscountPrice}
                     </IonCol>
                   </IonRow>
                 </IonGrid>

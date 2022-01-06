@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IonCol, IonGrid, IonItem, IonLabel, IonRow } from "@ionic/react";
-import { MassFormatter, MoneyFormatter } from "../../utilities/Formatters";
 
 const AssetItem = (props: any) => {
   let additionalInfo;
@@ -43,20 +42,13 @@ const AssetItem = (props: any) => {
           </IonLabel>
         </IonCol>
         <IonCol size="1">
-          <IonLabel>{MassFormatter(props.item.assetTypes_mass)}</IonLabel>
+          <IonLabel>{props.item.formattedMass}</IonLabel>
         </IonCol>
         <IonCol size="1">
-          <IonLabel>
-            {MoneyFormatter(props.item.price.currency, props.item.price.amount)}
-          </IonLabel>
+          <IonLabel>{props.item.formattedPrice}</IonLabel>
         </IonCol>
         <IonCol size="1">
-          <IonLabel>
-            {MoneyFormatter(
-              props.item.discountPrice.currency,
-              props.item.discountPrice.amount,
-            )}
-          </IonLabel>
+          <IonLabel>{props.item.formattedDiscountPrice}</IonLabel>
         </IonCol>
       </>
     );
@@ -78,7 +70,7 @@ const AssetItem = (props: any) => {
           {additionalInfo}
           <IonCol size="3">
             <FontAwesomeIcon
-              icon="arrow-right"
+              icon="chevron-right"
               className="ion-margin-end ion-float-end"
             />
             {props.item.flagsblocks["COUNT"]["BLOCK"] > 0 && (
