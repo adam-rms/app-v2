@@ -36,16 +36,21 @@ const CmsPageList = () => {
    * @param pageArray The page list from the api
    */
   function generateListItems(pageArray: ICmsPageProvider): NavListItemType[] {
-    return pageArray.map((page: CmsPageList): NavListItemType => {
-      return {
-        link: `/cms/${page.cmsPages_id}/`,
-        content: page.cmsPages_name,
-        ...(page.cmsPages_fontAwesome && {
-          icon: GenerateIconFromString(page.cmsPages_fontAwesome),
-        }),
-        ...(page.SUBPAGES && { subItems: generateListItems(page.SUBPAGES) }),
-      };
-    });
+    //check if actually given pages
+    if (pageArray) {
+      return pageArray.map((page: CmsPageList): NavListItemType => {
+        return {
+          link: `/cms/${page.cmsPages_id}/`,
+          content: page.cmsPages_name,
+          ...(page.cmsPages_fontAwesome && {
+            icon: GenerateIconFromString(page.cmsPages_fontAwesome),
+          }),
+          ...(page.SUBPAGES && { subItems: generateListItems(page.SUBPAGES) }),
+        };
+      });
+    } else {
+      return [];
+    }
   }
 
   //Get data from API
@@ -55,7 +60,7 @@ const CmsPageList = () => {
 
   let content;
   //If there are no pages and there is nothing currently loading
-  if (CmsPages.length == 0 && !isLoading) {
+  if (!CmsPages && !isLoading) {
     content = (
       <IonCard>
         <IonCardHeader>
@@ -69,7 +74,7 @@ const CmsPageList = () => {
     content = (
       <NavList
         items={generateListItems(CmsPages)}
-        isLoading={CmsPages.length == 0 && isLoading}
+        isLoading={!CmsPages && isLoading}
       />
     );
   }
