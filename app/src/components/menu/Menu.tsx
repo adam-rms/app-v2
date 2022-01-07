@@ -44,14 +44,7 @@ const Menu: React.FC = () => {
       url: "/cms/",
       icon: ["far", "newspaper"],
     },
-    {
-      type: "section",
-      title: "Pages",
-    },
     ...CmsPages(),
-    {
-      type: "separator",
-    },
   ];
 
   return (

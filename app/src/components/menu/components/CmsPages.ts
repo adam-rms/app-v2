@@ -22,6 +22,10 @@ const CmsPages = (): MenuItem[] => {
   if (isLoading) {
     return [
       {
+        type: "section",
+        title: "Pages",
+      },
+      {
         type: "item",
         isLoading: true,
       },
@@ -32,22 +36,27 @@ const CmsPages = (): MenuItem[] => {
     ];
   }
 
+  const pages: MenuItem[] = [];
   if (CmsPages) {
+    //add a section
+    pages.push({
+      type: "section",
+      title: "Pages",
+    });
     //Map the pages to the url, icon and title for use in the menu
-    return CmsPages.map(function (page: CmsPageList): MenuItem {
-      return {
+    CmsPages.forEach((page: any) => {
+      pages.push({
         type: "route",
         url: `/cms/${page.cmsPages_id}/`,
         title: page.cmsPages_name,
         ...(page.cmsPages_fontAwesome && {
           icon: GenerateIconFromString(page.cmsPages_fontAwesome),
         }),
-      };
+      });
     });
-  } else {
-    //there are no pages
-    return [];
   }
+
+  return pages;
 };
 
 export default CmsPages;
