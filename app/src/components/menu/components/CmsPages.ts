@@ -32,17 +32,22 @@ const CmsPages = (): MenuItem[] => {
     ];
   }
 
-  //Map the pages to the url, icon and title for use in the menu
-  return CmsPages.map(function (page: CmsPageList): MenuItem {
-    return {
-      type: "route",
-      url: `/cms/${page.cmsPages_id}/`,
-      title: page.cmsPages_name,
-      ...(page.cmsPages_fontAwesome && {
-        icon: GenerateIconFromString(page.cmsPages_fontAwesome),
-      }),
-    };
-  });
+  if (CmsPages) {
+    //Map the pages to the url, icon and title for use in the menu
+    return CmsPages.map(function (page: CmsPageList): MenuItem {
+      return {
+        type: "route",
+        url: `/cms/${page.cmsPages_id}/`,
+        title: page.cmsPages_name,
+        ...(page.cmsPages_fontAwesome && {
+          icon: GenerateIconFromString(page.cmsPages_fontAwesome),
+        }),
+      };
+    });
+  } else {
+    //there are no pages
+    return [];
+  }
 };
 
 export default CmsPages;
