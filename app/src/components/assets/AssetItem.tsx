@@ -1,7 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IonCol, IonGrid, IonItem, IonLabel, IonRow } from "@ionic/react";
 
-const AssetItem = (props: any) => {
+interface IAssetItemProps {
+  key: any;
+  AssetTypeId: string;
+  item: any;
+  subHire?: boolean; //No link if is a subhire
+}
+
+const AssetItem = (props: IAssetItemProps) => {
   let additionalInfo;
   if (props.item.price) {
     additionalInfo = (
@@ -56,42 +63,53 @@ const AssetItem = (props: any) => {
     //Add blank column for formatting
     additionalInfo = <IonCol size="7" />;
   }
-  return (
-    <IonItem
-      routerLink={"/assets/" + props.AssetTypeId + "/" + props.item.assets_id}
-    >
-      <IonGrid>
-        <IonRow>
-          <IonCol size="2">
-            <IonLabel>
-              <h2>{props.item.assets_tag}</h2>
-            </IonLabel>
-          </IonCol>
-          {additionalInfo}
-          <IonCol size="3">
+
+  const content = (
+    <IonGrid>
+      <IonRow>
+        <IonCol size="2">
+          <IonLabel>
+            <h2>{props.item.assets_tag}</h2>
+          </IonLabel>
+        </IonCol>
+        {additionalInfo}
+        <IonCol size="3">
+          {!props.subHire && (
             <FontAwesomeIcon
               icon="chevron-right"
               className="ion-margin-end ion-float-end"
             />
-            {props.item.flagsblocks["COUNT"]["BLOCK"] > 0 && (
-              <FontAwesomeIcon
-                icon="ban"
-                color="#dc3545"
-                className="ion-margin-end ion-float-end"
-              />
-            )}
-            {props.item.flagsblocks["COUNT"]["FLAG"] > 0 && (
-              <FontAwesomeIcon
-                icon="flag"
-                color="#ffc107"
-                className="ion-margin-end ion-float-end"
-              />
-            )}
-          </IonCol>
-        </IonRow>
-      </IonGrid>
-    </IonItem>
+          )}
+          {props.item.flagsblocks["COUNT"]["BLOCK"] > 0 && (
+            <FontAwesomeIcon
+              icon="ban"
+              color="#dc3545"
+              className="ion-margin-end ion-float-end"
+            />
+          )}
+          {props.item.flagsblocks["COUNT"]["FLAG"] > 0 && (
+            <FontAwesomeIcon
+              icon="flag"
+              color="#ffc107"
+              className="ion-margin-end ion-float-end"
+            />
+          )}
+        </IonCol>
+      </IonRow>
+    </IonGrid>
   );
+  if (props.subHire) {
+    //We can't link to assets in different instances, so don't include the link
+    return <IonItem>{content}</IonItem>;
+  } else {
+    return (
+      <IonItem
+        routerLink={"/assets/" + props.AssetTypeId + "/" + props.item.assets_id}
+      >
+        {content}
+      </IonItem>
+    );
+  }
 };
 
 export default AssetItem;
