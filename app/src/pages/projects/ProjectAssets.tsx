@@ -12,7 +12,7 @@ import { useParams } from "react-router";
 import Page from "../../components/Page";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import Refresher from "../../components/Refresher";
-import BrandText from "../../components/menu/components/BrandText";
+import { StyledH5 } from "../../components/Typography";
 import AssetTypeItem from "../../components/assets/AssetTypeItem";
 
 export interface IProjectAssets {
@@ -49,19 +49,19 @@ const ProjectAssetsHeader = (props: { instanceName: string }) => {
       <IonGrid>
         <IonRow className="ion-padding-horizontal">
           <IonCol size="2">
-            <BrandText>Assets</BrandText>
+            <StyledH5>Assets</StyledH5>
           </IonCol>
           <IonCol size="4">
-            <BrandText>Status/Location</BrandText>
+            <StyledH5>Status/Location</StyledH5>
           </IonCol>
           <IonCol size="1">
-            <BrandText>Mass</BrandText>
+            <StyledH5>Mass</StyledH5>
           </IonCol>
           <IonCol size="1">
-            <BrandText>Price</BrandText>
+            <StyledH5>Price</StyledH5>
           </IonCol>
           <IonCol size="2">
-            <BrandText>Discounted Price</BrandText>
+            <StyledH5>Discounted Price</StyledH5>
           </IonCol>
         </IonRow>
       </IonGrid>

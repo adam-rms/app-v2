@@ -21,7 +21,7 @@ import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import Page from "../../components/Page";
 import { baseURL } from "../../utilities/Api";
 import Refresher from "../../components/Refresher";
-import { StyledText, StyledH5 } from "../../components/styled/Typography";
+import { StyledText, StyledH5 } from "../../components/Typography";
 
 /**
  * Project Page
