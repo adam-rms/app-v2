@@ -15,27 +15,15 @@ AdamRMS is an advanced Rental Management System for Theatre, AV & Broadcast, wri
 
 > **This repo is the development repo for v2, which is not currently released.** For the current version of AdamRMS see [v1](https://github.com/adam-rms/adam-rms).
 
-This repo is a [monorepo](https://www.atlassian.com/git/tutorials/monorepos), containing two distinct applications:
+This repo is a [monorepo](https://www.atlassian.com/git/tutorials/monorepos), containing one application:
 
 Directory|Description
 :-----|:-----
-`/api`|NestJS API
 `/app`|React App
 
 ## The Stack
 
 - [TypeScript](https://github.com/microsoft/TypeScript): Programming Language
-
-### API
-
-- [NestJS](https://github.com/nestjs/nest): API Framework
-- [TypeORM](https://github.com/typeorm/typeorm): Database ORM
-- [MySQL](https://github.com/mysqljs/mysql): Database
-- [Passport](https://github.com/jaredhanson/passport): Authentication
-- [Express](https://github.com/expressjs/express): Webserver
-- [Swagger](https://github.com/swagger-api/swagger-ui): API Docs
-- [Winston](https://github.com/winstonjs/winston): Logging
-- [gts](https://github.com/google/gts): Style Enforcement
 
 ### App
 
