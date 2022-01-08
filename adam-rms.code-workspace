@@ -24,7 +24,7 @@
 		"compounds": [
 			{
 				"name": "Launch Full Stack",
-				"configurations": ["Debug App"],
+				"configurations": ["Debug API", "Debug App","Debug Docusaurus"],
 				"presentation": {
 					"hidden": false,
 					"group": "",
@@ -33,6 +33,22 @@
 			}
 		],
 		"configurations": [
+			{
+				"name": "Debug API",
+				"request": "launch",
+				"presentation": {
+					"hidden": false,
+					"group": "API",
+					"order": 1
+				},
+				"runtimeArgs": [
+					"run-script",
+					"start:dev"
+				],
+				"type": "pwa-node",
+				"runtimeExecutable": "npm",
+				"cwd": "${workspaceRoot}/api",
+			},
 			{
 				"name": "Debug App",
 				"request": "launch",
@@ -50,6 +66,29 @@
 				"cwd": "${workspaceRoot}/app",
 				"serverReadyAction": {
 					"pattern": "Local:            http://localhost:([0-9]+)",
+					"uriFormat": "http://localhost:%s",
+					"action": "openExternally"
+				}
+			},
+			{
+				"name": "Debug Docusaurus",
+				"request": "launch",
+				"presentation": {
+					"hidden": false,
+					"group": "Docs",
+					"order": 1
+				},
+				"runtimeArgs": [
+					"run-script",
+					"start",
+					"--",
+					"--port=3002"
+				],
+				"type": "pwa-node",
+				"runtimeExecutable": "npm",
+				"cwd": "${workspaceRoot}/docs",
+				"serverReadyAction": {
+					"pattern": "Docusaurus website is running at \"http://localhost:([0-9]+)/\"",
 					"uriFormat": "http://localhost:%s",
 					"action": "openExternally"
 				}
