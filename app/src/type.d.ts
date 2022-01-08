@@ -104,6 +104,23 @@ interface IProjectData {
   FINANCIALS: any;
 }
 
+/* Project Comment Object */
+interface IComment {
+  auditLog_id: number;
+  auditLog_actionType: string;
+  auditLog_actionTable: string;
+  auditLog_actionData: string;
+  auditLog_timestamp: string;
+  users_userid: number;
+  auditLog_actionUserid: number;
+  projects_id: number;
+  auditLog_deleted: number;
+  auditLog_targetID: number;
+  users_name1: string;
+  users_name2: string;
+  users_email: string;
+}
+
 /**
  * CMS Page List
  */
