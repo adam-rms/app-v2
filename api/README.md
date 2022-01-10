@@ -1,1 +1,0 @@
-Please see [https://adam-rms.com/api-docs](https://adam-rms.com/api-docs) for more information.

@@ -51,14 +51,7 @@ const Menu: React.FC = () => {
       url: "/cms/",
       icon: ["far", "newspaper"],
     },
-    {
-      type: "section",
-      title: "Pages",
-    },
     ...CmsPages(),
-    {
-      type: "separator",
-    },
   ];
 
   return (
@@ -72,13 +65,13 @@ const Menu: React.FC = () => {
           {menuItems.map((item, index) => {
             // Render a seperator
             if (item.type == "separator") {
-              return <IonItemDivider />;
+              return <IonItemDivider key={index} />;
             }
 
             // Render a section
             if (item.type == "section") {
               return (
-                <IonItemDivider>
+                <IonItemDivider key={index}>
                   <IonLabel>{item.title}</IonLabel>
                 </IonItemDivider>
               );
