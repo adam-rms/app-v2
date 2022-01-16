@@ -9,6 +9,7 @@ import ProjectAssets from "../pages/projects/ProjectAssets";
 import ProjectList from "../pages/projects/ProjectList";
 import CmsPageList from "../pages/cms/CmsPageList";
 import CmsPage from "../pages/cms/CmsPage";
+import Homepage from "../pages/Homepage";
 
 /**
  * Add all routes to this component
@@ -17,6 +18,9 @@ import CmsPage from "../pages/cms/CmsPage";
 export function Routes() {
   return (
     <>
+      {/* Homepage */}
+      <Route path="/" component={Homepage} exact />
+      
       {/* Assets */}
       <Route path="/assets/" component={AssetTypeList} exact />
       <Route path="/assets/:type" component={AssetType} exact />

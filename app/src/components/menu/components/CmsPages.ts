@@ -16,7 +16,7 @@ const CmsPages = (): MenuItem[] => {
     refreshPages().then(() => {
       setIsLoading(false);
     });
-  }, []);
+  }, [refreshPages]);
 
   // If loading then return some skeletons
   if (isLoading) {
