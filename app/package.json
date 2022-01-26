@@ -7,9 +7,11 @@
   "licence": "AGPL-3.0-only",
   "repository": "https://github.com/Jbithell/adam-rms.git",
   "dependencies": {
+    "@capacitor-community/http": "^1.4.1",
+    "@capacitor/android": "^3.3.4",
     "@capacitor/app": "1.0.3",
     "@capacitor/browser": "^1.0.6",
-    "@capacitor/core": "3.2.4",
+    "@capacitor/core": "^3.2.4",
     "@capacitor/haptics": "1.1.0",
     "@capacitor/keyboard": "1.1.0",
     "@capacitor/status-bar": "1.0.3",
@@ -73,7 +75,7 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "3.2.4",
+    "@capacitor/cli": "^3.2.4",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.3",
