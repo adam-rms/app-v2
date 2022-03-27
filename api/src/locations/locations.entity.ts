@@ -15,7 +15,7 @@ import { Projects } from "../projects/projects.entity";
 @Index("locations_clients_clients_id_fk", ["clientsId"], {})
 @Index("locations_instances_instances_id_fk", ["instancesId"], {})
 @Index("locations_locations_locations_id_fk", ["locationsSubOf"], {})
-@Entity("locations", { schema: "adamrms" })
+@Entity("locations")
 export class Locations {
   @PrimaryGeneratedColumn({ type: "int", name: "locations_id" })
   locationsId: number;

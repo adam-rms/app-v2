@@ -8,7 +8,7 @@ import { Manufacturers } from "../assets/manufacturers.entity";
 import { Clients } from "../clients/clients.entity";
 import { Cmspages } from "../cms/cms-pages.entity";
 import { S3files } from "../files/s3-files.entity";
-import { Instancepositions } from "../instances/permissions/instance-positions.entity";
+import { Instancepositions } from "./permissions/instance-positions.entity";
 import { Locations } from "../locations/locations.entity";
 import { Maintenancejobsstatuses } from "../maintenance/maintenance-jobs-statuses.entity";
 import { Projectstypes } from "../projects/projects-types.entity";
@@ -16,7 +16,7 @@ import { Projects } from "../projects/projects.entity";
 import { Modules } from "../training/modules.entity";
 import { Signupcodes } from "./signup-codes.entity";
 
-@Entity("instances", { schema: "adamrms" })
+@Entity("instances")
 export class Instances {
   @PrimaryGeneratedColumn({ type: "int", name: "instances_id" })
   instancesId: number;

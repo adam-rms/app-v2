@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Assetcategories } from "./asset-categories.entity";
 
-@Entity("assetcategoriesgroups", { schema: "adamrms" })
+@Entity("assetcategoriesgroups")
 export class Assetcategoriesgroups {
   @PrimaryGeneratedColumn({ type: "int", name: "assetCategoriesGroups_id" })
   assetCategoriesGroupsId: number;

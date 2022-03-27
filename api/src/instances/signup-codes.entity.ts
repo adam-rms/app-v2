@@ -20,7 +20,7 @@ import { Userinstances } from "./user-instances.entity";
   ["instancePositionsId"],
   {},
 )
-@Entity("signupcodes", { schema: "adamrms" })
+@Entity("signupcodes")
 export class Signupcodes {
   @PrimaryGeneratedColumn({ type: "int", name: "signupCodes_id" })
   signupCodesId: number;

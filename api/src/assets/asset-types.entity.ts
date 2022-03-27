@@ -7,10 +7,10 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Assetcategories } from "../assets/categories/asset-categories.entity";
+import { Assetcategories } from "./categories/asset-categories.entity";
 import { Assets } from "./assets.entity";
 import { Instances } from "../instances/instances.entity";
-import { Manufacturers } from "../assets/manufacturers.entity";
+import { Manufacturers } from "./manufacturers.entity";
 
 @Index(
   "assetTypes_assetCategories_assetCategories_id_fk",
@@ -19,7 +19,7 @@ import { Manufacturers } from "../assets/manufacturers.entity";
 )
 @Index("assetTypes_manufacturers_manufacturers_id_fk", ["manufacturersId"], {})
 @Index("assetTypes_instances_instances_id_fk", ["instancesId"], {})
-@Entity("assettypes", { schema: "adamrms" })
+@Entity("assettypes")
 export class Assettypes {
   @PrimaryGeneratedColumn({ type: "int", name: "assetTypes_id" })
   assetTypesId: number;

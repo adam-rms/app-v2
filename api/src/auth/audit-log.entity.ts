@@ -10,7 +10,7 @@ import { Users } from "./users/users.entity";
 
 @Index("auditLog_users_users_userid_fk", ["usersUserid"], {})
 @Index("auditLog_users_users_userid_fk_2", ["auditLogActionUserid"], {})
-@Entity("auditlog", { schema: "adamrms" })
+@Entity("auditlog")
 export class Auditlog {
   @PrimaryGeneratedColumn({ type: "int", name: "auditLog_id" })
   auditLogId: number;

@@ -7,11 +7,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Assettypes } from "../assets/asset-types.entity";
+import { Assettypes } from "./asset-types.entity";
 import { Instances } from "../instances/instances.entity";
 
 @Index("manufacturers_instances_instances_id_fk", ["instancesId"], {})
-@Entity("manufacturers", { schema: "adamrms" })
+@Entity("manufacturers")
 export class Manufacturers {
   @PrimaryGeneratedColumn({ type: "int", name: "manufacturers_id" })
   manufacturersId: number;

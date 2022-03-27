@@ -12,7 +12,7 @@ import { Locations } from "../locations/locations.entity";
 import { Projects } from "../projects/projects.entity";
 
 @Index("clients_instances_instances_id_fk", ["instancesId"], {})
-@Entity("clients", { schema: "adamrms" })
+@Entity("clients")
 export class Clients {
   @PrimaryGeneratedColumn({ type: "int", name: "clients_id" })
   clientsId: number;

@@ -18,7 +18,7 @@ import { Locations } from "../locations/locations.entity";
 @Index("assets_assets_assets_id_fk", ["assetsLinkedTo"], {})
 @Index("assets_instances_instances_id_fk", ["instancesId"], {})
 @Index("assets_locations_locations_id_fk", ["assetsStorageLocation"], {})
-@Entity("assets", { schema: "adamrms" })
+@Entity("assets")
 export class Assets {
   @PrimaryGeneratedColumn({ type: "int", name: "assets_id" })
   assetsId: number;

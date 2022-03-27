@@ -19,7 +19,7 @@ import { Projectsvacantroles } from "./projects-vacant-roles.entity";
   ["usersUserid"],
   {},
 )
-@Entity("projectsvacantrolesapplications", { schema: "adamrms" })
+@Entity("projectsvacantrolesapplications")
 export class Projectsvacantrolesapplications {
   @PrimaryGeneratedColumn({
     type: "int",

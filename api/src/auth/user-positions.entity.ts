@@ -11,7 +11,7 @@ import { Users } from "./users/users.entity";
 
 @Index("userPositions_positions_positions_id_fk", ["positionsId"], {})
 @Index("userPositions_users_users_userid_fk", ["usersUserid"], {})
-@Entity("userpositions", { schema: "adamrms" })
+@Entity("userpositions")
 export class Userpositions {
   @PrimaryGeneratedColumn({ type: "int", name: "userPositions_id" })
   userPositionsId: number;

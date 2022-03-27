@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import { Actionscategories } from "./actions-categories.entity";
 
-@Entity("actions", { schema: "adamrms" })
+@Entity("actions")
 export class Actions {
   @PrimaryGeneratedColumn({ type: "int", name: "actions_id" })
   actionsId: number;

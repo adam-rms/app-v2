@@ -12,7 +12,7 @@ import { Signupcodes } from "../signup-codes.entity";
 import { Userinstances } from "../user-instances.entity";
 
 @Index("instancePositions_instances_instances_id_fk", ["instancesId"], {})
-@Entity("instancepositions", { schema: "adamrms" })
+@Entity("instancepositions")
 export class Instancepositions {
   @PrimaryGeneratedColumn({ type: "int", name: "instancePositions_id" })
   instancePositionsId: number;

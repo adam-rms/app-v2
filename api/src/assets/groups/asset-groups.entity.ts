@@ -11,7 +11,7 @@ import { Users } from "../../auth/users/users.entity";
 
 @Index("assetGroups_instances_instances_id_fk", ["instancesId"], {})
 @Index("assetGroups_users_users_userid_fk", ["usersUserid"], {})
-@Entity("assetgroups", { schema: "adamrms" })
+@Entity("assetgroups")
 export class Assetgroups {
   @PrimaryGeneratedColumn({ type: "int", name: "assetGroups_id" })
   assetGroupsId: number;

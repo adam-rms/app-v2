@@ -11,7 +11,7 @@ import { Assetsbarcodesscans } from "../../assets/barcodes/assets-barcodes-scans
 import { Users } from "../../auth/users/users.entity";
 
 @Index("locationsBarcodes_users_users_userid_fk", ["usersUserid"], {})
-@Entity("locationsbarcodes", { schema: "adamrms" })
+@Entity("locationsbarcodes")
 export class Locationsbarcodes {
   @PrimaryGeneratedColumn({ type: "int", name: "locationsBarcodes_id" })
   locationsBarcodesId: number;

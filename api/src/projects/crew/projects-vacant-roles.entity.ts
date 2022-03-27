@@ -11,7 +11,7 @@ import { Projects } from "../projects.entity";
 import { Projectsvacantrolesapplications } from "./projects-vacant-roles-applications.entity";
 
 @Index("projectsVacantRoles_projects_projects_id_fk", ["projectsId"], {})
-@Entity("projectsvacantroles", { schema: "adamrms" })
+@Entity("projectsvacantroles")
 export class Projectsvacantroles {
   @PrimaryGeneratedColumn({ type: "int", name: "projectsVacantRoles_id" })
   projectsVacantRolesId: number;

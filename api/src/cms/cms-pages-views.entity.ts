@@ -16,7 +16,7 @@ import { Cmspages } from "./cms-pages.entity";
   ["cmsPagesViewsTimestamp"],
   {},
 )
-@Entity("cmspagesviews", { schema: "adamrms" })
+@Entity("cmspagesviews")
 export class Cmspagesviews {
   @PrimaryGeneratedColumn({ type: "int", name: "cmsPagesViews_id" })
   cmsPagesViewsId: number;

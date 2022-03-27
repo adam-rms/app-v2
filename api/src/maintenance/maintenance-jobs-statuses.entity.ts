@@ -9,7 +9,7 @@ import {
 import { Instances } from "../instances/instances.entity";
 
 @Index("maintenanceJobsStatuses_instances_instances_id_fk", ["instancesId"], {})
-@Entity("maintenancejobsstatuses", { schema: "adamrms" })
+@Entity("maintenancejobsstatuses")
 export class Maintenancejobsstatuses {
   @PrimaryGeneratedColumn({ type: "int", name: "maintenanceJobsStatuses_id" })
   maintenanceJobsStatusesId: number;

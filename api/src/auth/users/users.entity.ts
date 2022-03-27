@@ -31,7 +31,7 @@ import { Passwordresetcodes } from "./password-reset-codes.entity";
 @Index("users_users_email_uindex", ["usersEmail"], { unique: true })
 @Index("users_users_username_uindex", ["usersUsername"], { unique: true })
 @Index("username_2", ["usersUserid"], {})
-@Entity("users", { schema: "adamrms" })
+@Entity("users")
 export class Users {
   @Column("varchar", {
     name: "users_username",

@@ -10,7 +10,7 @@ import { Projects } from "../projects.entity";
 
 @Index("projectsFinanceCache_projects_projects_id_fk", ["projectsId"], {})
 @Index("projectFinnaceCacheTimestamp", ["projectsFinanceCacheTimestamp"], {})
-@Entity("projectsfinancecache", { schema: "adamrms" })
+@Entity("projectsfinancecache")
 export class Projectsfinancecache {
   @PrimaryGeneratedColumn({ type: "int", name: "projectsFinanceCache_id" })
   projectsFinanceCacheId: number;

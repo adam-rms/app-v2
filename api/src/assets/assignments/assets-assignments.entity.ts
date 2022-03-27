@@ -17,7 +17,7 @@ import { Projects } from "../../projects/projects.entity";
   ["assetsAssignmentsLinkedTo"],
   {},
 )
-@Entity("assetsassignments", { schema: "adamrms" })
+@Entity("assetsassignments")
 export class Assetsassignments {
   @PrimaryGeneratedColumn({ type: "int", name: "assetsAssignments_id" })
   assetsAssignmentsId: number;

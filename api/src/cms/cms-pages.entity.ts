@@ -13,7 +13,7 @@ import { Cmspagesviews } from "./cms-pages-views.entity";
 
 @Index("cmsPages_instances_instances_id_fk", ["instancesId"], {})
 @Index("cmsPages_cmsPages_cmsPages_id_fk", ["cmsPagesSubOf"], {})
-@Entity("cmspages", { schema: "adamrms" })
+@Entity("cmspages")
 export class Cmspages {
   @PrimaryGeneratedColumn({ type: "int", name: "cmsPages_id" })
   cmsPagesId: number;

@@ -9,7 +9,7 @@ import {
 import { Instanceactionscategories } from "./instance-actions-categories.entity";
 
 @Index("categories_fk", ["instanceActionsCategoriesId"], {})
-@Entity("instanceactions", { schema: "adamrms" })
+@Entity("instanceactions")
 export class Instanceactions {
   @PrimaryGeneratedColumn({ type: "int", name: "instanceActions_id" })
   instanceActionsId: number;

@@ -11,7 +11,7 @@ import { Users } from "./users.entity";
 @Index("token", ["authTokensToken"], { unique: true })
 @Index("authTokens_users_users_userid_fk", ["usersUserid"], {})
 @Index("authTokens_users_users_userid_fk_2", ["authTokensAdminId"], {})
-@Entity("authtokens", { schema: "adamrms" })
+@Entity("authtokens")
 export class Authtokens {
   @PrimaryGeneratedColumn({ type: "int", name: "authTokens_id" })
   authTokensId: number;

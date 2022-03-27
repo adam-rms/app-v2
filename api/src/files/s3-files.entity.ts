@@ -14,7 +14,7 @@ import { Modules } from "../training/modules.entity";
 
 @Index("s3files_instances_instances_id_fk", ["instancesId"], {})
 @Index("s3files_users_users_userid_fk", ["usersUserid"], {})
-@Entity("s3files", { schema: "adamrms" })
+@Entity("s3files")
 export class S3files {
   @PrimaryGeneratedColumn({ type: "int", name: "s3files_id" })
   s3filesId: number;

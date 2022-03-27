@@ -9,7 +9,7 @@ import {
 import { Projects } from "../projects.entity";
 
 @Index("payments_projects_projects_id_fk", ["projectsId"], {})
-@Entity("payments", { schema: "adamrms" })
+@Entity("payments")
 export class Payments {
   @PrimaryGeneratedColumn({ type: "int", name: "payments_id" })
   paymentsId: number;

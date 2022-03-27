@@ -17,7 +17,7 @@ import { Modules } from "./modules.entity";
   ["userModulesCurrentStep"],
   {},
 )
-@Entity("usermodules", { schema: "adamrms" })
+@Entity("usermodules")
 export class Usermodules {
   @PrimaryGeneratedColumn({ type: "int", name: "userModules_id" })
   userModulesId: number;

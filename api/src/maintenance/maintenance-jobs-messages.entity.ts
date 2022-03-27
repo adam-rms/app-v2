@@ -15,7 +15,7 @@ import { Maintenancejobs } from "./maintenance-jobs.entity";
   ["maintenanceJobsId"],
   {},
 )
-@Entity("maintenancejobsmessages", { schema: "adamrms" })
+@Entity("maintenancejobsmessages")
 export class Maintenancejobsmessages {
   @PrimaryGeneratedColumn({ type: "int", name: "maintenanceJobsMessages_id" })
   maintenanceJobsMessagesId: number;

@@ -23,7 +23,7 @@ import { Users } from "../../auth/users/users.entity";
   {},
 )
 @Index("assetsBarcodesScans_assets_assets_id_fk", ["locationAssetsId"], {})
-@Entity("assetsbarcodesscans", { schema: "adamrms" })
+@Entity("assetsbarcodesscans")
 export class Assetsbarcodesscans {
   @PrimaryGeneratedColumn({ type: "int", name: "assetsBarcodesScans_id" })
   assetsBarcodesScansId: number;

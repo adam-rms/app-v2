@@ -11,7 +11,7 @@ import { Modules } from "./modules.entity";
 import { Usermodules } from "./user-modules.entity";
 
 @Index("modulesSteps_modules_modules_id_fk", ["modulesId"], {})
-@Entity("modulessteps", { schema: "adamrms" })
+@Entity("modulessteps")
 export class Modulessteps {
   @PrimaryGeneratedColumn({ type: "int", name: "modulesSteps_id" })
   modulesStepsId: number;

@@ -13,7 +13,7 @@ import { Users } from "../../auth/users/users.entity";
 
 @Index("assetsBarcodes_assets_assets_id_fk", ["assetsId"], {})
 @Index("assetsBarcodes_users_users_userid_fk", ["usersUserid"], {})
-@Entity("assetsbarcodes", { schema: "adamrms" })
+@Entity("assetsbarcodes")
 export class Assetsbarcodes {
   @PrimaryGeneratedColumn({ type: "int", name: "assetsBarcodes_id" })
   assetsBarcodesId: number;

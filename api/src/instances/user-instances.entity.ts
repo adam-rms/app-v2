@@ -17,7 +17,7 @@ import { Signupcodes } from "./signup-codes.entity";
 )
 @Index("userInstances_users_users_userid_fk", ["usersUserid"], {})
 @Index("userInstances_signupCodes_signupCodes_id_fk", ["signupCodesId"], {})
-@Entity("userinstances", { schema: "adamrms" })
+@Entity("userinstances")
 export class Userinstances {
   @PrimaryGeneratedColumn({ type: "int", name: "userInstances_id" })
   userInstancesId: number;

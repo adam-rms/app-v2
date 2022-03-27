@@ -12,7 +12,7 @@ import { Assetcategoriesgroups } from "./asset-categories-groups.entity";
 import { Assettypes } from "../asset-types.entity";
 @Index("assetCategories_instances_instances_id_fk", ["instancesId"], {})
 @Index("assetCategories_Groups_id_fk", ["assetCategoriesGroupsId"], {})
-@Entity("assetcategories", { schema: "adamrms" })
+@Entity("assetcategories")
 export class Assetcategories {
   @PrimaryGeneratedColumn({ type: "int", name: "assetCategories_id" })
   assetCategoriesId: number;

@@ -9,7 +9,7 @@ import {
 import { Users } from "./users.entity";
 
 @Index("emailVerificationCodes_users_users_userid_fk", ["usersUserid"], {})
-@Entity("emailverificationcodes", { schema: "adamrms" })
+@Entity("emailverificationcodes")
 export class Emailverificationcodes {
   @PrimaryGeneratedColumn({ type: "int", name: "emailVerificationCodes_id" })
   emailVerificationCodesId: number;
