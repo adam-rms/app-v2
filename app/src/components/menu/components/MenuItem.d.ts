@@ -14,6 +14,7 @@ interface MenuListItem {
  */
 interface BlankMenuItem extends MenuListItem {
   type: "item";
+  onClick?: () => void;
 }
 
 /*

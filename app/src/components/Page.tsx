@@ -13,29 +13,33 @@ import PageTitle from "./PageTitle";
 type Props = {
   title?: any;
   children?: any;
+  show_header?: boolean;
 };
 
-function Page({ title, children }: Props) {
+function Page({ title, children, show_header = true }: Props) {
   return (
     <>
       <PageTitle title={title} />
       <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonMenuButton />
-              <IonBackButton />
-            </IonButtons>
-            <IonTitle>{title}</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-
-        <IonContent fullscreen>
-          <IonHeader collapse="condense">
+        {show_header && (
+          <IonHeader>
             <IonToolbar>
-              <IonTitle size="large">{title}</IonTitle>
+              <IonButtons slot="start">
+                <IonMenuButton />
+                <IonBackButton />
+              </IonButtons>
+              <IonTitle>{title}</IonTitle>
             </IonToolbar>
           </IonHeader>
+        )}
+        <IonContent fullscreen>
+          {show_header && (
+            <IonHeader collapse="condense">
+              <IonToolbar>
+                <IonTitle size="large">{title}</IonTitle>
+              </IonToolbar>
+            </IonHeader>
+          )}
           {children}
         </IonContent>
       </IonPage>

@@ -11,10 +11,10 @@ import CmsPageList from "../pages/cms/CmsPageList";
 import CmsPage from "../pages/cms/CmsPage";
 
 /**
- * Add all routes to this component
+ * Add all authenticated routes to this component
  * @returns <Routes />
  */
-export function Routes() {
+export function AuthenticatedRoutes() {
   return (
     <>
       {/* Assets */}

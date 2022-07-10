@@ -19,7 +19,6 @@ import { useParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import Page from "../../components/Page";
-import { baseURL } from "../../utilities/Api";
 import Refresher from "../../components/Refresher";
 
 /**
@@ -192,7 +191,7 @@ const Project = () => {
             )}
           </IonList>
           <IonButton
-            href={baseURL + "project/crew/vacancies.php"}
+            href={process.env.REACT_APP_RMS_URL + "project/crew/vacancies.php"}
             target="_system"
             expand="block"
           >

@@ -6,7 +6,7 @@ import {
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Menu from "./components/menu/Menu";
-import { Routes } from "./utilities/Route";
+import { AuthenticatedRoutes } from "./utilities/AuthenticatedRoutes";
 import Contexts from "./contexts/Context";
 import React from "react";
 
@@ -33,6 +33,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
+import Authenticated from "./components/Authenticated";
+import { Routes } from "./utilities/Routes";
 
 //setup Font Awesome icons
 library.add(fab, far, fas);
@@ -48,12 +50,15 @@ const App: React.FC = () => {
       <IonApp>
         <Contexts>
           <IonReactRouter>
-            <IonSplitPane contentId="main">
-              <Menu />
-              <IonRouterOutlet id="main">
-                <Routes />
-              </IonRouterOutlet>
-            </IonSplitPane>
+            <Routes />
+            <Authenticated>
+              <IonSplitPane contentId="main">
+                <Menu />
+                <IonRouterOutlet id="main">
+                  <AuthenticatedRoutes />
+                </IonRouterOutlet>
+              </IonSplitPane>
+            </Authenticated>
           </IonReactRouter>
         </Contexts>
       </IonApp>

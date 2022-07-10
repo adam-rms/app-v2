@@ -8,7 +8,7 @@
   "repository": "https://github.com/Jbithell/adam-rms.git",
   "dependencies": {
     "@capacitor-community/http": "^1.4.1",
-    "@capacitor/android": "^3.3.4",
+    "@capacitor/android": "^3.6.0",
     "@capacitor/app": "1.0.3",
     "@capacitor/browser": "^1.0.6",
     "@capacitor/core": "^3.2.4",
