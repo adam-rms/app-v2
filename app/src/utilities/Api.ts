@@ -10,13 +10,13 @@ import axios, { Method as MethodType } from "axios";
 const Api = async (
   endpoint: string,
   data: any = {},
-  method: MethodType = "GET",
+  method: MethodType = "POST",
 ) => {
   data["jwt"] = localStorage.getItem("token");
   return axios({
     method: method,
-    url: process.env.REACT_APP_RMS_URL + "api/" + endpoint,
-    // data: {"jwt": localStorage.getItem("token")},
+    url: process.env.REACT_APP_RMS_URL + "/api/" + endpoint,
+    data: { jwt: localStorage.getItem("token") },
     params: data,
   })
     .then(function (response) {

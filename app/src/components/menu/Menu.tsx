@@ -1,5 +1,5 @@
 import { IonItemDivider, IonLabel, IonMenu, IonMenuToggle } from "@ionic/react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StyledIonContent from "./components/StyledIonContent";
@@ -12,7 +12,6 @@ import BrandText from "./components/BrandText";
 import CmsPages from "./components/CmsPages";
 import SkeletonLink from "./components/SkeletonLink";
 import { MenuItem } from "./components/MenuItem";
-import { logout } from "../../utilities/Auth";
 
 const FONT_AWESOME_MULTIPLIER: SizeProp | undefined = "1x";
 
@@ -21,7 +20,6 @@ const FONT_AWESOME_MULTIPLIER: SizeProp | undefined = "1x";
  */
 const Menu: React.FC = () => {
   const location = useLocation();
-  const history = useHistory();
 
   // Add new pages to this array.
   // The type must be set as defined in MenuItem.d.ts. This is
@@ -51,13 +49,10 @@ const Menu: React.FC = () => {
       type: "separator",
     },
     {
-      type: "item",
+      type: "route",
       title: "Logout",
+      url: "/logout/",
       icon: ["fas", "sign-out-alt"],
-      onClick: () => {
-        logout();
-        history.push("/login");
-      },
     },
   ];
 

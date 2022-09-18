@@ -15,7 +15,7 @@ const Authenticated: React.FC<AuthenticatedProps> = ({
   const [authenticated, setAuthenticated] = useState(isLoggedIn());
 
   useEffect(() => {
-    window.addEventListener("storage", (e: StorageEvent) => {
+    window.addEventListener("storage", () => {
       setAuthenticated(isLoggedIn());
     });
   }, []);
