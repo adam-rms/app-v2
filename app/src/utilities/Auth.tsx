@@ -1,12 +1,13 @@
 import { Redirect, useLocation } from "react-router-dom";
 
 /**
- * Login utility function. Opens AdamRMS login to the URL set in .env
- * @param base_url defaults to .env REACT_APP_RMS_URL value
+ * Login utility function. Opens AdamRMS login
+ * @param baseURL AdamRMS API base URL (e.g. https://dash.adam-rms.com)
  */
-export const login = (base_url: string = process.env.REACT_APP_RMS_URL) => {
+export const login = (baseURL = "https://dash.adam-rms.com") => {
+  localStorage.setItem("baseURL", baseURL);
   window.open(
-    base_url +
+    baseURL +
       "/login/?app-oauth=true&returnHost=" +
       window.location.hostname +
       (window.location.port ? ":" + window.location.port : ""),
@@ -35,6 +36,7 @@ export const OauthCallback = () => {
  */
 export const Logout = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("baseURL");
   return <Redirect to="/login/" />;
 };
 
