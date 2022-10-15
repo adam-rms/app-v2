@@ -1,6 +1,8 @@
+import { IonSplitPane } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import { isLoggedIn } from "../utilities/Auth";
+import Menu from "./menu/Menu";
 
 type AuthenticatedProps = {
   redirect?: boolean;
@@ -9,26 +11,26 @@ type AuthenticatedProps = {
 
 const Authenticated: React.FC<AuthenticatedProps> = ({
   children,
-  redirect = true,
   redirect_path = "/login",
 }) => {
   const [authenticated, setAuthenticated] = useState(isLoggedIn());
 
   useEffect(() => {
+    console.log(authenticated);
     window.addEventListener("storage", () => {
       setAuthenticated(isLoggedIn());
     });
   }, []);
 
   if (authenticated) {
-    return <>{children}</>;
+    return (
+      <IonSplitPane contentId="main">
+        <Menu />
+        <div id="main">{children}</div>
+      </IonSplitPane>
+    );
   }
-
-  if (redirect) {
-    return <Redirect to={redirect_path} />;
-  }
-
-  return <></>;
+  return <Redirect to={redirect_path} />;
 };
 
 export default Authenticated;
