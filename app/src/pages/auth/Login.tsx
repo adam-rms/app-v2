@@ -19,7 +19,7 @@ const Login = () => {
     <>
       <Page title="Login" show_header={false}>
         <IonRow>
-          <IonCol size={"4"} offset={"4"}>
+          <IonCol size="12" sizeLg="4" offsetLg="4">
             <IonCard>
               <IonCardContent>
                 <IonRow>
