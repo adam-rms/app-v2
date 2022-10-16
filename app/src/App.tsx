@@ -1,12 +1,6 @@
-import {
-  IonApp,
-  IonRouterOutlet,
-  IonSplitPane,
-  setupIonicReact,
-} from "@ionic/react";
+import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Routes } from "./utilities/Routes";
-import Menu from "./components/menu/Menu";
 import Contexts from "./contexts/Context";
 import React from "react";
 
@@ -48,7 +42,7 @@ const App: React.FC = () => {
       <IonApp>
         <Contexts>
           <IonReactRouter>
-            <IonRouterOutlet id="main">
+            <IonRouterOutlet>
               <Routes />
             </IonRouterOutlet>
           </IonReactRouter>

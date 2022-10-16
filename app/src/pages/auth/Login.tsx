@@ -1,6 +1,4 @@
 import Page from "../../components/Page";
-import Authenticated from "../../components/Authenticated";
-import { Redirect } from "react-router";
 import {
   IonButton,
   IonCard,
@@ -19,9 +17,6 @@ const Login = () => {
   const [endpoint, setEndpoint] = useState<string>("https://dash.adam-rms.com");
   return (
     <>
-      <Authenticated redirect={false}>
-        <Redirect to={"/"} />
-      </Authenticated>
       <Page title="Login" show_header={false}>
         <IonRow>
           <IonCol size={"4"} offset={"4"}>

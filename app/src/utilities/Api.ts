@@ -14,7 +14,6 @@ const Api = async (
 ) => {
   data["jwt"] = localStorage.getItem("token");
   const baseURL = localStorage.getItem("baseURL");
-  console.log(baseURL);
   return axios({
     method: method,
     url: baseURL + "/api/" + endpoint,

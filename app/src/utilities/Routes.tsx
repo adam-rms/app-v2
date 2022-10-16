@@ -1,4 +1,4 @@
-import { Route } from "react-router";
+import { Redirect, Route } from "react-router";
 import Authenticated from "../components/Authenticated";
 import Asset from "../pages/assets/Asset";
 import AssetType from "../pages/assets/AssetType";
@@ -42,6 +42,9 @@ export function Routes() {
         {/* CMS Pages */}
         <Route path="/cms/" component={CmsPageList} exact />
         <Route path="/cms/:pageId" component={CmsPage} exact />
+
+        {/* Default */}
+        <Redirect exact from="/" to="/assets/" />
       </Authenticated>
     </>
   );

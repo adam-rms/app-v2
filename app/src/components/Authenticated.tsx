@@ -1,4 +1,4 @@
-import { IonSplitPane } from "@ionic/react";
+import { IonContent, IonSplitPane } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import { isLoggedIn } from "../utilities/Auth";
@@ -26,7 +26,7 @@ const Authenticated: React.FC<AuthenticatedProps> = ({
     return (
       <IonSplitPane contentId="main">
         <Menu />
-        <div id="main">{children}</div>
+        <IonContent id="main">{children}</IonContent>
       </IonSplitPane>
     );
   }
