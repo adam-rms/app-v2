@@ -12,6 +12,7 @@ import BrandText from "./components/BrandText";
 import CmsPages from "./components/CmsPages";
 import SkeletonLink from "./components/SkeletonLink";
 import { MenuItem } from "./components/MenuItem";
+import InstanceSwitcher from "./components/InstanceSwitcher";
 
 const FONT_AWESOME_MULTIPLIER: SizeProp | undefined = "1x";
 
@@ -49,6 +50,9 @@ const Menu: React.FC = () => {
       type: "separator",
     },
     {
+      type: "instanceSwitcher",
+    },
+    {
       type: "route",
       title: "Logout",
       url: "/logout/",
@@ -77,6 +81,9 @@ const Menu: React.FC = () => {
                   <IonLabel>{item.title}</IonLabel>
                 </IonItemDivider>
               );
+            }
+            if (item.type == "instanceSwitcher") {
+              return <InstanceSwitcher key={index} />;
             }
             // If the code is at this point it must be either an item or a route
             // We can therefore check if its loading

@@ -40,8 +40,13 @@ interface MenuItemSection {
   title: string;
 }
 
+interface MenuInstanceSwitcher {
+  type: "instanceSwitcher";
+}
+
 export type MenuItem =
   | BlankMenuItem
   | MenuItemRoute
   | MenuItemSeparator
-  | MenuItemSection;
+  | MenuItemSection
+  | MenuInstanceSwitcher;
