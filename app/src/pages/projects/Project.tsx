@@ -19,7 +19,6 @@ import { useParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import Page from "../../components/Page";
-import { baseURL } from "../../utilities/Api";
 import Refresher from "../../components/Refresher";
 
 /**
@@ -29,6 +28,7 @@ import Refresher from "../../components/Refresher";
 const Project = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const { projectData, refreshProjectData } = useContext(ProjectDataContext);
+  const baseURL = localStorage.getItem("baseURL");
 
   const doRefresh = (event: CustomEvent) => {
     refreshProjectData(parseInt(projectId)).then(() => {
@@ -192,7 +192,7 @@ const Project = () => {
             )}
           </IonList>
           <IonButton
-            href={baseURL + "project/crew/vacancies.php"}
+            href={baseURL + "/project/crew/vacancies.php"}
             target="_system"
             expand="block"
           >
