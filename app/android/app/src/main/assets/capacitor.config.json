@@ -1,0 +1,6 @@
+{
+	"appId": "com.bstudios.adamrms",
+	"appName": "AdamRMS",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

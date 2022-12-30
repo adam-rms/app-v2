@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AdamRMS</string>
+    <string name="title_activity_main">AdamRMS</string>
+    <string name="package_name">com.bstudios.adamrms</string>
+    <string name="custom_url_scheme">com.bstudios.adamrms</string>
+</resources>

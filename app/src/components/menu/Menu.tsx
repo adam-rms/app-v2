@@ -12,6 +12,7 @@ import BrandText from "./components/BrandText";
 import CmsPages from "./components/CmsPages";
 import SkeletonLink from "./components/SkeletonLink";
 import { MenuItem } from "./components/MenuItem";
+import InstanceSwitcher from "./components/InstanceSwitcher";
 
 const FONT_AWESOME_MULTIPLIER: SizeProp | undefined = "1x";
 
@@ -44,13 +45,18 @@ const Menu: React.FC = () => {
       url: "/cms/",
       icon: ["far", "newspaper"],
     },
-    {
-      type: "section",
-      title: "Pages",
-    },
     ...CmsPages(),
     {
       type: "separator",
+    },
+    {
+      type: "instanceSwitcher",
+    },
+    {
+      type: "route",
+      title: "Logout",
+      url: "/logout/",
+      icon: ["fas", "sign-out-alt"],
     },
   ];
 
@@ -65,16 +71,19 @@ const Menu: React.FC = () => {
           {menuItems.map((item, index) => {
             // Render a seperator
             if (item.type == "separator") {
-              return <IonItemDivider />;
+              return <IonItemDivider key={index} />;
             }
 
             // Render a section
             if (item.type == "section") {
               return (
-                <IonItemDivider>
+                <IonItemDivider key={index}>
                   <IonLabel>{item.title}</IonLabel>
                 </IonItemDivider>
               );
+            }
+            if (item.type == "instanceSwitcher") {
+              return <InstanceSwitcher key={index} />;
             }
             // If the code is at this point it must be either an item or a route
             // We can therefore check if its loading
@@ -99,6 +108,7 @@ const Menu: React.FC = () => {
                 routerDirection="none"
                 lines="none"
                 detail={false}
+                onClick={item.type == "item" ? item.onClick : undefined}
               >
                 <StyledIonLabel slot="start">
                   {item.icon && (
@@ -120,7 +130,7 @@ const Menu: React.FC = () => {
                 </IonMenuToggle>
               );
             } else {
-              return renderMenuItem;
+              return <span key={index}>{renderMenuItem}</span>;
             }
           })}
         </StyledIonList>
