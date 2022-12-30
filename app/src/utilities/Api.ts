@@ -1,12 +1,5 @@
 import axios, { Method as MethodType } from "axios";
 
-/* Where is the API hosted?
- * N.B This is a temporary variable to be replaced when auth is added to the app!
- */
-export const baseURL = "https://admin.test/";
-
-//TODO: @jbithell will come back and wrap this into a class, and probably remove axios
-
 /**
  * Get data from AdamRMS API
  * @param endpoint API endpoint
@@ -17,11 +10,14 @@ export const baseURL = "https://admin.test/";
 const Api = async (
   endpoint: string,
   data: any = {},
-  method: MethodType = "GET",
+  method: MethodType = "POST",
 ) => {
+  data["jwt"] = localStorage.getItem("token");
+  const baseURL = localStorage.getItem("baseURL");
   return axios({
     method: method,
-    url: baseURL + "api/" + endpoint,
+    url: baseURL + "/api/" + endpoint,
+    data: { jwt: localStorage.getItem("token") },
     params: data,
   })
     .then(function (response) {
