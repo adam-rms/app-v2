@@ -10,6 +10,7 @@ import Project from "../pages/projects/Project";
 import ProjectAssets from "../pages/projects/ProjectAssets";
 import ProjectList from "../pages/projects/ProjectList";
 import { OauthCallback, Logout } from "./Auth";
+import Homepage from "../pages/Homepage";
 
 /**
  * All routes for the application
@@ -18,6 +19,9 @@ import { OauthCallback, Logout } from "./Auth";
 export function Routes() {
   return (
     <>
+      {/* Homepage */}
+      <Route path="/" component={Homepage} exact />
+
       {/* Login */}
       <Route path="/oauth_callback" exact component={OauthCallback} />
       <Route path="/logout" exact component={Logout} />
