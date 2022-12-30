@@ -85,7 +85,10 @@ const Project = () => {
               </a>{" "}
               Commented
             </h3>
-            <div className="timeline-body">{comment.auditLog_actionData}</div>
+            <div
+              className="timeline-body"
+              dangerouslySetInnerHTML={{ __html: comment.auditLog_actionData }}
+            />
           </div>
         </div>,
       );
