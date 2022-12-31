@@ -1,25 +1,37 @@
 import { useState, useRef, useEffect } from "react";
-import { QuaggaJSResultObject } from "@ericblade/quagga2";
 import Page from "../../components/Page";
 import WebScanner from "../../utilities/barcode/WebScanner";
+import { isPlatform } from "@ionic/core";
+import MobileScanner from "../../utilities/barcode/MobileScanner";
 
-export const WebScan = () => {
-  const [scanning, setScanning] = useState(false);
-  const [results, setResults] = useState(Array<QuaggaJSResultObject>());
-  const scannerRef = useRef(null);
+/**
+ * Scan for a barcode
+ * @param nextAction Function to handle the barcode, should include redirect
+ * @returns {JSX.Element | Function} Page or MobileScanner
+ */
+export const Scanner = (
+  nextAction: (barcode: string, format: string) => void,
+) => {
+  const [barcode, setBarcode] = useState("");
+  const [format, setFormat] = useState("CODE_128");
 
   useEffect(() => {
-    console.log(results);
-    setScanning(false);
-  }, [results]);
+    if (barcode) {
+      nextAction(barcode, format);
+    }
+  }, [barcode]);
 
-  return (
-    <Page title="Web Scan">
-      <div>
-        <button onClick={() => setScanning(!scanning)}>
-          {" "}
-          {scanning ? "Stop" : "Start"}{" "}
-        </button>
+  //Capacitor plugin only works on mobile platforms
+  if (isPlatform("ios") || isPlatform("android")) {
+    MobileScanner().then((code) => {
+      if (code) {
+        setBarcode(code);
+      }
+    });
+  } else {
+    const scannerRef = useRef(null);
+    return (
+      <Page title="Barcode Scan">
         <div
           ref={scannerRef}
           style={{ position: "relative", border: "3px solid red" }}
@@ -29,19 +41,19 @@ export const WebScan = () => {
             style={{
               position: "absolute",
               top: "0px",
-              border: "3px solid green",
             }}
             width="640"
             height="480"
           />
-          {scanning ? (
-            <WebScanner
-              scannerRef={scannerRef}
-              onDetected={(result) => setResults([...results, result])}
-            />
-          ) : null}
+          <WebScanner
+            scannerRef={scannerRef}
+            onDetected={(code, format) => {
+              setBarcode(code);
+              setFormat(format);
+            }}
+          />
         </div>
-      </div>
-    </Page>
-  );
+      </Page>
+    );
+  }
 };

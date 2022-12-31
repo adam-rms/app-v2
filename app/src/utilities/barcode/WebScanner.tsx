@@ -31,7 +31,7 @@ const defaultLocatorSettings = {
 const defaultDecoders = ["code_128_reader", "ean_reader"];
 
 interface ScannerProps {
-  onDetected: (results: QuaggaJSResultObject) => void;
+  onDetected: (code: string, format: string) => void;
   scannerRef: RefObject<any>;
   onScannerReady?: () => void;
   cameraId?: ConstrainDOMString;
@@ -64,7 +64,7 @@ const WebScanner = ({
       const err = getMedianOfCodeErrors(result.codeResult.decodedCodes);
       // if Quagga is at least 75% certain that it read correctly, then accept the code.
       if (err < 0.25) {
-        onDetected(result.codeResult.code);
+        onDetected(result.codeResult.code, result.codeResult.format);
       }
     },
     [onDetected],
