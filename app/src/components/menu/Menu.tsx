@@ -100,8 +100,7 @@ const Menu: React.FC = () => {
               return (
                 <StyledIonItem
                   key={index}
-                  routerLink=""
-                  routerDirection="none"
+                  button
                   lines="none"
                   detail={false}
                   onClick={item.function}
