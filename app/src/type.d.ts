@@ -55,6 +55,8 @@ type AssetTypeContextType = {
  */
 interface IAsset {
   assets_id: number;
+  assetTypes_id: number;
+  assetTypes_name: string;
   assets_notes: string;
   assets_tag: string;
   asset_definableFields_1: string;

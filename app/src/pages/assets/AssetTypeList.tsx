@@ -1,4 +1,4 @@
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { faQuestionCircle, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   IonAvatar,
@@ -10,12 +10,16 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  useIonRouter,
 } from "@ionic/react";
 import styled from "styled-components";
 import { useContext, useEffect } from "react";
 import { AssetTypeContext } from "../../contexts/asset/AssetTypeContext";
+import { LocationContext } from "../../contexts/location/LocationContext";
 import Page from "../../components/Page";
 import Refresher from "../../components/Refresher";
+import GetAssetFromBarcode from "../../utilities/barcode/GetAssetFromBarcode";
+import { useRMSToast } from "../../hooks/useRMSToast";
 
 /**
  * Asset Type List Page
@@ -24,6 +28,35 @@ import Refresher from "../../components/Refresher";
 const AssetTypeList = () => {
   const { AssetTypes, refreshAssetTypes, getMoreAssets } =
     useContext(AssetTypeContext);
+  const { getRMSLocation } = useContext(LocationContext);
+  const router = useIonRouter();
+  const [present] = useRMSToast();
+
+  const buttons = [
+    {
+      icon: faSearch,
+      onClick: () => {
+        getRMSLocation(true).then((location: ILocation) => {
+          GetAssetFromBarcode(location).then((asset: IAsset) => {
+            if (asset) {
+              router.push(
+                "/assets/" + asset.assetTypes_id + "/" + asset.assets_id,
+              );
+            } else {
+              if (location.value) {
+                //if there is a valid location, the asset couldn't be found
+                present("Asset Not found");
+              } else {
+                present(
+                  "Please set your location before searching for an asset",
+                );
+              }
+            }
+          });
+        });
+      },
+    },
+  ];
 
   function doRefresh(event: CustomEvent) {
     refreshAssetTypes().then(() => {
@@ -44,7 +77,7 @@ const AssetTypeList = () => {
 
   if (AssetTypes) {
     return (
-      <Page title="Asset List">
+      <Page title="Asset List" buttons={buttons}>
         <Refresher onRefresh={doRefresh} />
         <IonCard>
           <IonList>

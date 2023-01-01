@@ -22,10 +22,31 @@ const LocationProvider: React.FC<React.ReactNode> = ({ children }) => {
   });
 
   /**
+   * Get the RMS Location
+   * @param withCheck If true, will prompt to set a location if none is set
+   * @returns The location object
+   */
+  const getRMSLocation = async (withCheck = false) => {
+    if (withCheck && rmsLocation.type === undefined) {
+      //no location set, so prompt to set one
+      const { value } = await Dialog.confirm({
+        title: "No Location Set",
+        message: "Would you like to set a Location now?",
+        okButtonTitle: "Yes",
+        cancelButtonTitle: "No",
+      });
+      if (value) {
+        await updateRMSLocation();
+      }
+    }
+    return rmsLocation;
+  };
+
+  /**
    * Scan or Enter a location barcode,
    * sets the actual location
    */
-  async function getRMSLocation() {
+  async function updateRMSLocation() {
     let thisLocation: ILocation = rmsLocation;
 
     const buttons = [];
@@ -124,8 +145,13 @@ const LocationProvider: React.FC<React.ReactNode> = ({ children }) => {
   }
 
   // Don't forget to add new functions to the value of the provider!
+  // rmsLocation - the current location
+  // getRMSLocation - prompt for location if none set, then return the location
+  // updateRMSLocation - prompt for location and set it
   return (
-    <LocationContext.Provider value={{ rmsLocation, getRMSLocation }}>
+    <LocationContext.Provider
+      value={{ rmsLocation, getRMSLocation, updateRMSLocation }}
+    >
       {children}
     </LocationContext.Provider>
   );

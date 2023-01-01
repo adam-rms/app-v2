@@ -23,11 +23,11 @@ const FONT_AWESOME_MULTIPLIER: SizeProp | undefined = "1x";
  */
 const Menu: React.FC = () => {
   const location = useLocation();
-  const { rmsLocation, getRMSLocation } = useContext(LocationContext);
+  const { rmsLocation, updateRMSLocation } = useContext(LocationContext);
 
   // Add new pages to this array.
   // The type must be set as defined in MenuItem.d.ts. This is
-  // normally either "item", "route", "separator" or "section but
+  // normally either "item", "route", "function", "separator" or "section" but
   // this may change so please check the file as you update this array.
   const menuItems: MenuItem[] = [
     {
@@ -58,7 +58,7 @@ const Menu: React.FC = () => {
       title: rmsLocation.name + " - Change Location",
       icon: ["fas", "map-marker-alt"],
       function: () => {
-        getRMSLocation();
+        updateRMSLocation();
       },
     },
     {
