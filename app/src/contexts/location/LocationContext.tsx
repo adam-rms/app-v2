@@ -1,9 +1,22 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { actionSheetController } from "@ionic/core";
 import { Dialog } from "@capacitor/dialog";
 import { isPlatform } from "@ionic/core";
 import Api from "../../utilities/Api";
 import DoScan from "../../utilities/barcode/Scanner";
+
+const getInitialState = () => {
+  const location = localStorage.getItem("rmsLocation");
+  if (location) {
+    return JSON.parse(location);
+  } else {
+    return {
+      name: "No Location Set",
+      value: "",
+      type: undefined,
+    };
+  }
+};
 
 // The actual context
 export const LocationContext = createContext<any>({
@@ -15,11 +28,11 @@ export const LocationContext = createContext<any>({
 //Create a provider wrapper to make the interaction with the context easier
 const LocationProvider: React.FC<React.ReactNode> = ({ children }) => {
   //Create default state
-  const [rmsLocation, setRMSLocation] = useState<ILocation>({
-    name: "No Location Set",
-    value: "",
-    type: undefined,
-  });
+  const [rmsLocation, setRMSLocation] = useState<ILocation>(getInitialState());
+
+  useEffect(() => {
+    localStorage.setItem("rmsLocation", JSON.stringify(rmsLocation));
+  }, [rmsLocation]);
 
   /**
    * Get the RMS Location
