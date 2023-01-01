@@ -20,7 +20,7 @@ import Api from "./Api";
  * @param size s3files_meta_size
  * @returns string
  */
-export async function s3url(fileid: string, size: number) {
+export async function s3url(fileid: number, size: number) {
   const response = await Api("file/", { f: fileid, d: "force", s: size });
   return response.url;
 }

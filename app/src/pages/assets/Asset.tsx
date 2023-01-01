@@ -164,27 +164,30 @@ const Asset = () => {
             </IonCardHeader>
             <IonCardContent>
               <IonList>
-                {thisAsset.files.map(async (item: any) => {
+                {thisAsset.files.map((item: any) => {
                   return (
-                    <a
-                      href={
-                        await s3url(item.s3files_id, item.s3files_meta_size)
-                      }
+                    <IonItem
+                      key={item.s3files_id}
+                      button
+                      onClick={async () => {
+                        window.open(
+                          await s3url(item.s3files_id, item.s3files_meta_size),
+                          "_system",
+                        );
+                      }}
                     >
-                      <IonItem key={item.s3files_id}>
-                        <IonLabel slot="start">
-                          <FontAwesomeIcon
-                            icon={fileExtensionToIcon(item.s3files_extension)}
-                          />
-                        </IonLabel>
-                        <IonLabel>
-                          <h2>{item.s3files_name}</h2>
-                        </IonLabel>
-                        <IonLabel slot="end">
-                          {formatSize(item.s3files_meta_size)}
-                        </IonLabel>
-                      </IonItem>
-                    </a>
+                      <IonLabel slot="start">
+                        <FontAwesomeIcon
+                          icon={fileExtensionToIcon(item.s3files_extension)}
+                        />
+                      </IonLabel>
+                      <IonLabel>
+                        <h2>{item.s3files_name}</h2>
+                      </IonLabel>
+                      <IonLabel slot="end">
+                        {formatSize(item.s3files_meta_size)}
+                      </IonLabel>
+                    </IonItem>
                   );
                 })}
               </IonList>
