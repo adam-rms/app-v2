@@ -165,3 +165,10 @@ type ICmsPageProvider = Array<CmsPageList>;
  * The CMS Context Provider type
  */
 type ICmsContentProvider = Array<CmsContent>;
+
+/* AdamRMS Location */
+interface ILocation {
+  name: string;
+  value: string;
+  type: "barcode" | "asset" | "custom" | undefined;
+}
