@@ -79,6 +79,7 @@ const Project = () => {
       <ProjectComments />
       <ProjectAssetSummary />
       <ProjectCrew />
+      <ProjectCrewRoles />
     </Page>
   );
 };
