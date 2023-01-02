@@ -55,6 +55,8 @@ type AssetTypeContextType = {
  */
 interface IAsset {
   assets_id: number;
+  assetTypes_id: number;
+  assetTypes_name: string;
   assets_notes: string;
   assets_tag: string;
   asset_definableFields_1: string;
@@ -174,3 +176,10 @@ type ICmsPageProvider = Array<CmsPageList>;
  * The CMS Context Provider type
  */
 type ICmsContentProvider = Array<CmsContent>;
+
+/* AdamRMS Location */
+interface ILocation {
+  name: string;
+  value: string;
+  type: "barcode" | "asset" | "custom" | undefined;
+}
