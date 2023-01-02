@@ -1,24 +1,19 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
   IonCol,
   IonGrid,
-  IonItem,
-  IonLabel,
-  IonList,
   IonRow,
 } from "@ionic/react";
 import { useContext } from "react";
 import { useParams } from "react-router";
-import AssetItem from "../../components/assets/AssetItem";
 import Page from "../../components/Page";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
-import { MassFormatter, MoneyFormatter } from "../../utilities/Formatters";
 import Refresher from "../../components/Refresher";
+import { StyledH5 } from "../../components/Typography";
+import AssetTypeItem from "../../components/assets/AssetTypeItem";
 
 export interface IProjectAssets {
   assets: [IAssetTypeData];
@@ -28,13 +23,51 @@ export interface IProjectAssets {
       amount: string;
       currency: string;
     };
+    formattedDiscountPrice: string;
     price: {
       amount: string;
       currency: string;
     };
+    formattedPrice: string;
     mass: number;
+    formattedMass: string;
   };
 }
+
+interface IInstanceAssets {
+  assets: IProjectAssets;
+  instance: {
+    instances_id: number;
+    instances_name: string;
+  };
+}
+
+const ProjectAssetsHeader = (props: { instanceName: string }) => {
+  return (
+    <IonCardHeader>
+      <IonCardTitle>{props.instanceName}</IonCardTitle>
+      <IonGrid>
+        <IonRow className="ion-padding-horizontal">
+          <IonCol size="2">
+            <StyledH5>Assets</StyledH5>
+          </IonCol>
+          <IonCol size="4">
+            <StyledH5>Status/Location</StyledH5>
+          </IonCol>
+          <IonCol size="1">
+            <StyledH5>Mass</StyledH5>
+          </IonCol>
+          <IonCol size="1">
+            <StyledH5>Price</StyledH5>
+          </IonCol>
+          <IonCol size="2">
+            <StyledH5>Discounted Price</StyledH5>
+          </IonCol>
+        </IonRow>
+      </IonGrid>
+    </IonCardHeader>
+  );
+};
 
 /**
  * Project Assets Page
@@ -50,109 +83,71 @@ const ProjectAssets = () => {
   }
 
   //Generate Project Assets
-  const assets: JSX.Element[] = [];
+  const content: JSX.Element[] = [];
   if (
     projectData.FINANCIALS &&
-    projectData.FINANCIALS.assetsAssigned &&
-    Object.keys(projectData.FINANCIALS.assetsAssigned).length > 0
+    ((projectData.FINANCIALS.assetsAssigned &&
+      Object.keys(projectData.FINANCIALS.assetsAssigned).length > 0) ||
+      (projectData.FINANCIALS.assetsAssignedSUB &&
+        Object.keys(projectData.FINANCIALS.assetsAssignedSUB).length > 0))
   ) {
-    for (const [key, value] of Object.entries(
+    //This businesses assets
+    const assets: JSX.Element[] = [];
+    for (const [assetTypeKey, assetTypeValue] of Object.entries(
       projectData.FINANCIALS.assetsAssigned,
     )) {
-      if (value) {
-        const typedValue = value as IProjectAssets;
-        //append list to main asset list
+      if (assetTypeValue) {
+        const typedAsset = assetTypeValue as IProjectAssets;
+        //append asset Type to main asset list
         assets.push(
-          <IonCard key={key}>
-            <IonCardHeader>
-              <IonGrid>
-                <IonRow>
-                  <IonCol>
-                    <IonCardTitle>
-                      {typedValue.assets[0].assetTypes_name}
-                    </IonCardTitle>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol size="3">
-                    <h3>Assets</h3>
-                  </IonCol>
-                  <IonCol size="2">
-                    <h3>Mass</h3>
-                  </IonCol>
-                  <IonCol size="2">
-                    <h3>Price</h3>
-                  </IonCol>
-                  <IonCol size="3">
-                    <h3>Discounted Price</h3>
-                  </IonCol>
-                </IonRow>
-              </IonGrid>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonList>
-                <IonItem>
-                  <IonGrid>
-                    <IonRow>
-                      <IonCol size="3">
-                        <IonLabel>
-                          {typedValue.assets.length} asset
-                          {typedValue.assets.length > 1 ? "s" : ""}
-                        </IonLabel>
-                      </IonCol>
-                      <IonCol size="2">
-                        {MassFormatter(typedValue.totals.mass)}
-                      </IonCol>
-                      <IonCol size="2">
-                        {MoneyFormatter(
-                          typedValue.totals.price.currency,
-                          typedValue.totals.price.amount,
-                        )}
-                      </IonCol>
-                      <IonCol size="2">
-                        {MoneyFormatter(
-                          typedValue.totals.discountPrice.currency,
-                          typedValue.totals.discountPrice.amount,
-                        )}
-                      </IonCol>
-                      <IonCol size="3">
-                        <IonButton
-                          routerLink={"/assets/" + key}
-                          className="ion-margin-end ion-float-end"
-                        >
-                          View Asset
-                          <FontAwesomeIcon
-                            icon="arrow-right"
-                            className="ion-margin-start ion-float-end"
-                          />
-                        </IonButton>
-                      </IonCol>
-                    </IonRow>
-                  </IonGrid>
-                </IonItem>
-                {
-                  //generate list of individual assets
-                  typedValue.assets.map((item: any) => {
-                    return (
-                      <AssetItem
-                        key={item.assets_id}
-                        AssetTypeId={key}
-                        item={item}
-                      />
-                    );
-                  })
-                }
-              </IonList>
-            </IonCardContent>
-          </IonCard>,
+          <AssetTypeItem assetTypeKey={assetTypeKey} typedAsset={typedAsset} />,
         );
       }
     }
+    //If there are assets from this business, generate card
+    if (Object.keys(projectData.FINANCIALS.assetsAssigned).length > 0) {
+      content.push(
+        <IonCard key="ThisInstance">
+          <ProjectAssetsHeader instanceName="Your Business Assets" />
+          <IonCardContent>{assets}</IonCardContent>
+        </IonCard>,
+      );
+    }
+
+    //Add SubAssigned assets
+    for (const [instanceKey, instanceAssets] of Object.entries(
+      projectData.FINANCIALS.assetsAssignedSUB,
+    )) {
+      const typedInstance = instanceAssets as IInstanceAssets;
+      const assets: JSX.Element[] = [];
+      //Asset types
+      for (const [assetTypeKey, assetTypeValue] of Object.entries(
+        typedInstance.assets,
+      )) {
+        if (assetTypeValue) {
+          const typedAsset = assetTypeValue as IProjectAssets;
+          //append list to main asset list
+          assets.push(
+            <AssetTypeItem
+              key={assetTypeKey}
+              assetTypeKey={assetTypeKey}
+              typedAsset={typedAsset}
+              subHire={true}
+            />,
+          );
+        }
+      }
+      content.push(
+        <IonCard key={instanceKey}>
+          <ProjectAssetsHeader
+            instanceName={typedInstance.instance.instances_name + " Assets"}
+          />
+          <IonCardContent>{assets}</IonCardContent>
+        </IonCard>,
+      );
+    }
   } else {
-    //If there are no assets, refresh context to see if they've not been fetched yet
-    refreshProjectData(parseInt(projectId));
-    //If there are still no assets, there actually aren't any
-    assets.push(
+    content.push(
       <IonCard key="NoAssets">
         <IonCardHeader>
           <IonCardTitle>No Assets Assigned to this Project</IonCardTitle>
@@ -160,11 +155,10 @@ const ProjectAssets = () => {
       </IonCard>,
     );
   }
-
   return (
     <Page title="Project Assets">
       <Refresher onRefresh={doRefresh} />
-      {assets}
+      {content}
     </Page>
   );
 };
