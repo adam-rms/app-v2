@@ -41,7 +41,7 @@ interface IAssetTypeData {
   count: number;
   fields: [...any];
   tags: [...IAsset];
-  files: [...any];
+  files: IFile[];
 }
 
 type AssetTypeContextType = {
@@ -55,6 +55,8 @@ type AssetTypeContextType = {
  */
 interface IAsset {
   assets_id: number;
+  assetTypes_id: number;
+  assetTypes_name: string;
   assets_notes: string;
   assets_tag: string;
   asset_definableFields_1: string;
@@ -84,7 +86,16 @@ interface IAsset {
       FLAG: number;
     };
   };
-  files: [...any];
+  files: IFile[];
+}
+
+interface IFile {
+  s3files_extension: string;
+  s3files_id: number;
+  s3files_meta_size: number;
+  s3files_meta_uploaded: string;
+  s3files_name: string;
+  s3files_shareKey: any;
 }
 
 /* Project Object */
@@ -182,3 +193,10 @@ type ICmsPageProvider = Array<CmsPageList>;
  * The CMS Context Provider type
  */
 type ICmsContentProvider = Array<CmsContent>;
+
+/* AdamRMS Location */
+interface ILocation {
+  name: string;
+  value: string;
+  type: "barcode" | "asset" | "custom" | undefined;
+}

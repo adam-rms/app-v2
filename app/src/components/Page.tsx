@@ -1,5 +1,6 @@
 import {
   IonBackButton,
+  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
@@ -9,14 +10,27 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import PageTitle from "./PageTitle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
-type Props = {
-  title?: any;
+type Button = {
+  icon: IconProp;
+  onClick: () => void;
+};
+
+type PageProps = {
+  title?: string;
   children?: any;
+  buttons?: Button[];
   show_header?: boolean;
 };
 
-function Page({ title, children, show_header = true }: Props) {
+function Page({
+  title,
+  children,
+  buttons = [],
+  show_header = true,
+}: PageProps) {
   return (
     <>
       <PageTitle title={title} />
@@ -29,6 +43,26 @@ function Page({ title, children, show_header = true }: Props) {
                 <IonBackButton />
               </IonButtons>
               <IonTitle>{title}</IonTitle>
+              {buttons && (
+                <IonButtons slot="end">
+                  {buttons.map((button: any, index: number) => {
+                    return (
+                      <IonButton
+                        key={index}
+                        className="ion-button"
+                        onClick={button.onClick}
+                      >
+                        {button.icon && (
+                          <FontAwesomeIcon
+                            icon={button.icon}
+                            className="ion-icon"
+                          />
+                        )}
+                      </IonButton>
+                    );
+                  })}
+                </IonButtons>
+              )}
             </IonToolbar>
           </IonHeader>
         )}
