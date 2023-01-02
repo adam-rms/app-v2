@@ -41,7 +41,7 @@ interface IAssetTypeData {
   count: number;
   fields: [...any];
   tags: [...IAsset];
-  files: [...any];
+  files: IFile[];
 }
 
 type AssetTypeContextType = {
@@ -84,7 +84,16 @@ interface IAsset {
       FLAG: number;
     };
   };
-  files: [...any];
+  files: IFile[];
+}
+
+interface IFile {
+  s3files_extension: string;
+  s3files_id: number;
+  s3files_meta_size: number;
+  s3files_meta_uploaded: string;
+  s3files_name: string;
+  s3files_shareKey: any;
 }
 
 /* Project Object */
