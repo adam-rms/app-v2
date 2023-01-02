@@ -13,6 +13,8 @@ import CmsPages from "./components/CmsPages";
 import SkeletonLink from "./components/SkeletonLink";
 import { MenuItem } from "./components/MenuItem";
 import InstanceSwitcher from "./components/InstanceSwitcher";
+import { useContext } from "react";
+import { LocationContext } from "../../contexts/location/LocationContext";
 
 const FONT_AWESOME_MULTIPLIER: SizeProp | undefined = "1x";
 
@@ -21,10 +23,11 @@ const FONT_AWESOME_MULTIPLIER: SizeProp | undefined = "1x";
  */
 const Menu: React.FC = () => {
   const location = useLocation();
+  const { rmsLocation, updateRMSLocation } = useContext(LocationContext);
 
   // Add new pages to this array.
   // The type must be set as defined in MenuItem.d.ts. This is
-  // normally either "item", "route", "separator" or "section but
+  // normally either "item", "route", "function", "separator" or "section" but
   // this may change so please check the file as you update this array.
   const menuItems: MenuItem[] = [
     {
@@ -47,7 +50,16 @@ const Menu: React.FC = () => {
     },
     ...CmsPages(),
     {
-      type: "separator",
+      type: "section",
+      title: "Settings",
+    },
+    {
+      type: "function",
+      title: rmsLocation.name + " - Change Location",
+      icon: ["fas", "map-marker-alt"],
+      function: () => {
+        updateRMSLocation();
+      },
     },
     {
       type: "instanceSwitcher",
@@ -82,6 +94,31 @@ const Menu: React.FC = () => {
                 </IonItemDivider>
               );
             }
+
+            // Render a function
+            if (item.type == "function") {
+              return (
+                <StyledIonItem
+                  key={index}
+                  button
+                  lines="none"
+                  detail={false}
+                  onClick={item.function}
+                >
+                  <StyledIonLabel slot="start">
+                    {item.icon && (
+                      <FontAwesomeIcon
+                        icon={item.icon}
+                        size={FONT_AWESOME_MULTIPLIER}
+                      />
+                    )}
+                  </StyledIonLabel>
+
+                  <StyledIonLabel>{item.title}</StyledIonLabel>
+                </StyledIonItem>
+              );
+            }
+
             if (item.type == "instanceSwitcher") {
               return <InstanceSwitcher key={index} />;
             }

@@ -46,7 +46,7 @@ const AssetTypeItem = (props: IAssetTypeItemProps) => {
               return (
                 <AssetItem
                   key={item.assets_id}
-                  AssetTypeId={props.assetTypeKey}
+                  AssetTypeId={parseInt(props.assetTypeKey)}
                   item={item}
                   subHire={props.subHire}
                 />

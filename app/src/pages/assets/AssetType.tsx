@@ -36,7 +36,7 @@ const AssetType = () => {
   }
 
   //filter by requested asset type
-  const thisAssetType = AssetTypes.assets.find(
+  const thisAssetType: IAssetTypeData = AssetTypes.assets.find(
     (element: IAssetTypeData) => element.assetTypes_id == parseInt(type),
   );
 
@@ -49,7 +49,7 @@ const AssetType = () => {
         <IonSlides>
           {thisAssetType.thumbnails.map((image: any) => {
             return (
-              <IonSlide>
+              <IonSlide key={image.s3files_name}>
                 <IonImg src={image.url} alt={image.s3files_name} />
               </IonSlide>
             );
@@ -58,8 +58,8 @@ const AssetType = () => {
       );
     }
 
-    //Generate file list
     let files;
+    //Generate file list
     if (thisAssetType.files && thisAssetType.files.length > 0) {
       files = (
         <IonCard>
@@ -68,25 +68,30 @@ const AssetType = () => {
           </IonCardHeader>
           <IonCardContent>
             <IonList>
-              {thisAssetType.files.map(async (item: any) => {
+              {thisAssetType.files.map((item: IFile) => {
                 return (
-                  <a
-                    href={await s3url(item.s3files_id, item.s3files_meta_size)}
+                  <IonItem
+                    button
+                    key={item.s3files_id}
+                    onClick={async () => {
+                      window.open(
+                        await s3url(item.s3files_id, item.s3files_meta_size),
+                        "_system",
+                      );
+                    }}
                   >
-                    <IonItem key={item.s3files_id}>
-                      <IonLabel slot="start">
-                        <FontAwesomeIcon
-                          icon={fileExtensionToIcon(item.s3files_extension)}
-                        />
-                      </IonLabel>
-                      <IonLabel>
-                        <h2>{item.s3files_name}</h2>
-                      </IonLabel>
-                      <IonLabel slot="end">
-                        {formatSize(item.s3files_meta_size)}
-                      </IonLabel>
-                    </IonItem>
-                  </a>
+                    <IonLabel slot="start">
+                      <FontAwesomeIcon
+                        icon={fileExtensionToIcon(item.s3files_extension)}
+                      />
+                    </IonLabel>
+                    <IonLabel>
+                      <h2>{item.s3files_name}</h2>
+                    </IonLabel>
+                    <IonLabel slot="end">
+                      {formatSize(item.s3files_meta_size)}
+                    </IonLabel>
+                  </IonItem>
                 );
               })}
             </IonList>

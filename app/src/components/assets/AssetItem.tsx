@@ -3,7 +3,7 @@ import { IonCol, IonGrid, IonItem, IonLabel, IonRow } from "@ionic/react";
 
 interface IAssetItemProps {
   key: any;
-  AssetTypeId: string;
+  AssetTypeId: number;
   item: any;
   subHire?: boolean; //No link if is a subhire
 }
