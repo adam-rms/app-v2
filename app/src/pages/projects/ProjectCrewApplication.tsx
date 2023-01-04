@@ -55,24 +55,20 @@ const ProjectCrewApplication = () => {
       },
     );
 
-    const formData = [
-      {
-        name: "projectsVacantRoles_id",
-        value: roleId,
-      },
-      {
-        name: "projectsVacantRolesApplications_phone",
-        value: data.projectsVacantRolesApplications_phone,
-      },
-      {
-        name: "projectsVacantRolesApplications_applicantComment",
-        value: data.projectsVacantRolesApplications_applicantComment,
-      },
-      {
-        name: "projectsVacantRolesApplications_questionAnswers",
-        value: JSON.stringify(questions),
-      },
-    ];
+    const formData = new FormData();
+    formData.append("projectsVacantRoles_id", roleId);
+    formData.append(
+      "projectsVacantRolesApplications_phone",
+      data.projectsVacantRolesApplications_phone,
+    );
+    formData.append(
+      "projectsVacantRolesApplications_applicantComment",
+      data.projectsVacantRolesApplications_applicantComment,
+    );
+    formData.append(
+      "projectsVacantRolesApplications_questionAnswers",
+      JSON.stringify(questions),
+    );
 
     Api("projects/crew/crewRoles/apply.php", { formData }).then((res) => {
       console.log(res);

@@ -1,4 +1,4 @@
-import axios, { Method as MethodType } from "axios";
+import axios from "axios";
 
 /**
  * Get data from AdamRMS API
@@ -9,18 +9,27 @@ import axios, { Method as MethodType } from "axios";
  */
 const Api = async (
   endpoint: string,
-  data: any = {},
-  method: MethodType = "POST",
+  formData: FormData | Record<any, any> = {},
 ) => {
-  data["jwt"] = localStorage.getItem("token");
   const baseURL = localStorage.getItem("baseURL");
-  console.log(data);
-  return axios
-    .post(baseURL + "/api/" + endpoint, data, {
+  let axiosConfig = {};
+  if (formData instanceof FormData) {
+    formData.append("jwt", localStorage.getItem("token") as string);
+    axiosConfig = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+  } else {
+    formData["jwt"] = localStorage.getItem("token") as string;
+    axiosConfig = {
       headers: {
         "Content-Type": "application/json",
       },
-    })
+    };
+  }
+  return axios
+    .post(baseURL + "/api/" + endpoint, formData, axiosConfig)
     .then(function (response) {
       if (response.data["result"] == true) {
         return response.data["response"];
