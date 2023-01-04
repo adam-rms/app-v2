@@ -14,12 +14,13 @@ const Api = async (
 ) => {
   data["jwt"] = localStorage.getItem("token");
   const baseURL = localStorage.getItem("baseURL");
-  return axios({
-    method: method,
-    url: baseURL + "/api/" + endpoint,
-    data: { jwt: localStorage.getItem("token") },
-    params: data,
-  })
+  console.log(data);
+  return axios
+    .post(baseURL + "/api/" + endpoint, data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
     .then(function (response) {
       if (response.data["result"] == true) {
         return response.data["response"];

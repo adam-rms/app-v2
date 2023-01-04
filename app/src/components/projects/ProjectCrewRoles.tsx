@@ -30,17 +30,19 @@ const ProjectCrewRoles = () => {
               return (
                 <IonItem key={role.projectsVacantRoles_id}>
                   <IonLabel>{role.projectsVacantRoles_name}</IonLabel>
-                  <IonButton
-                    routerLink={
-                      "/projects/" +
-                      role.projects_id +
-                      "/crew/" +
-                      role.projectsVacantRoles_id +
-                      "/assign"
-                    }
-                  >
-                    Assign
-                  </IonButton>
+                  {role.application === null ? (
+                    <IonButton
+                      routerLink={
+                        "/projects/crew/" +
+                        role.projectsVacantRoles_id +
+                        "/apply"
+                      }
+                    >
+                      Apply
+                    </IonButton>
+                  ) : (
+                    <IonButton disabled>Applied</IonButton>
+                  )}
                 </IonItem>
               );
             })}
