@@ -17,9 +17,10 @@ import {
 import { useContext, useEffect } from "react";
 import Page from "../../components/Page";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
 import Api from "../../utilities/Api";
+import { useRMSToast } from "../../hooks/useRMSToast";
 
 interface IFormInput {
   projectsVacantRolesApplications_phone: string;
@@ -35,6 +36,8 @@ interface IFormInput {
 const ProjectCrewApplication = () => {
   const { projectCrewRoles } = useContext(ProjectDataContext);
   const { roleId } = useParams<{ roleId: string }>();
+  const [present] = useRMSToast();
+  const history = useHistory();
 
   //react-hook-form
   const { register, handleSubmit, control } = useForm<IFormInput>();
@@ -56,22 +59,40 @@ const ProjectCrewApplication = () => {
     );
 
     const formData = new FormData();
-    formData.append("projectsVacantRoles_id", roleId);
     formData.append(
+      "formData[0][name]",
       "projectsVacantRolesApplications_phone",
+    );
+    formData.append(
+      "formData[0][value]",
       data.projectsVacantRolesApplications_phone,
     );
     formData.append(
+      "formData[1][name]",
       "projectsVacantRolesApplications_applicantComment",
+    );
+    formData.append(
+      "formData[1][value]",
       data.projectsVacantRolesApplications_applicantComment,
     );
     formData.append(
+      "formData[2][name]",
       "projectsVacantRolesApplications_questionAnswers",
-      JSON.stringify(questions),
     );
+    formData.append("formData[2][value]", JSON.stringify(questions));
+    formData.append("formData[3][name]", "projectsVacantRoles_id");
+    formData.append("formData[3][value]", roleId);
 
-    Api("projects/crew/crewRoles/apply.php", { formData }).then((res) => {
-      console.log(res);
+    Api("projects/crew/crewRoles/apply.php", formData).then((res) => {
+      if (res && res.result == false) {
+        if (res.error.message) {
+          present("Error: " + res.error.message);
+        } else {
+          present("Something went wrong. Please try again later.");
+        }
+      } else {
+        history.push("/projects/" + thisRole.projects_id);
+      }
     });
   };
 
@@ -236,10 +257,26 @@ const ProjectCrewApplication = () => {
             </IonCardContent>
           </IonCard>
         )}
+        {thisRole.application != null && (
+          <IonCard>
+            <IonCardHeader>
+              <IonCardTitle>Apply</IonCardTitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonTitle>You have already applied for this role.</IonTitle>
+            </IonCardContent>
+          </IonCard>
+        )}
       </Page>
     );
   } else {
-    return null;
+    return (
+      <IonCard>
+        <IonCardHeader>
+          <IonCardTitle>Role Not Found</IonCardTitle>
+        </IonCardHeader>
+      </IonCard>
+    );
   }
 };
 
