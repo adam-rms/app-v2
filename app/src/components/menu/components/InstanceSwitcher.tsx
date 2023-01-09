@@ -23,7 +23,6 @@ const InstanceSwitcher: React.FC = () => {
 
   useEffect(() => {
     Api("instances/list.php").then((response) => {
-      console.log(response);
       setInstances(response);
     });
   }, []);
@@ -50,7 +49,7 @@ const InstanceSwitcher: React.FC = () => {
   useEffect(() => {
     if (result) {
       const data = { instances_id: result?.data?.instance };
-      Api("instances/switch.php", data, "POST")
+      Api("instances/switch.php", data)
         .then(() => {
           location.reload(); // reload the page so the app fetches correct instance data
         })

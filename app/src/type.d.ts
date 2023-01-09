@@ -132,6 +132,60 @@ interface IComment {
   users_email: string;
 }
 
+/* Project Crew Roles Object */
+interface IProjectCrewRole {
+  projectsVacantRoles_id: number;
+  projects_id: number;
+  projectsVacantRoles_name: string;
+  projectsVacantRoles_description: string;
+  projectsVacantRoles_personSpecification: null;
+  projectsVacantRoles_deleted: number;
+  projectsVacantRoles_open: boolean;
+  projectsVacantRoles_showPublic: boolean;
+  projectsVacantRoles_added: string;
+  projectsVacantRoles_deadline: string;
+  projectsVacantRoles_firstComeFirstServed: number;
+  projectsVacantRoles_fileUploads: number;
+  projectsVacantRoles_slots: number;
+  projectsVacantRoles_slotsFilled: number;
+  projectsVacantRoles_questions: [...IProjectCrewRoleQuestion];
+  projectsVacantRoles_collectPhone: number;
+  projectsVacantRoles_privateToPM: number;
+  projectsVacantRoles_visibleToGroups: string;
+  projectsVacantRoles_applicationVisibleToUsers: string;
+  projects_name: string;
+  instances_id: number;
+  projects_manager: number;
+  projects_description: string;
+  projects_created: string;
+  clients_id: number;
+  projects_deleted: number;
+  projects_archived: number;
+  projects_dates_use_start: string;
+  projects_dates_use_end: string;
+  projects_dates_deliver_start: string;
+  projects_dates_deliver_end: string;
+  projects_status: number;
+  locations_id: number;
+  projects_invoiceNotes: string;
+  projects_defaultDiscount: number;
+  projectsTypes_id: number;
+  projects_parent_project_id: number;
+  projects_status_follow_parent: number;
+  users_userid: number;
+  users_name1: string;
+  users_name2: string;
+  users_email: string;
+  application: [...{ projectsVacantRolesApplications_id: number }];
+}
+
+interface IProjectCrewRoleQuestion {
+  name: string;
+  type: "text" | "textarea";
+  notes: string;
+  placeholder: string;
+}
+
 /**
  * CMS Page List
  */

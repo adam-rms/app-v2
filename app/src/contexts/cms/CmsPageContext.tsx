@@ -26,7 +26,7 @@ const CmsPageProvider: React.FC<React.ReactNode> = ({ children }) => {
   async function getPage(id: number) {
     setCmsContent([
       ...CmsContent.filter((page: CmsContent) => page.cmsPages_id != id),
-      await Api("cms/get.php", { p: id }, "POST"),
+      await Api("cms/get.php", { p: id }),
     ]);
   }
 

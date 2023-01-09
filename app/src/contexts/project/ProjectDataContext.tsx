@@ -17,14 +17,22 @@ const ProjectDataProvider: React.FC<React.ReactNode> = ({ children }) => {
   //State for project comments
   const [projectComments, setProjectComments] = useState<IComment[]>([]);
 
+  //State for Project Crew
+  const [projectCrewRoles, setprojectCrewRoles] = useState<IProjectCrewRole[]>(
+    [],
+  );
+
   /**
    * Refresh Context
    * Replace all projects in context
    */
-  async function refreshProjectData(id: number) {
+  async function refreshProjectData(id?: number) {
     setProjectData(await Api("projects/data.php", { id: id }));
     setProjectComments(
       await Api("/projects/getComments.php", { projects_id: id }),
+    );
+    setprojectCrewRoles(
+      await Api("/projects/crew/crewRoles/list.php", { projects_id: id }),
     );
   }
 
@@ -34,6 +42,7 @@ const ProjectDataProvider: React.FC<React.ReactNode> = ({ children }) => {
       value={{
         projectData,
         projectComments,
+        projectCrewRoles,
         refreshProjectData,
       }}
     >

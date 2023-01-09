@@ -1,4 +1,4 @@
-import { Redirect, Route } from "react-router";
+import { Route } from "react-router";
 import Authenticated from "../components/Authenticated";
 import Asset from "../pages/assets/Asset";
 import AssetType from "../pages/assets/AssetType";
@@ -10,6 +10,8 @@ import Project from "../pages/projects/Project";
 import ProjectAssets from "../pages/projects/ProjectAssets";
 import ProjectList from "../pages/projects/ProjectList";
 import { OauthCallback, Logout } from "./Auth";
+import ProjectCrewApplication from "../pages/projects/ProjectCrewApplication";
+import CrewRecruitment from "../pages/projects/CrewRecruitment";
 
 /**
  * All routes for the application
@@ -38,13 +40,20 @@ export function Routes() {
           component={ProjectAssets}
           exact
         />
+        <Route
+          path="/projects/crew/:roleId/apply"
+          component={ProjectCrewApplication}
+          exact
+        />
+        <Route
+          path="/projects/crew/vacancies"
+          component={CrewRecruitment}
+          exact
+        />
 
         {/* CMS Pages */}
         <Route path="/cms/" component={CmsPageList} exact />
         <Route path="/cms/:pageId" component={CmsPage} exact />
-
-        {/* Default */}
-        <Redirect exact from="/" to="/assets/" />
       </Authenticated>
     </>
   );
