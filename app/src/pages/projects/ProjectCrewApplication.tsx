@@ -21,6 +21,7 @@ import { useParams } from "react-router";
 import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
 import Api from "../../utilities/Api";
 import { useRMSToast } from "../../hooks/useRMSToast";
+import Refresher from "../../components/Refresher";
 
 interface IFormInput {
   projectsVacantRolesApplications_phone: string;
@@ -34,7 +35,8 @@ interface IFormInput {
 }
 
 const ProjectCrewApplication = () => {
-  const { projectCrewRoles } = useContext(ProjectDataContext);
+  const { projectCrewRoles, refreshProjectData } =
+    useContext(ProjectDataContext);
   const { roleId } = useParams<{ roleId: string }>();
   const [applied, setApplied] = useState<boolean>(false);
   const [present] = useRMSToast();
@@ -46,6 +48,11 @@ const ProjectCrewApplication = () => {
     control,
     name: "projectsVacantRolesApplications_questionAnswers",
   });
+
+  const doRefresh = (event?: CustomEvent) => {
+    refreshProjectData();
+    if (event) event.detail.complete();
+  };
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     const questions: { name: string; value: string }[] = [];
@@ -171,6 +178,7 @@ const ProjectCrewApplication = () => {
           thisRole.projectsVacantRoles_name
         }
       >
+        <Refresher onRefresh={doRefresh} />
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>Role Information</IonCardTitle>
@@ -272,11 +280,13 @@ const ProjectCrewApplication = () => {
     );
   } else {
     return (
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>Role Not Found</IonCardTitle>
-        </IonCardHeader>
-      </IonCard>
+      <Page title="Crew Vacancy">
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>Role Not Found</IonCardTitle>
+          </IonCardHeader>
+        </IonCard>
+      </Page>
     );
   }
 };
