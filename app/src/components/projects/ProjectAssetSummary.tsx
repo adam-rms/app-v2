@@ -21,7 +21,6 @@ const ProjectAssetSummary = () => {
       projectData.FINANCIALS.assetsAssignedSUB,
     ).length;
   }
-
   return (
     <IonCard>
       <IonCardHeader>
@@ -51,7 +50,9 @@ const ProjectAssetSummary = () => {
         </div>
         <IonButton
           className="ion-margin-vertical"
-          routerLink={"/projects/" + projectData.projects_id + "/assets"}
+          routerLink={
+            "/projects/" + projectData.project.projects_id + "/assets"
+          }
           expand="block"
         >
           View Project Assets

@@ -16,7 +16,11 @@ const ProjectOverview = () => {
   return (
     <IonCard>
       <IonCardHeader>
-        <IonCardTitle>{projectData.project.projects_description}</IonCardTitle>
+        <IonCardTitle>
+          {projectData.project.projects_description
+            ? projectData.project.projects_description
+            : ""}
+        </IonCardTitle>
       </IonCardHeader>
       <IonCardContent>
         <IonRow>
@@ -52,7 +56,7 @@ const ProjectOverview = () => {
               <IonItem>
                 <div className="container">
                   <IonCardSubtitle>Venue</IonCardSubtitle>
-                  {projectData.project.clients_id ? (
+                  {projectData.project.locations_name ? (
                     <IonCardTitle>
                       {projectData.project.locations_name}
                     </IonCardTitle>
