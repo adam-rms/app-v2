@@ -11,6 +11,7 @@ import ProjectAssets from "../pages/projects/ProjectAssets";
 import ProjectList from "../pages/projects/ProjectList";
 import { OauthCallback, Logout } from "./Auth";
 import ProjectCrewApplication from "../pages/projects/ProjectCrewApplication";
+import CrewRecruitment from "../pages/projects/CrewRecruitment";
 
 /**
  * All routes for the application
@@ -42,6 +43,11 @@ export function Routes() {
         <Route
           path="/projects/crew/:roleId/apply"
           component={ProjectCrewApplication}
+          exact
+        />
+        <Route
+          path="/projects/crew/vacancies"
+          component={CrewRecruitment}
           exact
         />
 

@@ -44,6 +44,12 @@ const Menu: React.FC = () => {
     },
     {
       type: "route",
+      title: "Crew Vacancies",
+      url: "/projects/crew/vacancies",
+      icon: "clipboard-list",
+    },
+    {
+      type: "route",
       title: "CMS Pages",
       url: "/cms/",
       icon: ["far", "newspaper"],
