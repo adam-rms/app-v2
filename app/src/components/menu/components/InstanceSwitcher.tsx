@@ -23,7 +23,6 @@ const InstanceSwitcher: React.FC = () => {
 
   useEffect(() => {
     Api("instances/list.php").then((response) => {
-      console.log(response);
       setInstances(response);
     });
   }, []);

@@ -146,10 +146,6 @@ const ProjectCrewApplication = () => {
       },
     ];
 
-    useEffect(() => {
-      console.log(applied);
-    }, [applied]);
-
     //populate form with additional questions for application
     useEffect(() => {
       remove();
@@ -163,7 +159,6 @@ const ProjectCrewApplication = () => {
           });
         },
       );
-      console.log(thisRole);
       setApplied(!(thisRole.application == null));
     }, []);
 
