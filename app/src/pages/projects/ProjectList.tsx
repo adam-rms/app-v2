@@ -1,5 +1,5 @@
 import { IonCard, IonItem, IonList, IonTitle } from "@ionic/react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../../contexts/project/ProjectContext";
 import Page from "../../components/Page";
 import NavList, { NavListItemType } from "../../components/NavList";
@@ -11,21 +11,29 @@ import Refresher from "../../components/Refresher";
  */
 const ProjectList = () => {
   const { projects, refreshProjects } = useContext(ProjectContext);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const doRefresh = (event: CustomEvent) => {
-    refreshProjects().then(() => {
-      event.detail.complete();
-    });
+  const doRefresh = async (event?: CustomEvent) => {
+    setIsLoading(true);
+    await refreshProjects();
+    setIsLoading(false);
+    if (event) event.detail.complete();
   };
 
   //Get data from API
   useEffect(() => {
-    refreshProjects();
+    doRefresh();
   }, []);
 
   //generate project list if there are projects
   let projectList;
-  if (projects) {
+  if (!projects && !isLoading) {
+    projectList = (
+      <IonItem>
+        <IonTitle>No Projects Found</IonTitle>
+      </IonItem>
+    );
+  } else {
     const listItems = projects.map((project: IProject): NavListItemType => {
       return {
         link: `/projects/${project.projects_id}/`,
@@ -38,12 +46,8 @@ const ProjectList = () => {
         ),
       };
     });
-    projectList = <NavList items={listItems} />;
-  } else {
     projectList = (
-      <IonItem>
-        <IonTitle>No Projects Found</IonTitle>
-      </IonItem>
+      <NavList items={listItems} isLoading={!projects && isLoading} />
     );
   }
 
