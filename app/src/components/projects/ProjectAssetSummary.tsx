@@ -7,7 +7,7 @@ import {
 } from "@ionic/react";
 import { useContext } from "react";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
-import { StyledText, StyledH5 } from "../Typography";
+import { StyledText, StyledH5 } from "../styled/Typography";
 
 const ProjectAssetSummary = () => {
   const { projectData } = useContext(ProjectDataContext);

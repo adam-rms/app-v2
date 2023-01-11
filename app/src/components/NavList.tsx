@@ -1,7 +1,7 @@
 import { IonItem, IonLabel, IonList, IonNote } from "@ionic/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import StyledIonSkeletonText from "./StyledIonSkeletonText";
+import StyledIonSkeletonText from "./styled/StyledIonSkeletonText";
 import { Fragment as ReactFragment } from "react";
 
 export type NavListItemType = {

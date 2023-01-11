@@ -7,7 +7,7 @@ import {
   IonLabel,
   IonList,
 } from "@ionic/react";
-import StyledIonSkeletonText from "./StyledIonSkeletonText";
+import StyledIonSkeletonText from "./styled/StyledIonSkeletonText";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";

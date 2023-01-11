@@ -13,13 +13,14 @@ const AssetItem = (props: IAssetItemProps) => {
   if (props.item.price) {
     additionalInfo = (
       <>
-        <IonCol size="4">
+        <IonCol size="0" sizeMd="4">
           <IonLabel>
             {/*Status*/}
             {props.item.assetsAssignmentsStatus_name}
             {props.item.assetsAssignmentsStatus_name &&
               props.item.latestScan &&
               "/"}
+
             {/*Location Scan*/}
             {props.item.latestScan && props.item.latestScan.locations_name && (
               <span
@@ -48,26 +49,26 @@ const AssetItem = (props: IAssetItemProps) => {
               )}
           </IonLabel>
         </IonCol>
-        <IonCol size="1">
+        <IonCol size="0" sizeMd="1">
           <IonLabel>{props.item.formattedMass}</IonLabel>
         </IonCol>
-        <IonCol size="1">
+        <IonCol size="0" sizeMd="1">
           <IonLabel>{props.item.formattedPrice}</IonLabel>
         </IonCol>
-        <IonCol size="1">
+        <IonCol size="0" sizeMd="1">
           <IonLabel>{props.item.formattedDiscountPrice}</IonLabel>
         </IonCol>
       </>
     );
   } else {
     //Add blank column for formatting
-    additionalInfo = <IonCol size="7" />;
+    additionalInfo = <IonCol size="0" sizeMd="7" />;
   }
 
   const content = (
     <IonGrid>
       <IonRow>
-        <IonCol size="2">
+        <IonCol size="8" sizeMd="2">
           <IonLabel>
             <h2>{props.item.assets_tag}</h2>
           </IonLabel>

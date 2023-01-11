@@ -12,7 +12,7 @@ import { useParams } from "react-router";
 import Page from "../../components/Page";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import Refresher from "../../components/Refresher";
-import { StyledH5 } from "../../components/Typography";
+import { StyledH5 } from "../../components/styled/Typography";
 import AssetTypeItem from "../../components/assets/AssetTypeItem";
 
 export interface IProjectAssets {

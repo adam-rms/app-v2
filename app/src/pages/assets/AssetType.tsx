@@ -1,4 +1,5 @@
 import {
+  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -13,7 +14,7 @@ import {
   IonSlide,
   IonSlides,
 } from "@ionic/react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fileExtensionToIcon, formatSize, s3url } from "../../utilities/Files";
@@ -30,10 +31,14 @@ const AssetType = () => {
   const { type } = useParams<{ type: string }>();
   const { AssetTypes, refreshAssetTypes } = useContext(AssetTypeContext);
 
-  function doRefresh(event: CustomEvent) {
+  function doRefresh(event?: CustomEvent) {
     refreshAssetTypes();
-    event.detail.complete();
+    if (event) event.detail.complete();
   }
+
+  useEffect(() => {
+    doRefresh();
+  }, []);
 
   //filter by requested asset type
   const thisAssetType: IAssetTypeData = AssetTypes.assets.find(
@@ -124,14 +129,15 @@ const AssetType = () => {
                 {thisAssetType.assetTypes_productLink && (
                   <div className="container">
                     <IonCardSubtitle>Product Link</IonCardSubtitle>
-                    <IonCardTitle>
-                      <a
-                        href={thisAssetType.assetTypes_productLink}
-                        target="_system"
-                      >
-                        {thisAssetType.assetTypes_productLink}
-                      </a>
-                    </IonCardTitle>
+                    <IonButton
+                      href={thisAssetType.assetTypes_productLink}
+                      target="_system"
+                    >
+                      Manufacturer Information
+                      <div slot="end">
+                        <FontAwesomeIcon icon="chevron-right"></FontAwesomeIcon>
+                      </div>
+                    </IonButton>
                   </div>
                 )}
               </IonCol>

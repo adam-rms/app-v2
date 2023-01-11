@@ -12,7 +12,7 @@ import {
   IonContent,
   IonTitle,
 } from "@ionic/react";
-import { StyledText } from "../Typography";
+import { StyledText } from "../styled/Typography";
 import { useContext } from "react";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 

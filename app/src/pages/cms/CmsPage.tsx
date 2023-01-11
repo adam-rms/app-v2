@@ -10,9 +10,9 @@ import {
   IonRow,
 } from "@ionic/react";
 import Page from "../../components/Page";
-import StyledIonSkeletonText from "../../components/StyledIonSkeletonText";
+import StyledIonSkeletonText from "../../components/styled/StyledIonSkeletonText";
 import SkeletonCard from "../../components/SkeletonCard";
-import SummernoteContent from "../../components/SummernoteContent";
+import SummernoteContent from "../../components/styled/SummernoteContent";
 import Refresher from "../../components/Refresher";
 
 /**
