@@ -82,7 +82,6 @@ const CmsPageList = () => {
   return (
     <Page title={"CMS Pages"}>
       <Refresher onRefresh={doRefresh} />
-
       {content}
     </Page>
   );

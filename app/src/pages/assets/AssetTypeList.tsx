@@ -1,25 +1,18 @@
-import { faQuestionCircle, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import {
-  IonAvatar,
   IonCard,
+  IonCardHeader,
   IonCardTitle,
-  IonImg,
-  IonInfiniteScroll,
-  IonInfiniteScrollContent,
-  IonItem,
-  IonLabel,
-  IonList,
   useIonRouter,
 } from "@ionic/react";
-import styled from "styled-components";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AssetTypeContext } from "../../contexts/asset/AssetTypeContext";
 import { LocationContext } from "../../contexts/location/LocationContext";
 import Page from "../../components/Page";
 import Refresher from "../../components/Refresher";
 import GetAssetFromBarcode from "../../utilities/barcode/GetAssetFromBarcode";
 import { useRMSToast } from "../../hooks/useRMSToast";
+import ImageList, { ImageListItemType } from "../../components/ImageList";
 
 /**
  * Asset Type List Page
@@ -29,6 +22,7 @@ const AssetTypeList = () => {
   const { AssetTypes, refreshAssetTypes, getMoreAssets } =
     useContext(AssetTypeContext);
   const { getRMSLocation } = useContext(LocationContext);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useIonRouter();
   const [present] = useRMSToast();
 
@@ -58,11 +52,12 @@ const AssetTypeList = () => {
     },
   ];
 
-  function doRefresh(event: CustomEvent) {
-    refreshAssetTypes().then(() => {
-      event.detail.complete();
-    });
-  }
+  const doRefresh = async (event?: CustomEvent) => {
+    setIsLoading(true);
+    await refreshAssetTypes();
+    setIsLoading(false);
+    if (event) event.detail.complete();
+  };
 
   function loadData(event: any) {
     getMoreAssets().then(() => {
@@ -70,73 +65,63 @@ const AssetTypeList = () => {
     });
   }
 
+  const generateListItems = (assetTypes: IAssetType): ImageListItemType[] => {
+    if (assetTypes && assetTypes.assets) {
+      return assetTypes.assets.map((assetType: IAssetTypeData) => {
+        let image;
+        if (assetType.thumbnails.length > 0) {
+          image = {
+            url: assetType.thumbnails[0].url,
+            alt: assetType.assetTypes_name,
+          };
+        }
+        return {
+          image: image,
+          mainContent: (
+            <>
+              <h2>{assetType.assetTypes_name}</h2>
+              <p>{assetType.assetCategories_name}</p>
+            </>
+          ),
+          endContent: <p>x{assetType.tags.length}</p>,
+          link: "/assets/" + assetType.assetTypes_id,
+        };
+      });
+    } else {
+      return [];
+    }
+  };
+
   //Get data from API
   useEffect(() => {
-    refreshAssetTypes();
+    doRefresh();
   }, []);
 
-  if (AssetTypes) {
-    return (
-      <Page title="Asset List" buttons={buttons}>
-        <Refresher onRefresh={doRefresh} />
-        <IonCard>
-          <IonList>
-            {AssetTypes.assets.map((item: IAssetTypeData) => {
-              return (
-                <IonItem
-                  key={item.assetTypes_id}
-                  routerLink={"/assets/" + item.assetTypes_id}
-                >
-                  <ThumbnailContainer>
-                    {item.thumbnails.length > 0 && (
-                      <IonAvatar slot="start">
-                        <IonImg
-                          src={item.thumbnails[0].url}
-                          alt={item.assetTypes_name}
-                        />
-                      </IonAvatar>
-                    )}
-                    {item.thumbnails.length == 0 && (
-                      <FontAwesomeIcon icon={faQuestionCircle} size="2x" />
-                    )}
-                  </ThumbnailContainer>
-                  <IonLabel>
-                    <h2>{item.assetTypes_name}</h2>
-                    <p>{item.assetCategories_name}</p>
-                  </IonLabel>
-                  <IonLabel slot="end">
-                    <p>x{item.tags.length}</p>
-                  </IonLabel>
-                </IonItem>
-              );
-            })}
-          </IonList>
-          <IonInfiniteScroll onIonInfinite={loadData} threshold="100px">
-            <IonInfiniteScrollContent
-              loadingSpinner="bubbles"
-              loadingText="Loading more assets..."
-            />
-          </IonInfiniteScroll>
-        </IonCard>
-      </Page>
+  let content;
+
+  if (!AssetTypes && !isLoading) {
+    //We have found no assets so show empty list
+    content = (
+      <IonCardHeader>
+        <IonCardTitle>No Assets found</IonCardTitle>
+      </IonCardHeader>
     );
   } else {
-    //If there isn't an asset, refresh context to see if that helps
-    refreshAssetTypes();
-    //If there is still no assets, it's probably a network issue
-    return (
-      <Page title="Asset List">
-        <Refresher onRefresh={doRefresh} />
-        <IonCard>
-          <IonCardTitle>No Assets found</IonCardTitle>
-        </IonCard>
-      </Page>
+    content = (
+      <ImageList
+        items={generateListItems(AssetTypes)}
+        isLoading={!AssetTypes && isLoading}
+        onIonInfinite={loadData}
+      />
     );
   }
-};
 
-const ThumbnailContainer = styled.div`
-  margin: 10px;
-`;
+  return (
+    <Page title="Asset List" buttons={buttons}>
+      <Refresher onRefresh={doRefresh} />
+      <IonCard>{content}</IonCard>
+    </Page>
+  );
+};
 
 export default AssetTypeList;
