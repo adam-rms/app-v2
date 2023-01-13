@@ -1,4 +1,10 @@
-import { IonItemDivider, IonLabel, IonMenu, IonMenuToggle } from "@ionic/react";
+import {
+  IonItemDivider,
+  IonLabel,
+  IonMenu,
+  IonMenuToggle,
+  useIonActionSheet,
+} from "@ionic/react";
 import { useLocation } from "react-router-dom";
 import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,9 +18,12 @@ import BrandText from "./components/BrandText";
 import CmsPageList from "./components/CmsPageList";
 import SkeletonLink from "./components/SkeletonLink";
 import { MenuItem } from "./components/MenuItem";
-import InstanceSwitcher from "./components/InstanceSwitcher";
 import { useContext } from "react";
 import { LocationContext } from "../../contexts/location/LocationContext";
+import {
+  getInstances,
+  handleInstanceSwitch,
+} from "./components/InstanceSwitcher";
 
 const FONT_AWESOME_MULTIPLIER: SizeProp | undefined = "1x";
 
@@ -23,6 +32,7 @@ const FONT_AWESOME_MULTIPLIER: SizeProp | undefined = "1x";
  */
 const Menu: React.FC = () => {
   const location = useLocation();
+  const [present] = useIonActionSheet();
   const { rmsLocation, updateRMSLocation } = useContext(LocationContext);
 
   // Add new pages to this array.
@@ -68,7 +78,18 @@ const Menu: React.FC = () => {
       },
     },
     {
-      type: "instanceSwitcher",
+      type: "function",
+      title: "Change Business",
+      icon: ["fas", "building"],
+      function: () => {
+        getInstances().then((buttons) => {
+          present({
+            header: "Change Business",
+            buttons: buttons,
+            onDidDismiss: ({ detail }) => handleInstanceSwitch(detail),
+          });
+        });
+      },
     },
     {
       type: "route",
@@ -125,9 +146,6 @@ const Menu: React.FC = () => {
               );
             }
 
-            if (item.type == "instanceSwitcher") {
-              return <InstanceSwitcher key={index} />;
-            }
             // If the code is at this point it must be either an item or a route
             // We can therefore check if its loading
             if (item.isLoading) {
