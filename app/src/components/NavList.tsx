@@ -58,7 +58,7 @@ const NavList: React.FC<NavListType> = ({
     return list.map((item: NavListItemType, index: number) => {
       return (
         <ReactFragment key={`${depth}-${index}`}>
-          <IonItem routerLink={item.link}>
+          <IonItem routerLink={item.link} button detail={true}>
             {/*Generate the spacers or arrows if the depth is not 0*/}
             {[...Array(depth)].map((e, spacer_index) => {
               return (
@@ -92,11 +92,6 @@ const NavList: React.FC<NavListType> = ({
 
             {/*Add the content*/}
             <IonLabel>{item.content}</IonLabel>
-
-            {/*Add the arrow at the right, if there is a link*/}
-            <IonNote slot={"end"}>
-              {item.link && <FontAwesomeIcon icon={"chevron-right"} />}
-            </IonNote>
           </IonItem>
 
           {/*Generate all the sub items using recursion*/}

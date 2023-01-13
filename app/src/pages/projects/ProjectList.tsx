@@ -1,4 +1,10 @@
-import { IonCard, IonItem, IonList, IonTitle } from "@ionic/react";
+import {
+  IonCard,
+  IonCardContent,
+  IonItem,
+  IonList,
+  IonTitle,
+} from "@ionic/react";
 import { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../../contexts/project/ProjectContext";
 import Page from "../../components/Page";
@@ -55,7 +61,9 @@ const ProjectList = () => {
     <Page title="Project List">
       <Refresher onRefresh={doRefresh} />
       <IonCard>
-        <IonList>{projectList}</IonList>
+        <IonCardContent>
+          <IonList>{projectList}</IonList>
+        </IonCardContent>
       </IonCard>
     </Page>
   );

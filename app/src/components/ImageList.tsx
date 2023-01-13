@@ -51,7 +51,7 @@ const ImageList: React.FC<ImageListType> = ({
   const generateContent = (list: ImageListItemType[]) => {
     return list.map((item: ImageListItemType, index: number) => {
       return (
-        <IonItem key={index} routerLink={item.link}>
+        <IonItem key={index} routerLink={item.link} button detail={true}>
           <ThumbnailContainer>
             {item.image && item.image.url ? (
               <IonAvatar slot="start">
