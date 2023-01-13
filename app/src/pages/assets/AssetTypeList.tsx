@@ -1,6 +1,7 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import {
   IonCard,
+  IonCardContent,
   IonCardHeader,
   IonCardTitle,
   useIonRouter,
@@ -119,7 +120,9 @@ const AssetTypeList = () => {
   return (
     <Page title="Asset List" buttons={buttons}>
       <Refresher onRefresh={doRefresh} />
-      <IonCard>{content}</IonCard>
+      <IonCard>
+        <IonCardContent>{content}</IonCardContent>
+      </IonCard>
     </Page>
   );
 };
