@@ -9,7 +9,7 @@ import StyledIonLabel from "./components/StyledIonLabel";
 import BrandImage from "./components/BrandImage";
 import BrandContainer from "./components/BrandContainer";
 import BrandText from "./components/BrandText";
-import CmsPages from "./components/CmsPages";
+import CmsPageList from "./components/CmsPageList";
 import SkeletonLink from "./components/SkeletonLink";
 import { MenuItem } from "./components/MenuItem";
 import InstanceSwitcher from "./components/InstanceSwitcher";
@@ -54,7 +54,7 @@ const Menu: React.FC = () => {
       url: "/cms/",
       icon: ["far", "newspaper"],
     },
-    ...CmsPages(),
+    ...CmsPageList(),
     {
       type: "section",
       title: "Settings",
