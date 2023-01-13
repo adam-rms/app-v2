@@ -132,7 +132,7 @@ const Menu: React.FC = () => {
                   detail={false}
                   onClick={item.function}
                 >
-                  <StyledIonLabel slot="start">
+                  <StyledIonLabel slot="start" className="flex-02">
                     {item.icon && (
                       <FontAwesomeIcon
                         icon={item.icon}
@@ -171,7 +171,7 @@ const Menu: React.FC = () => {
                 detail={false}
                 onClick={item.type == "item" ? item.onClick : undefined}
               >
-                <StyledIonLabel slot="start">
+                <StyledIonLabel slot="start" className="flex-02">
                   {item.icon && (
                     <FontAwesomeIcon
                       icon={item.icon}
