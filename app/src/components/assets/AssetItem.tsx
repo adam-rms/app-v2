@@ -75,12 +75,6 @@ const AssetItem = (props: IAssetItemProps) => {
         </IonCol>
         {additionalInfo}
         <IonCol size="3">
-          {!props.subHire && (
-            <FontAwesomeIcon
-              icon="chevron-right"
-              className="ion-margin-end ion-float-end"
-            />
-          )}
           {props.item.flagsblocks["COUNT"]["BLOCK"] > 0 && (
             <FontAwesomeIcon
               icon="ban"
@@ -106,6 +100,8 @@ const AssetItem = (props: IAssetItemProps) => {
     return (
       <IonItem
         routerLink={"/assets/" + props.AssetTypeId + "/" + props.item.assets_id}
+        button
+        detail={true}
       >
         {content}
       </IonItem>

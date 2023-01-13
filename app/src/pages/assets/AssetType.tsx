@@ -85,7 +85,7 @@ const AssetType = () => {
                       );
                     }}
                   >
-                    <IonLabel slot="start">
+                    <IonLabel slot="start" className="flex-02">
                       <FontAwesomeIcon
                         icon={fileExtensionToIcon(item.s3files_extension)}
                       />

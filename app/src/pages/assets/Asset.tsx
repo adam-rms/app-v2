@@ -10,6 +10,8 @@ import {
   IonLabel,
   IonList,
   IonRow,
+  IonText,
+  IonTitle,
 } from "@ionic/react";
 import { useContext } from "react";
 import { useParams } from "react-router";
@@ -81,27 +83,24 @@ const Asset = () => {
           );
         })}
 
-        {/* Asset Notes */}
-        <IonCard>
-          <IonCardContent>
-            <IonCardTitle>{thisAsset.assets_notes}</IonCardTitle>
-          </IonCardContent>
-        </IonCard>
-
         {/* Asset Data */}
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>Asset Information</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
+            <IonText>{thisAsset.assets_notes}</IonText>
             <IonList>
               <IonRow>
                 <IonCol>
+                  <IonTitle>Asset Type Overrides</IonTitle>
                   <IonItem>
                     <div className="container">
                       <IonCardSubtitle>Mass</IonCardSubtitle>
                       <IonCardTitle>
-                        {thisAsset.assets_mass_format}
+                        {thisAsset.assets_mass
+                          ? thisAsset.assets_mass_format
+                          : ""}
                       </IonCardTitle>
                     </div>
                   </IonItem>
@@ -109,7 +108,9 @@ const Asset = () => {
                     <div className="container">
                       <IonCardSubtitle>value</IonCardSubtitle>
                       <IonCardTitle>
-                        {thisAsset.assets_value_format}
+                        {thisAsset.assets_value
+                          ? thisAsset.assets_value_format
+                          : ""}
                       </IonCardTitle>
                     </div>
                   </IonItem>
@@ -117,7 +118,9 @@ const Asset = () => {
                     <div className="container">
                       <IonCardSubtitle>Day Rate</IonCardSubtitle>
                       <IonCardTitle>
-                        {thisAsset.assets_dayRate_format}
+                        {thisAsset.assets_dayRate
+                          ? thisAsset.assets_dayRate_format
+                          : ""}
                       </IonCardTitle>
                     </div>
                   </IonItem>
@@ -125,12 +128,15 @@ const Asset = () => {
                     <div className="container">
                       <IonCardSubtitle>Week Rate</IonCardSubtitle>
                       <IonCardTitle>
-                        {thisAsset.assets_weekRate_format}
+                        {thisAsset.assets_weekRate
+                          ? thisAsset.assets_weekRate_format
+                          : ""}
                       </IonCardTitle>
                     </div>
                   </IonItem>
                 </IonCol>
                 <IonCol>
+                  <IonTitle>Definable Fields</IonTitle>
                   {thisAssetType.fields.map((element: any, index: number) => {
                     if (
                       thisAssetType.fields[index - 1] !== "" &&
@@ -176,7 +182,7 @@ const Asset = () => {
                         );
                       }}
                     >
-                      <IonLabel slot="start">
+                      <IonLabel slot="start" className="flex-02">
                         <FontAwesomeIcon
                           icon={fileExtensionToIcon(item.s3files_extension)}
                         />
