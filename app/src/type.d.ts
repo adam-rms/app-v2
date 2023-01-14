@@ -33,7 +33,7 @@ interface IAssetTypeData {
   assetCategoriesGroups_id: number;
   assetCategories_deleted: number;
   assetCategoriesGroups_name: string;
-  thumbnails: [...any];
+  thumbnails: [...IThumbnail];
   assetTypes_mass_format: string;
   assetTypes_value_format: string;
   assetTypes_dayRate_format: string;
@@ -42,6 +42,16 @@ interface IAssetTypeData {
   fields: [...any];
   tags: [...IAsset];
   files: IFile[];
+}
+
+interface IThumbnail {
+  s3files_id: number;
+  s3files_extension: string;
+  s3files_name: string;
+  s3files_meta_size: number;
+  s3files_meta_uploaded: string;
+  s3files_shareKey: string;
+  url: string;
 }
 
 type AssetTypeContextType = {

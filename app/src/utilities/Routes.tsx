@@ -1,7 +1,6 @@
 import { Route } from "react-router";
 import Authenticated from "../components/Authenticated";
 import Asset from "../pages/assets/Asset";
-import AssetType from "../pages/assets/AssetType";
 import AssetTypeList from "../pages/assets/AssetTypeList";
 import Login from "../pages/auth/Login";
 import CmsPage from "../pages/cms/CmsPage";
@@ -29,8 +28,7 @@ export function Routes() {
       <Authenticated>
         {/* Assets */}
         <Route path="/assets/" component={AssetTypeList} exact />
-        <Route path="/assets/:type" component={AssetType} exact />
-        <Route path="/assets/:type/:asset" component={Asset} exact />
+        <Route path="/assets/:type/:asset?" component={Asset} exact />
 
         {/* Projects */}
         <Route path="/projects/" component={ProjectList} exact />

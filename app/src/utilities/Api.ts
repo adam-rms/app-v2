@@ -12,18 +12,13 @@ const Api = async (
   formData: FormData | Record<any, any> = {},
 ) => {
   const baseURL = localStorage.getItem("baseURL");
-  const axiosConfig = {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  };
   if (formData instanceof FormData) {
     formData.append("jwt", localStorage.getItem("token") as string);
   } else {
     formData["jwt"] = localStorage.getItem("token") as string;
   }
   return axios
-    .post(baseURL + "/api/" + endpoint, formData, axiosConfig)
+    .post(baseURL + "/api/" + endpoint, formData)
     .then(function (response) {
       if (response.data["result"] == true) {
         return response.data["response"];
