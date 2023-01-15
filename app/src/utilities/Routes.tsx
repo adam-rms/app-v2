@@ -52,6 +52,8 @@ export function Routes() {
         {/* CMS Pages */}
         <Route path="/cms/" component={CmsPageList} exact />
         <Route path="/cms/:pageId" component={CmsPage} exact />
+
+        <Route path="/" component={ProjectList} exact />
       </Authenticated>
     </>
   );
