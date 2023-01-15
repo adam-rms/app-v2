@@ -4,8 +4,9 @@ import {
   IonCardTitle,
   IonCardContent,
   IonList,
+  IonLabel,
+  IonItem,
 } from "@ionic/react";
-import AssetItem from "./AssetItem";
 
 interface AssetTypeAssetsProps {
   assetType: IAssetTypeData;
@@ -24,11 +25,15 @@ const AssetTypeAssets: React.FC<AssetTypeAssetsProps> = ({ assetType }) => {
         <IonList>
           {assetType.tags.map((item: any) => {
             return (
-              <AssetItem
-                key={item.assets_id}
-                AssetTypeId={assetType.assetTypes_id}
-                item={item}
-              />
+              <IonItem
+                routerLink={
+                  "/assets/" + assetType.assetTypes_id + "/" + item.assets_id
+                }
+                button
+                detail={true}
+              >
+                <IonLabel>{item.assets_tag}</IonLabel>
+              </IonItem>
             );
           })}
         </IonList>

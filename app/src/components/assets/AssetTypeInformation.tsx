@@ -38,6 +38,7 @@ const AssetTypeInformation: React.FC<AssetTypeInformationProps> = ({
                 <IonButton
                   href={assetType.assetTypes_productLink}
                   target="_system"
+                  className="ion-padding-start"
                 >
                   Manufacturer Information
                   <div slot="end">

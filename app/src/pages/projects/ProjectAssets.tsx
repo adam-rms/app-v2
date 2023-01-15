@@ -1,22 +1,19 @@
 import {
+  IonAccordionGroup,
   IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
-  IonCol,
-  IonGrid,
-  IonRow,
 } from "@ionic/react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router";
 import Page from "../../components/Page";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
 import Refresher from "../../components/Refresher";
-import { StyledH5 } from "../../components/styled/Typography";
 import AssetTypeItem from "../../components/assets/AssetTypeItem";
 
 export interface IProjectAssets {
-  assets: [IAssetTypeData];
+  assets: IAsset[];
   totals: {
     status: string;
     discountPrice: {
@@ -35,39 +32,12 @@ export interface IProjectAssets {
 }
 
 interface IInstanceAssets {
-  assets: IProjectAssets;
+  assets: { [key: string]: IProjectAssets };
   instance: {
     instances_id: number;
     instances_name: string;
   };
 }
-
-const ProjectAssetsHeader = (props: { instanceName: string }) => {
-  return (
-    <IonCardHeader>
-      <IonCardTitle>{props.instanceName}</IonCardTitle>
-      <IonGrid>
-        <IonRow className="ion-padding-horizontal">
-          <IonCol size="2">
-            <StyledH5>Assets</StyledH5>
-          </IonCol>
-          <IonCol size="4">
-            <StyledH5>Status/Location</StyledH5>
-          </IonCol>
-          <IonCol size="1">
-            <StyledH5>Mass</StyledH5>
-          </IonCol>
-          <IonCol size="1">
-            <StyledH5>Price</StyledH5>
-          </IonCol>
-          <IonCol size="2">
-            <StyledH5>Discounted Price</StyledH5>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
-    </IonCardHeader>
-  );
-};
 
 /**
  * Project Assets Page
@@ -77,10 +47,14 @@ const ProjectAssets = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const { projectData, refreshProjectData } = useContext(ProjectDataContext);
 
-  function doRefresh(event: CustomEvent) {
+  function doRefresh(event?: CustomEvent) {
     refreshProjectData(parseInt(projectId));
-    event.detail.complete();
+    if (event) event.detail.complete();
   }
+
+  useEffect(() => {
+    doRefresh();
+  }, []);
 
   //Generate Project Assets
   const content: JSX.Element[] = [];
@@ -91,58 +65,61 @@ const ProjectAssets = () => {
       (projectData.FINANCIALS.assetsAssignedSUB &&
         Object.keys(projectData.FINANCIALS.assetsAssignedSUB).length > 0))
   ) {
-    //This businesses assets
-    const assets: JSX.Element[] = [];
-    for (const [assetTypeKey, assetTypeValue] of Object.entries(
-      projectData.FINANCIALS.assetsAssigned,
-    )) {
-      if (assetTypeValue) {
-        const typedAsset = assetTypeValue as IProjectAssets;
-        //append asset Type to main asset list
-        assets.push(
-          <AssetTypeItem assetTypeKey={assetTypeKey} typedAsset={typedAsset} />,
-        );
-      }
-    }
-    //If there are assets from this business, generate card
+    //This instance's assets
     if (Object.keys(projectData.FINANCIALS.assetsAssigned).length > 0) {
       content.push(
         <IonCard key="ThisInstance">
-          <ProjectAssetsHeader instanceName="Your Business Assets" />
-          <IonCardContent>{assets}</IonCardContent>
+          <IonCardHeader>
+            <IonCardTitle>Your Business Assets</IonCardTitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonAccordionGroup multiple={true}>
+              {Object.keys(projectData.FINANCIALS.assetsAssigned).map(
+                (item) => {
+                  const asset = projectData.FINANCIALS.assetsAssigned[item];
+                  return (
+                    <AssetTypeItem
+                      key={item}
+                      assetTypeKey={item}
+                      typedAsset={asset}
+                      subHire={false}
+                    />
+                  );
+                },
+              )}
+            </IonAccordionGroup>
+          </IonCardContent>
         </IonCard>,
       );
     }
 
-    //Add SubAssigned assets
+    //Other Instance's assets
     for (const [instanceKey, instanceAssets] of Object.entries(
       projectData.FINANCIALS.assetsAssignedSUB,
     )) {
       const typedInstance = instanceAssets as IInstanceAssets;
-      const assets: JSX.Element[] = [];
-      //Asset types
-      for (const [assetTypeKey, assetTypeValue] of Object.entries(
-        typedInstance.assets,
-      )) {
-        if (assetTypeValue) {
-          const typedAsset = assetTypeValue as IProjectAssets;
-          //append list to main asset list
-          assets.push(
-            <AssetTypeItem
-              key={assetTypeKey}
-              assetTypeKey={assetTypeKey}
-              typedAsset={typedAsset}
-              subHire={true}
-            />,
-          );
-        }
-      }
       content.push(
         <IonCard key={instanceKey}>
-          <ProjectAssetsHeader
-            instanceName={typedInstance.instance.instances_name + " Assets"}
-          />
-          <IonCardContent>{assets}</IonCardContent>
+          <IonCardHeader>
+            <IonCardTitle>
+              {typedInstance.instance.instances_name + " Assets"}
+            </IonCardTitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonAccordionGroup multiple={true}>
+              {Object.keys(typedInstance.assets).map((item: string) => {
+                const asset = typedInstance.assets[item];
+                return (
+                  <AssetTypeItem
+                    key={item}
+                    assetTypeKey={item}
+                    typedAsset={asset}
+                    subHire={true}
+                  />
+                );
+              })}
+            </IonAccordionGroup>
+          </IonCardContent>
         </IonCard>,
       );
     }
