@@ -54,5 +54,4 @@ export type MenuItem =
   | MenuItemRoute
   | MenuItemSeparator
   | MenuItemSection
-  | MenuFunction
-  | MenuInstanceSwitcher;
+  | MenuFunction;

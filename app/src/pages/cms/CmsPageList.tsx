@@ -62,28 +62,29 @@ const CmsPageList = () => {
   //If there are no pages and there is nothing currently loading
   if (!CmsPages && !isLoading) {
     content = (
-      <IonCard>
+      <>
         <IonCardHeader>
           <IonCardTitle>There are no CMS pages!</IonCardTitle>
         </IonCardHeader>
         <IonCardContent>Log in to the dashboard to create some!</IonCardContent>
-      </IonCard>
+      </>
     );
   } else {
     // NavList is ued to both generate the items when there is a list and display the skeleton loading when there isn't
     content = (
-      <NavList
-        items={generateListItems(CmsPages)}
-        isLoading={!CmsPages && isLoading}
-      />
+      <IonCardContent>
+        <NavList
+          items={generateListItems(CmsPages)}
+          isLoading={!CmsPages && isLoading}
+        />
+      </IonCardContent>
     );
   }
 
   return (
     <Page title={"CMS Pages"}>
       <Refresher onRefresh={doRefresh} />
-
-      {content}
+      <IonCard>{content}</IonCard>
     </Page>
   );
 };

@@ -1,36 +1,36 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonCol,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonRow,
-} from "@ionic/react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { AssetTypeContext } from "../../contexts/asset/AssetTypeContext";
-import { s3url, fileExtensionToIcon, formatSize } from "../../utilities/Files";
 import Page from "../../components/Page";
-import { faBan, faFlag } from "@fortawesome/free-solid-svg-icons";
 import Refresher from "../../components/Refresher";
+import SkeletonCard from "../../components/SkeletonCard";
+import AssetMaintenance from "../../components/assets/AssetMaintenance";
+import AssetInformation from "../../components/assets/AssetInformation";
+import FileList from "../../components/FileList";
+import ImageSlideshow from "../../components/ImageSlideshow";
+import AssetTypeInformation from "../../components/assets/AssetTypeInformation";
+import AssetTypeAssets from "../../components/assets/AssetTypeAssets";
 
 /**
  * Asset Page
- * Lists details for an individual asset
+ * Lists details for an asset type or individual asset, depending on parameters
  */
 const Asset = () => {
-  const { type, asset } = useParams<{ type: string; asset: string }>();
+  const { type, asset } = useParams<{ type: string; asset?: string }>();
   const { AssetTypes, refreshAssetTypes } = useContext(AssetTypeContext);
+  const [isLoading, setIsLoading] = useState(false);
 
-  function doRefresh(event: CustomEvent) {
-    refreshAssetTypes();
-    event.detail.complete();
-  }
+  const doRefresh = async (event?: CustomEvent) => {
+    setIsLoading(true);
+    // only get the asset type we're looking at
+    await refreshAssetTypes(parseInt(type));
+    setIsLoading(false);
+    if (event) event.detail.complete();
+  };
+
+  useEffect(() => {
+    doRefresh();
+  }, []);
 
   //filter by requested asset type
   const thisAssetType = AssetTypes.assets.find(
@@ -39,174 +39,53 @@ const Asset = () => {
 
   //if we've got the asset, show data
   if (thisAssetType) {
-    //filter by requested asset
-    const thisAsset = thisAssetType.tags.find(
-      (element: IAsset) => element.assets_id == parseInt(asset),
-    );
+    let thisAsset: IAsset | undefined = undefined;
+    //if we've got an individual asset, show asset data rather than asset type data
+    if (asset) {
+      //filter by requested asset
+      thisAsset = thisAssetType.tags.find(
+        (element: IAsset) => element.assets_id == parseInt(asset),
+      );
+    }
 
     //return page layout
     return (
-      <Page title={thisAsset.assets_tag_format}>
+      <Page
+        title={
+          thisAsset
+            ? thisAsset.assets_tag_format
+            : thisAssetType.assetTypes_name
+        }
+      >
         <Refresher onRefresh={doRefresh} />
 
-        {/* Maintenance */}
-        {thisAsset.flagsblocks.BLOCK.map((block: any) => {
-          return (
-            <IonCard key={block.maintenanceJobs_id}>
-              <IonCardContent>
-                <IonCardTitle>
-                  <FontAwesomeIcon icon={faBan} color="#dc3545" />{" "}
-                  {block.maintenanceJobs_title}
-                </IonCardTitle>
-                <IonLabel className="container">
-                  {block.maintenanceJobs_faultDescription}
-                </IonLabel>
-              </IonCardContent>
-            </IonCard>
-          );
-        })}
-        {thisAsset.flagsblocks.FLAG.map((block: any) => {
-          return (
-            <IonCard key={block.maintenanceJobs_id}>
-              <IonCardContent>
-                <IonCardTitle>
-                  <FontAwesomeIcon icon={faFlag} color="#ffc107" />{" "}
-                  {block.maintenanceJobs_title}
-                </IonCardTitle>
-                <IonLabel className="container">
-                  {block.maintenanceJobs_faultDescription}
-                </IonLabel>
-              </IonCardContent>
-            </IonCard>
-          );
-        })}
-
-        {/* Asset Notes */}
-        <IonCard>
-          <IonCardContent>
-            <IonCardTitle>{thisAsset.assets_notes}</IonCardTitle>
-          </IonCardContent>
-        </IonCard>
-
         {/* Asset Data */}
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Asset Information</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonList>
-              <IonRow>
-                <IonCol>
-                  <IonItem>
-                    <div className="container">
-                      <IonCardSubtitle>Mass</IonCardSubtitle>
-                      <IonCardTitle>
-                        {thisAsset.assets_mass_format}
-                      </IonCardTitle>
-                    </div>
-                  </IonItem>
-                  <IonItem>
-                    <div className="container">
-                      <IonCardSubtitle>value</IonCardSubtitle>
-                      <IonCardTitle>
-                        {thisAsset.assets_value_format}
-                      </IonCardTitle>
-                    </div>
-                  </IonItem>
-                  <IonItem>
-                    <div className="container">
-                      <IonCardSubtitle>Day Rate</IonCardSubtitle>
-                      <IonCardTitle>
-                        {thisAsset.assets_dayRate_format}
-                      </IonCardTitle>
-                    </div>
-                  </IonItem>
-                  <IonItem>
-                    <div className="container">
-                      <IonCardSubtitle>Week Rate</IonCardSubtitle>
-                      <IonCardTitle>
-                        {thisAsset.assets_weekRate_format}
-                      </IonCardTitle>
-                    </div>
-                  </IonItem>
-                </IonCol>
-                <IonCol>
-                  {thisAssetType.fields.map((element: any, index: number) => {
-                    if (
-                      thisAssetType.fields[index - 1] !== "" &&
-                      thisAsset["asset_definableFields_" + index] !== ""
-                    ) {
-                      return (
-                        <IonItem key={index}>
-                          <div className="container">
-                            <IonCardSubtitle>
-                              {thisAssetType.fields[index - 1]}
-                            </IonCardSubtitle>
-                            <IonCardTitle>
-                              {thisAsset["asset_definableFields_" + index]}
-                            </IonCardTitle>
-                          </div>
-                        </IonItem>
-                      );
-                    }
-                  })}
-                </IonCol>
-              </IonRow>
-            </IonList>
-          </IonCardContent>
-        </IonCard>
+        {thisAsset && (
+          <AssetInformation asset={thisAsset} assetType={thisAssetType} />
+        )}
 
-        {/* Asset Files */}
-        {thisAsset.files && thisAsset.files.length > 0 && (
-          <IonCard>
-            <IonCardHeader>
-              <IonCardTitle>Asset Files</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonList>
-                {thisAsset.files.map((item: any) => {
-                  return (
-                    <IonItem
-                      key={item.s3files_id}
-                      button
-                      onClick={async () => {
-                        window.open(
-                          await s3url(item.s3files_id, item.s3files_meta_size),
-                          "_system",
-                        );
-                      }}
-                    >
-                      <IonLabel slot="start">
-                        <FontAwesomeIcon
-                          icon={fileExtensionToIcon(item.s3files_extension)}
-                        />
-                      </IonLabel>
-                      <IonLabel>
-                        <h2>{item.s3files_name}</h2>
-                      </IonLabel>
-                      <IonLabel slot="end">
-                        {formatSize(item.s3files_meta_size)}
-                      </IonLabel>
-                    </IonItem>
-                  );
-                })}
-              </IonList>
-            </IonCardContent>
-          </IonCard>
+        {/* Maintenance */}
+        {thisAsset && <AssetMaintenance asset={thisAsset} />}
+
+        <ImageSlideshow images={thisAssetType.thumbnails} />
+
+        {/* AssetType Data */}
+        <AssetTypeInformation assetType={thisAssetType} />
+
+        {/* Asset Data or link to individual assets */}
+        {!thisAsset && <AssetTypeAssets assetType={thisAssetType} />}
+
+        {/* Files */}
+        {thisAssetType.files && thisAssetType.files.length > 0 && (
+          <FileList files={thisAssetType.files} cardTitle="Asset Type Files" />
+        )}
+        {thisAsset && thisAsset.files && thisAsset.files.length > 0 && (
+          <FileList files={thisAsset.files} cardTitle="Asset Files" />
         )}
       </Page>
     );
   } else {
-    //If there isn't an asset, refresh context to see if that helps
-    refreshAssetTypes();
-    //If there is still no assets, it's probably a network issue
-    //TODO: Handle network issues more gracefully
-
-    return (
-      <Page title="No Asset Found">
-        <IonCardTitle>No Asset Found, Please Wait</IonCardTitle>
-      </Page>
-    );
+    return <Page title="No Asset Found">{isLoading && <SkeletonCard />}</Page>;
   }
 };
 

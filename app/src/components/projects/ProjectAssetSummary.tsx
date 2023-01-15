@@ -4,14 +4,11 @@ import {
   IonCardTitle,
   IonCardContent,
   IonButton,
+  IonText,
 } from "@ionic/react";
-import { useContext } from "react";
-import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
-import { StyledText, StyledH5 } from "../Typography";
+import { ProjectDataProps } from "../../pages/projects/Project";
 
-const ProjectAssetSummary = () => {
-  const { projectData } = useContext(ProjectDataContext);
-
+const ProjectAssetSummary = ({ projectData }: ProjectDataProps) => {
   let numAssetTypes = 0;
   if (projectData.FINANCIALS.assetsAssigned) {
     numAssetTypes += Object.keys(projectData.FINANCIALS.assetsAssigned).length;
@@ -28,23 +25,23 @@ const ProjectAssetSummary = () => {
       </IonCardHeader>
       <IonCardContent>
         <div className="ion-margin-horizontal">
-          <StyledText>
+          <p>
             {numAssetTypes} Asset Type
             {numAssetTypes != 1 ? "s" : ""} assigned to{" "}
             {projectData.project.projects_name} (
             {projectData.FINANCIALS.formattedMass})
-          </StyledText>
+          </p>
           {projectData.FINANCIALS && projectData.FINANCIALS.priceMaths && (
             <>
-              <StyledH5>Hire Charges</StyledH5>
-              <StyledText>
+              <IonText color="primary">
+                <h2>Hire Charges</h2>
+              </IonText>
+              <p>
                 Days: {projectData.FINANCIALS.priceMaths.days}
                 <br />
                 Weeks: {projectData.FINANCIALS.priceMaths.weeks}
-              </StyledText>
-              <StyledText>
-                {projectData.FINANCIALS.priceMaths.string}
-              </StyledText>
+              </p>
+              <p>{projectData.FINANCIALS.priceMaths.string}</p>
             </>
           )}
         </div>

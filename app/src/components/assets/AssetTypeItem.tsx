@@ -1,15 +1,14 @@
 import {
-  IonAccordionGroup,
   IonAccordion,
   IonItem,
-  IonGrid,
-  IonRow,
-  IonCol,
   IonLabel,
   IonList,
+  IonText,
+  IonAccordionGroup,
 } from "@ionic/react";
 import { IProjectAssets } from "../../pages/projects/ProjectAssets";
 import AssetItem from "./AssetItem";
+import AssetItemInformation from "./AssetItemInformation";
 
 interface IAssetTypeItemProps {
   assetTypeKey: string; //Key
@@ -19,43 +18,37 @@ interface IAssetTypeItemProps {
 
 const AssetTypeItem = (props: IAssetTypeItemProps) => {
   return (
-    <IonAccordionGroup multiple={true} key={props.assetTypeKey}>
-      <IonAccordion value={props.assetTypeKey}>
-        <IonItem slot="header">
-          <IonGrid>
-            <IonRow>
-              <IonCol size="2">
-                <IonLabel>
-                  {props.typedAsset.assets.length}x{" "}
-                  {props.typedAsset.assets[0].assetTypes_name}
-                </IonLabel>
-              </IonCol>
-              <IonCol size="4">{props.typedAsset.totals.status}</IonCol>
-              <IonCol size="1">{props.typedAsset.totals.formattedMass}</IonCol>
-              <IonCol size="1">{props.typedAsset.totals.formattedPrice}</IonCol>
-              <IonCol size="1">
-                {props.typedAsset.totals.formattedDiscountPrice}
-              </IonCol>
-            </IonRow>
-          </IonGrid>
+    <IonAccordion value={props.assetTypeKey} key={props.assetTypeKey}>
+      <IonItem slot="header">
+        <IonLabel>
+          {props.typedAsset.assets.length}x{" "}
+          {props.typedAsset.assets[0].assetTypes_name}
+        </IonLabel>
+      </IonItem>
+      <IonList slot="content">
+        <AssetItemInformation item={props.typedAsset.totals} />
+        <IonItem>
+          <IonText color="primary">
+            <h2>Assets</h2>
+          </IonText>
         </IonItem>
-        <IonList slot="content">
+        <IonAccordionGroup multiple={true}>
           {
             //generate list of individual assets
-            props.typedAsset.assets.map((item: any) => {
+            props.typedAsset.assets.map((item: IAsset) => {
               return (
                 <AssetItem
-                  key={item.assets_id}
                   AssetTypeId={parseInt(props.assetTypeKey)}
+                  assetID={item.assets_id}
                   item={item}
                   subHire={props.subHire}
                 />
               );
             })
           }
-        </IonList>
-      </IonAccordion>
-    </IonAccordionGroup>
+        </IonAccordionGroup>
+      </IonList>
+    </IonAccordion>
   );
 };
 

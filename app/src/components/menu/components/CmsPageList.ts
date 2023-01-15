@@ -6,7 +6,7 @@ import { MenuItem } from "./MenuItem";
 /**
  * Gets the CMS page data from the api and converts it to a format for the menu
  */
-const CmsPages = (): MenuItem[] => {
+const CmsPageList = (): MenuItem[] => {
   const { CmsPages, refreshPages } = useContext(CmsPageContext);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,7 +37,7 @@ const CmsPages = (): MenuItem[] => {
   }
 
   const pages: MenuItem[] = [];
-  if (CmsPages) {
+  if (CmsPages && CmsPages.length > 0) {
     //add a section
     pages.push({
       type: "section",
@@ -59,4 +59,4 @@ const CmsPages = (): MenuItem[] => {
   return pages;
 };
 
-export default CmsPages;
+export default CmsPageList;
