@@ -26,7 +26,7 @@ const ProjectDataProvider: React.FC<React.ReactNode> = ({ children }) => {
    * Refresh Context
    * Replace all projects in context
    */
-  async function refreshProjectData(id?: number) {
+  async function refreshProjectData(id?: number, event?: CustomEvent) {
     setProjectData(await Api("projects/data.php", { id: id }));
     setProjectComments(
       await Api("/projects/getComments.php", { projects_id: id }),
@@ -34,6 +34,7 @@ const ProjectDataProvider: React.FC<React.ReactNode> = ({ children }) => {
     setprojectCrewRoles(
       await Api("/projects/crew/crewRoles/list.php", { projects_id: id }),
     );
+    if (event) event.detail.complete();
   }
 
   /**

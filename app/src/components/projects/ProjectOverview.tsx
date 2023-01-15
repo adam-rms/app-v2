@@ -8,11 +8,9 @@ import {
   IonItem,
   IonCardTitle,
 } from "@ionic/react";
-import { useContext } from "react";
-import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
+import { ProjectDataProps } from "../../pages/projects/Project";
 
-const ProjectOverview = () => {
-  const { projectData } = useContext(ProjectDataContext);
+const ProjectOverview = ({ projectData }: ProjectDataProps) => {
   return (
     <IonCard>
       <IonCardHeader>

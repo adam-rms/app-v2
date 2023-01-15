@@ -48,11 +48,6 @@ const ProjectCrewApplication = () => {
     name: "projectsVacantRolesApplications_questionAnswers",
   });
 
-  const doRefresh = (event?: CustomEvent) => {
-    refreshProjectData();
-    if (event) event.detail.complete();
-  };
-
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     const questions: { name: string; value: string }[] = [];
     data.projectsVacantRolesApplications_questionAnswers.map(
@@ -170,7 +165,11 @@ const ProjectCrewApplication = () => {
 
     return (
       <Page title="Crew Vacancy">
-        <Refresher onRefresh={doRefresh} />
+        <Refresher
+          onRefresh={(event) => {
+            refreshProjectData(null, event);
+          }}
+        />
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>

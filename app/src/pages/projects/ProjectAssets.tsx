@@ -47,13 +47,8 @@ const ProjectAssets = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const { projectData, refreshProjectData } = useContext(ProjectDataContext);
 
-  function doRefresh(event?: CustomEvent) {
-    refreshProjectData(parseInt(projectId));
-    if (event) event.detail.complete();
-  }
-
   useEffect(() => {
-    doRefresh();
+    refreshProjectData(parseInt(projectId));
   }, []);
 
   //Generate Project Assets
@@ -134,7 +129,11 @@ const ProjectAssets = () => {
   }
   return (
     <Page title="Project Assets">
-      <Refresher onRefresh={doRefresh} />
+      <Refresher
+        onRefresh={(event) => {
+          refreshProjectData(parseInt(projectId), event);
+        }}
+      />
       {content}
     </Page>
   );

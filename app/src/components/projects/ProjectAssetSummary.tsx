@@ -6,12 +6,9 @@ import {
   IonButton,
   IonText,
 } from "@ionic/react";
-import { useContext } from "react";
-import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
+import { ProjectDataProps } from "../../pages/projects/Project";
 
-const ProjectAssetSummary = () => {
-  const { projectData } = useContext(ProjectDataContext);
-
+const ProjectAssetSummary = ({ projectData }: ProjectDataProps) => {
   let numAssetTypes = 0;
   if (projectData.FINANCIALS.assetsAssigned) {
     numAssetTypes += Object.keys(projectData.FINANCIALS.assetsAssigned).length;

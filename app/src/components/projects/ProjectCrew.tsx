@@ -13,12 +13,9 @@ import {
   IonTitle,
 } from "@ionic/react";
 import { StyledText } from "../styled/Typography";
-import { useContext } from "react";
-import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
+import { ProjectDataProps } from "../../pages/projects/Project";
 
-const ProjectCrew = () => {
-  const { projectData } = useContext(ProjectDataContext);
-
+const ProjectCrew = ({ projectData }: ProjectDataProps) => {
   if (
     projectData.project.crewAssignments &&
     projectData.project.crewAssignments.length > 0

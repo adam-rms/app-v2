@@ -8,16 +8,14 @@ import {
   IonLabel,
   IonButton,
 } from "@ionic/react";
-import { useContext } from "react";
-import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
+import { ProjectCrewRoleProps } from "../../pages/projects/Project";
 
 /**
  * Available Crew Roles card for Project in current context
- * @returns {JSX.Element}
  */
-const ProjectCrewRoles = () => {
-  const { projectCrewRoles } = useContext(ProjectDataContext);
-
+const ProjectCrewRoles = ({
+  projectCrewRoles,
+}: ProjectCrewRoleProps): JSX.Element => {
   if (projectCrewRoles && projectCrewRoles.length > 0) {
     return (
       <IonCard>
@@ -45,7 +43,7 @@ const ProjectCrewRoles = () => {
       </IonCard>
     );
   } else {
-    return null;
+    return <></>;
   }
 };
 

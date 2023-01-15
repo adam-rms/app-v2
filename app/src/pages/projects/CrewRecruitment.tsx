@@ -11,6 +11,7 @@ import {
   IonLabel,
   IonButton,
 } from "@ionic/react";
+import SkeletonCard from "../../components/SkeletonCard";
 
 interface crewRole {
   projects_id: number;
@@ -21,9 +22,13 @@ const CrewRecruitment = () => {
   const [crewRoles, setCrewRoles] = useState<crewRole[]>([]);
   const { projectCrewRoles, refreshProjectData } =
     useContext(ProjectDataContext);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    refreshProjectData();
+    setLoading(true);
+    refreshProjectData().then(() => {
+      setLoading(false);
+    });
   }, []);
 
   useEffect(() => {
@@ -93,8 +98,29 @@ const CrewRecruitment = () => {
         })}
       </Page>
     );
+  } else if (!(projectCrewRoles && projectCrewRoles.length > 0) && loading) {
+    return (
+      <Page title="Crew Vacancies">
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+      </Page>
+    );
   } else {
-    return null;
+    return (
+      <Page title="Crew Vacancies">
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>No Vacancies</IonCardTitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <p>
+              There are no vacancies at the moment. Please check back later.
+            </p>
+          </IonCardContent>
+        </IonCard>
+      </Page>
+    );
   }
 };
 

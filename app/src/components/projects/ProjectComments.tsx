@@ -7,12 +7,9 @@ import {
 } from "@ionic/react";
 import { DateTime } from "luxon";
 import { RedSpan, Timeline } from "./Timeline";
-import { useContext } from "react";
-import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
+import { ProjectCommentsProps } from "../../pages/projects/Project";
 
-const ProjectComments = () => {
-  const { projectComments } = useContext(ProjectDataContext);
-
+const ProjectComments = ({ projectComments }: ProjectCommentsProps) => {
   //add a comment card
   if (projectComments && projectComments.length > 0) {
     const commentsList: JSX.Element[] = [];
