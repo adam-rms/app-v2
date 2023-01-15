@@ -59,24 +59,30 @@ const CrewRecruitment = () => {
                 <IonCardTitle>{project.projects_name}</IonCardTitle>
               </IonCardHeader>
               <IonCardContent>
+                <IonItem lines="none">
+                  <IonButton
+                    slot="end"
+                    fill="outline"
+                    size="small"
+                    routerLink={"/projects/" + project.projects_id}
+                  >
+                    Project Information
+                  </IonButton>
+                </IonItem>
                 <IonList>
                   {project.projects_roles.map((role: IProjectCrewRole) => {
                     return (
                       <IonItem key={role.projectsVacantRoles_id}>
                         <IonLabel>{role.projectsVacantRoles_name}</IonLabel>
-                        {role.application === null ? (
-                          <IonButton
-                            routerLink={
-                              "/projects/crew/" +
-                              role.projectsVacantRoles_id +
-                              "/apply"
-                            }
-                          >
-                            Apply
-                          </IonButton>
-                        ) : (
-                          <IonButton disabled>Applied</IonButton>
-                        )}
+                        <IonButton
+                          routerLink={
+                            "/projects/crew/" +
+                            role.projectsVacantRoles_id +
+                            "/apply"
+                          }
+                        >
+                          {role.application === null ? "Apply" : "Applied"}
+                        </IonButton>
                       </IonItem>
                     );
                   })}

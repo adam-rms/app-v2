@@ -1,12 +1,12 @@
 import {
   IonCard,
   IonCardHeader,
-  IonCardTitle,
+  IonText,
   IonCardContent,
   IonRow,
   IonCol,
   IonItem,
-  IonCardSubtitle,
+  IonCardTitle,
 } from "@ionic/react";
 import { useContext } from "react";
 import { ProjectDataContext } from "../../contexts/project/ProjectDataContext";
@@ -24,30 +24,32 @@ const ProjectOverview = () => {
       </IonCardHeader>
       <IonCardContent>
         <IonRow>
-          <IonCol>
+          <IonCol size="12" sizeLg="6">
             <IonItem>
               <div className="container">
-                <IonCardSubtitle>Project Manager</IonCardSubtitle>
+                <IonText color="medium">
+                  <h2>Project Manager</h2>
+                </IonText>
                 {projectData.project.projects_manager ? (
-                  <IonCardTitle>
+                  <IonText>
                     {projectData.project.users_name1}{" "}
                     {projectData.project.users_name2}
-                  </IonCardTitle>
+                  </IonText>
                 ) : (
-                  <IonCardTitle>Unknown</IonCardTitle>
+                  <IonText>Unknown</IonText>
                 )}
               </div>
             </IonItem>
             {projectData.project.projectsTypes_config_client && (
               <IonItem>
                 <div className="container">
-                  <IonCardSubtitle>Client</IonCardSubtitle>
+                  <IonText color="medium">
+                    <h2>Client</h2>
+                  </IonText>
                   {projectData.project.clients_id ? (
-                    <IonCardTitle>
-                      {projectData.project.clients_name}
-                    </IonCardTitle>
+                    <IonText>{projectData.project.clients_name}</IonText>
                   ) : (
-                    <IonCardTitle>Unknown</IonCardTitle>
+                    <IonText>Unknown</IonText>
                   )}
                 </div>
               </IonItem>
@@ -55,42 +57,54 @@ const ProjectOverview = () => {
             {projectData.project.projectsTypes_config_venue && (
               <IonItem>
                 <div className="container">
-                  <IonCardSubtitle>Venue</IonCardSubtitle>
+                  <IonText color="medium">
+                    <h2>Venue</h2>
+                  </IonText>
                   {projectData.project.locations_name ? (
-                    <IonCardTitle>
-                      {projectData.project.locations_name}
-                    </IonCardTitle>
+                    <IonText>{projectData.project.locations_name}</IonText>
                   ) : (
-                    <IonCardTitle>Unknown</IonCardTitle>
+                    <IonText>Unknown</IonText>
                   )}
                 </div>
               </IonItem>
             )}
           </IonCol>
-          <IonCol>
+          <IonCol size="12" sizeLg="6">
             <IonItem>
               <div className="container">
-                <IonCardSubtitle>Event Dates</IonCardSubtitle>
+                <IonText color="medium">
+                  <h2>Project ID</h2>
+                </IonText>
+                <IonText>{projectData.project.projects_id}</IonText>
+              </div>
+            </IonItem>
+            <IonItem>
+              <div className="container">
+                <IonText color="medium">
+                  <h2>Event Dates</h2>
+                </IonText>
                 {projectData.project.projects_dates_use_start ? (
-                  <IonCardTitle>
+                  <IonText>
                     {projectData.project.projects_dates_use_start} -{" "}
                     {projectData.project.projects_dates_use_end}
-                  </IonCardTitle>
+                  </IonText>
                 ) : (
-                  <IonCardTitle>Unknown</IonCardTitle>
+                  <IonText>Unknown</IonText>
                 )}
               </div>
             </IonItem>
             <IonItem>
               <div className="container">
-                <IonCardSubtitle>Dates assets in use</IonCardSubtitle>
+                <IonText color="medium">
+                  <h2>Dates assets in use</h2>
+                </IonText>
                 {projectData.project.projects_dates_deliver_start ? (
-                  <IonCardTitle>
+                  <IonText>
                     {projectData.project.projects_dates_deliver_start} -{" "}
                     {projectData.project.projects_dates_deliver_end}
-                  </IonCardTitle>
+                  </IonText>
                 ) : (
-                  <IonCardTitle>Unknown</IonCardTitle>
+                  <IonText>Unknown</IonText>
                 )}
               </div>
             </IonItem>

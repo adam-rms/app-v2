@@ -36,6 +36,16 @@ const ProjectDataProvider: React.FC<React.ReactNode> = ({ children }) => {
     );
   }
 
+  /**
+   * Just refresh project crew roles
+   * @param id project id to refresh
+   */
+  async function refreshProjectCrewRoles(id: number) {
+    setprojectCrewRoles(
+      await Api("/projects/crew/crewRoles/list.php", { projects_id: id }),
+    );
+  }
+
   // Don't forget to add new functions to the value of the provider!
   return (
     <ProjectDataContext.Provider
@@ -43,6 +53,7 @@ const ProjectDataProvider: React.FC<React.ReactNode> = ({ children }) => {
         projectData,
         projectComments,
         projectCrewRoles,
+        refreshProjectCrewRoles,
         refreshProjectData,
       }}
     >

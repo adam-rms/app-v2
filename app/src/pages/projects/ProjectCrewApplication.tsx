@@ -4,15 +4,14 @@ import {
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
+  IonCol,
   IonGrid,
   IonInput,
   IonItem,
   IonLabel,
-  IonList,
   IonRow,
   IonText,
   IonTextarea,
-  IonTitle,
 } from "@ionic/react";
 import { useContext, useEffect, useState } from "react";
 import Page from "../../components/Page";
@@ -170,44 +169,62 @@ const ProjectCrewApplication = () => {
     }, []);
 
     return (
-      <Page
-        title={
-          `Crew Vacancy: ` +
-          thisRole.projects_name +
-          ` - ` +
-          thisRole.projectsVacantRoles_name
-        }
-      >
+      <Page title="Crew Vacancy">
         <Refresher onRefresh={doRefresh} />
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>
+              {thisRole.projects_name +
+                ` - ` +
+                thisRole.projectsVacantRoles_name}
+            </IonCardTitle>
+          </IonCardHeader>
+        </IonCard>
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>Role Information</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <IonList>
-              {information.map((item, index) => {
-                if (item.value || item.value === 0) {
-                  return (
-                    <IonItem key={index}>
-                      <IonTitle>{item.title}</IonTitle>
-                      <IonText>{item.value}</IonText>
-                    </IonItem>
-                  );
-                } else {
-                  return null;
-                }
-              })}
-            </IonList>
             <IonGrid>
               <IonRow>
-                <IonItem>
-                  <IonTitle color="primary">Description</IonTitle>
-                  <p>{thisRole.projectsVacantRoles_description}</p>
-                </IonItem>
-                <IonItem>
-                  <IonTitle color="primary">Person Specification</IonTitle>
-                  <p>{thisRole.projectsVacantRoles_personSpecification}</p>
-                </IonItem>
+                <IonCol size="12" sizeMd="6">
+                  {information.map((item, index) => {
+                    if (item.value || item.value === 0) {
+                      return (
+                        <IonCol className="container" key={index} size="12">
+                          <IonText color="medium">
+                            <h2>{item.title}</h2>
+                          </IonText>
+                          <IonText>{item.value}</IonText>
+                        </IonCol>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
+                </IonCol>
+                <IonCol size="12" sizeMd="6">
+                  <IonRow>
+                    <IonCol size="12" sizeMd="3">
+                      <IonText color="primary">
+                        <h1>Description</h1>
+                      </IonText>
+                    </IonCol>
+                    <IonCol size="12" sizeMd="9">
+                      <p>{thisRole.projectsVacantRoles_description}</p>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol size="12" sizeMd="3">
+                      <IonText color="primary">
+                        <h1>Person Specification</h1>
+                      </IonText>
+                    </IonCol>
+                    <IonCol size="12" sizeMd="9">
+                      <p>{thisRole.projectsVacantRoles_personSpecification}</p>
+                    </IonCol>
+                  </IonRow>
+                </IonCol>
               </IonRow>
             </IonGrid>
           </IonCardContent>
@@ -272,7 +289,7 @@ const ProjectCrewApplication = () => {
               <IonCardTitle>Apply</IonCardTitle>
             </IonCardHeader>
             <IonCardContent>
-              <IonTitle>You have already applied for this role.</IonTitle>
+              <p>You have already applied for this role.</p>
             </IonCardContent>
           </IonCard>
         )}
