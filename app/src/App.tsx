@@ -49,6 +49,8 @@ const App: React.FC = () => {
             ); // app URLs are not parsed by the browser
             if (token) {
               localStorage.setItem("token", token);
+              //reload so authentication context can be updated
+              window.location.reload();
             }
           }
         }

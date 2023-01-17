@@ -18,6 +18,7 @@ const Login = () => {
   const [endpoint, setEndpoint] = useState<string>("https://dash.adam-rms.com");
   const [authenticated, setAuthenticated] = useState(isLoggedIn());
 
+  //update authenticated state when token is added or removed
   useEffect(() => {
     window.addEventListener("storage", () => {
       setAuthenticated(isLoggedIn());
