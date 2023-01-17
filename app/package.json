@@ -11,7 +11,7 @@
     "@capacitor-community/http": "^1.4.1",
     "@capacitor/android": "^4.0.0",
     "@capacitor/app": "^4.0.0",
-    "@capacitor/browser": "^4.0.0",
+    "@capacitor/browser": "^4.1.0",
     "@capacitor/core": "^4.0.0",
     "@capacitor/dialog": "^4.1.0",
     "@capacitor/haptics": "^4.0.0",

@@ -58,7 +58,6 @@ const Asset = () => {
         }
       >
         <Refresher onRefresh={doRefresh} />
-
         {/* Asset Data */}
         {thisAsset && (
           <AssetInformation asset={thisAsset} assetType={thisAssetType} />

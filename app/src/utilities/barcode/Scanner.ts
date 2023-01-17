@@ -103,7 +103,10 @@ const WebPrompt = async () => {
  */
 const DoScan = async () => {
   let content: string | boolean | undefined;
-  if (isPlatform("ios") || isPlatform("android")) {
+  if (
+    (isPlatform("ios") || isPlatform("android")) &&
+    !isPlatform("mobileweb")
+  ) {
     //we can use the BarcodeScanner Plugin with these platforms
     if (await didUserGrantPermission()) {
       content = await OpenScanner(); //return these values

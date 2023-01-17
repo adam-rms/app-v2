@@ -10,11 +10,23 @@ import {
   IonRow,
 } from "@ionic/react";
 import AdamRMSLogo from "../../assets/logo.png";
-import { login } from "../../utilities/Auth";
-import { useState } from "react";
+import { login, isLoggedIn } from "../../utilities/Auth";
+import { useEffect, useState } from "react";
+import { Redirect } from "react-router";
 
 const Login = () => {
   const [endpoint, setEndpoint] = useState<string>("https://dash.adam-rms.com");
+  const [authenticated, setAuthenticated] = useState(isLoggedIn());
+
+  useEffect(() => {
+    window.addEventListener("storage", () => {
+      setAuthenticated(isLoggedIn());
+    });
+  }, []);
+
+  if (authenticated) {
+    return <Redirect to="/" />;
+  }
   return (
     <>
       <Page title="Login" show_header={false}>
