@@ -1,4 +1,9 @@
-import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
+import {
+  IonApp,
+  IonButton,
+  IonRouterOutlet,
+  setupIonicReact,
+} from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Routes } from "./utilities/Routes";
 import Contexts from "./contexts/Context";
@@ -29,6 +34,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
+import { StopScan } from "./utilities/barcode/Scanner";
 
 //setup Font Awesome icons
 library.add(fab, far, fas);
@@ -71,6 +77,18 @@ const App: React.FC = () => {
           </IonReactRouter>
         </Contexts>
       </IonApp>
+      {isPlatform("capacitor") && (
+        <IonButton
+          id="scanner-end-button"
+          className="scanner-end-button hide-this"
+          expand="block"
+          onClick={() => {
+            StopScan();
+          }}
+        >
+          Stop Barcode Scan
+        </IonButton>
+      )}
     </>
   );
 };
