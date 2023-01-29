@@ -1,4 +1,6 @@
 import { Redirect, useLocation } from "react-router-dom";
+import { Browser } from "@capacitor/browser";
+import { isPlatform } from "@ionic/react";
 
 /**
  * Login utility function. Opens AdamRMS login
@@ -6,14 +8,20 @@ import { Redirect, useLocation } from "react-router-dom";
  */
 export const login = (baseURL = "https://dash.adam-rms.com") => {
   localStorage.setItem("baseURL", baseURL);
-  window.open(
-    baseURL +
-      "/login/?app-oauth=true&returnHost=" +
-      window.location.hostname +
-      (window.location.port ? ":" + window.location.port : ""),
-    "_self",
-    "",
-  );
+  if (isPlatform("capacitor")) {
+    Browser.open({
+      url: baseURL + "/login/?app-oauth=true",
+    });
+  } else {
+    window.open(
+      baseURL +
+        "/login/?app-oauth=true&returnHost=" +
+        window.location.hostname +
+        (window.location.port ? ":" + window.location.port : ""),
+      "_self",
+      "",
+    );
+  }
 };
 
 /**

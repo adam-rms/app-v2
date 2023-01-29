@@ -6,8 +6,6 @@ import { isPlatform } from "@ionic/core";
  * This file handles the actual collection of barcode data,
  * and should be used in other files to handle the result
  */
-//Temporary constant for barcode type, waiting for library to update
-const barcodeType = "CODE_128";
 
 /**
  * Verifies whether BarcodeScanner plugin is allowed to scan barcodes
@@ -65,16 +63,29 @@ const didUserGrantPermission = async () => {
  * @returns {string | boolean} Barcode content or false
  */
 const OpenScanner = async () => {
-  BarcodeScanner.hideBackground(); // make background of WebView transparent
+  BarcodeScanner.hideBackground(); //hide the ionic overlay
+  document.querySelector("ion-app")?.classList.add("hide-this"); //override ionic styles
+  document.querySelector("#scanner-end-button")?.classList.remove("hide-this"); //show the end scan button
 
   const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
 
+  //handle removing classes and stopping scan
+  StopScan();
+
   // if the result has content
   if (result.hasContent) {
-    return result.content; // log the raw scanned content
+    return [result.content, result.format]; // return the raw scanned content
   } else {
     return false;
   }
+};
+
+export const StopScan = () => {
+  // stop scanning and remove the overlay
+  BarcodeScanner.showBackground();
+  document.querySelector("ion-app")?.classList.remove("hide-this");
+  document.querySelector("#scanner-end-button")?.classList.add("hide-this");
+  BarcodeScanner.stopScan();
 };
 
 /**
@@ -103,10 +114,11 @@ const WebPrompt = async () => {
  */
 const DoScan = async () => {
   let content: string | boolean | undefined;
-  if (isPlatform("ios") || isPlatform("android")) {
+  let format: string | undefined;
+  if (isPlatform("capacitor")) {
     //we can use the BarcodeScanner Plugin with these platforms
     if (await didUserGrantPermission()) {
-      content = await OpenScanner(); //return these values
+      [content, format] = await OpenScanner(); //return these values
     }
   } else {
     //Plugin doesn't work so just prompt for input
@@ -114,7 +126,7 @@ const DoScan = async () => {
   }
 
   if (content) {
-    return [content, barcodeType];
+    return [content, format];
   } else {
     return [false, null];
   }
