@@ -15,6 +15,7 @@
     "@capacitor/core": "^4.0.0",
     "@capacitor/dialog": "^4.1.0",
     "@capacitor/haptics": "^4.0.0",
+    "@capacitor/ios": "^4.6.2",
     "@capacitor/keyboard": "^4.0.0",
     "@capacitor/preferences": "^4.0.2",
     "@capacitor/status-bar": "^4.0.0",
