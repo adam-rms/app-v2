@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "adam-rms-app-v2",
-    "slug": "adam-rms-app-v2",
-    "version": "1.0.0",
+    "scheme": "com.bstudios.adamrms",
+    "name": "AdamRMS",
+    "slug": "adamrms",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -26,7 +27,14 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "44081300-167d-408a-9854-59fb10a24845"
+      }
+    },
+    "owner": "adamrms"
   }
 }
