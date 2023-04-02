@@ -12,6 +12,7 @@ import {
   makeRedirectUri,
   useAuthRequest,
 } from "expo-auth-session";
+import Toast from "react-native-root-toast";
 
 /** Parameters returned from the context
  * @see useAuth
@@ -109,6 +110,10 @@ export function AuthProvider({
     if (result?.type === "success") {
       //we have a token so store it
       setToken(result.params.token);
+    } else {
+      Toast.show("There was an issue logging in", {
+        duration: Toast.durations.LONG,
+      });
     }
   }, [result]);
 

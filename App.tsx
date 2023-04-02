@@ -2,8 +2,9 @@ import "react-native-gesture-handler";
 import { createTheme, ThemeProvider } from "@rneui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
-import Routing from "./utilities/Routing";
+import { RootSiblingParent } from "react-native-root-siblings";
 import { AuthProvider } from "./contexts/useAuth";
+import Routing from "./utilities/Routing";
 
 const theme = createTheme({
   lightColors: {
@@ -26,11 +27,13 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <ThemeProvider theme={theme}>
-        <AuthProvider>
-          <NavigationContainer>
-            <Routing />
-          </NavigationContainer>
-        </AuthProvider>
+        <RootSiblingParent>
+          <AuthProvider>
+            <NavigationContainer>
+              <Routing />
+            </NavigationContainer>
+          </AuthProvider>
+        </RootSiblingParent>
       </ThemeProvider>
     </SafeAreaProvider>
   );
