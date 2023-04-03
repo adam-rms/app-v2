@@ -107,13 +107,15 @@ export function AuthProvider({
 
   //Handle the Auth response
   useEffect(() => {
-    if (result?.type === "success") {
-      //we have a token so store it
-      setToken(result.params.token);
-    } else {
-      Toast.show("There was an issue logging in", {
-        duration: Toast.durations.LONG,
-      });
+    if (result) {
+      if (result.type === "success") {
+        //we have a token so store it
+        setToken(result.params.token);
+      } else {
+        Toast.show("There was an issue logging in", {
+          duration: Toast.durations.LONG,
+        });
+      }
     }
   }, [result]);
 

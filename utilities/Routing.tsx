@@ -4,6 +4,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
 import useAuth from "../contexts/useAuth";
+import SetManualLocation from "../pages/utilities/SetManualLocation";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -16,6 +17,9 @@ export type RMSDrawerParamList = {
 
   //Authenticated Routes
   Home: undefined;
+
+  // - Utilities
+  SetManualLocation: undefined;
 };
 
 //The actual navigator context
@@ -44,6 +48,13 @@ const Routing = () => {
         //Routes that require authentication
         <>
           <Drawer.Screen name="Home" component={Home} />
+
+          {/*- Utilities*/}
+          <Drawer.Screen
+            name="SetManualLocation"
+            component={SetManualLocation}
+            options={{ title: "Set Manual Location" }}
+          />
         </>
       ) : (
         //Routes that don't require authentication

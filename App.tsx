@@ -1,10 +1,13 @@
-import "react-native-gesture-handler";
+import "react-native-gesture-handler"; // Must be listed first
+import "setimmediate";
 import { createTheme, ThemeProvider } from "@rneui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootSiblingParent } from "react-native-root-siblings";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { AuthProvider } from "./contexts/useAuth";
 import Routing from "./utilities/Routing";
+import { LocationProvider } from "./contexts/useRMSLocation";
 
 const theme = createTheme({
   lightColors: {
@@ -28,11 +31,17 @@ export default function App() {
     <SafeAreaProvider>
       <ThemeProvider theme={theme}>
         <RootSiblingParent>
-          <AuthProvider>
-            <NavigationContainer>
-              <Routing />
-            </NavigationContainer>
-          </AuthProvider>
+          <ActionSheetProvider>
+            <AuthProvider>
+              {/* Our Authentication, which Navigation depends on */}
+              <NavigationContainer>
+                <LocationProvider>
+                  {/* Location is a Global Context, and depends on the Navigation Container */}
+                  <Routing /> {/* The actual routes for the app */}
+                </LocationProvider>
+              </NavigationContainer>
+            </AuthProvider>
+          </ActionSheetProvider>
         </RootSiblingParent>
       </ThemeProvider>
     </SafeAreaProvider>
