@@ -17,10 +17,10 @@ import { RMSDrawerParamList } from "../utilities/Routing";
  * @see useLocations
  */
 interface LocationContextType {
-  rmsLocation: ILocation;
   getRMSLocation: (withCheck?: boolean) => ILocation;
   updateRMSLocation: () => Promise<void>;
   setRMSLocation: (location: ILocation) => void;
+  handleLocationBarCodeScanned: (type: IPermittedBarcode, data: string) => void;
 }
 
 // The actual context
@@ -85,6 +85,46 @@ export const LocationProvider = ({
   };
 
   /**
+   * Update the RMS Location from the given barcode values
+   * @param barcodeType The type of barcode
+   * @param barcodeData The data of the barcode
+   */
+  const handleLocationBarCodeScanned = async (
+    barcodeType: IPermittedBarcode,
+    barcodeData: string,
+  ) => {
+    console.log("Scanned: " + barcodeData + " (" + barcodeType + ")");
+    //look up barcode
+    const result = await Api("assets/barcodes/search.php", {
+      text: barcodeData,
+      type: barcodeType,
+    });
+    console.log(result);
+    if (result.location) {
+      //barcode is of a location, so save that
+      setRMSLocation({
+        name: result.location["barcode"]["locationsBarcodes_id"],
+        value: result.location["locations_name"],
+        type: "barcode",
+      });
+    } else if (result.asset) {
+      //barcode is another asset (eg. a case)
+      setRMSLocation({
+        name: result.asset["assets_id"],
+        value: result.asset["tag"] + " " + result.asset["assetTypes_name"],
+        type: "asset",
+      });
+    } else {
+      //not found
+      setRMSLocation({
+        name: "Location Not Found",
+        value: "",
+        type: undefined,
+      });
+    }
+  };
+
+  /**
    * Scan or Enter a location barcode,
    * sets the actual location
    */
@@ -110,38 +150,11 @@ export const LocationProvider = ({
       async (buttonIndex: number | undefined) => {
         switch (buttonIndex) {
           case 0:
-            throw new Error("Not Implemented");
             //they want to scan a barcode, show scan interface
-            const [locationBarcode, barcodeType] = [null, null]; //await DoScan();//TODO: implement DoScan
-
-            //look up barcode
-            const result = await Api("assets/barcodes/search.php", {
-              text: locationBarcode,
-              type: barcodeType,
+            navigation.navigate("BarcodeScanner", {
+              callback: "location",
+              returnPage: "Home",
             });
-            if (result.location) {
-              //barcode is of a location, so save that
-              thisLocation = {
-                name: result.location["barcode"]["locationsBarcodes_id"],
-                value: result.location["locations_name"],
-                type: "barcode",
-              };
-            } else if (result.asset) {
-              //barcode is another asset (eg. a case)
-              thisLocation = {
-                name: result.asset["assets_id"],
-                value:
-                  result.asset["tag"] + " " + result.asset["assetTypes_name"],
-                type: "asset",
-              };
-            } else {
-              //not found
-              thisLocation = {
-                name: "Location Not Found",
-                value: "",
-                type: undefined,
-              };
-            }
             break;
           case 1:
             //Entering a custom location
@@ -167,10 +180,10 @@ export const LocationProvider = ({
   //Memoize the context so it doesn't change on every render
   const memoedValue = useMemo(
     () => ({
-      rmsLocation,
       getRMSLocation,
       updateRMSLocation,
       setRMSLocation,
+      handleLocationBarCodeScanned,
     }),
     [rmsLocation],
   );
@@ -184,10 +197,11 @@ export const LocationProvider = ({
 
 /**
  * Wraps the LocationContext
- * @returns An object containing:
- * - rmsLocation: The current location
- * - getRMSLocation: A function to get the current location
- * - updateRMSLocation: A function to update the current location
+ * @returns A Hook containing:
+ * - getRMSLocation: Location Getter
+ * - updateRMSLocation: Location Setter - Use this to have the full UI for setting barcodes
+ * - setRMSLocation: Utility function to set the location - use the above updateRMSLocation to set the location
+ * - handleLocationBarCodeScanned: Utility function to set the location - should only be called from the BarcodeScanner Page
  */
 export default function useRMSLocation() {
   return useContext(LocationContext);

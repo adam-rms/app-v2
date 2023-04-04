@@ -264,3 +264,16 @@ interface ILocation {
   value: string;
   type: "barcode" | "asset" | "custom" | undefined;
 }
+
+/**
+ * ### Permitted Barcodes
+ * Based on those supported by the Barcode Scanner Plugin and
+ * the PHP handling library.
+ */
+type IPermittedBarcode =
+  | "EAN_8"
+  | "EAN_13"
+  | "CODE_39"
+  | "CODE_93"
+  | "CODE_128"
+  | undefined;

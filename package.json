@@ -55,7 +55,8 @@
     "react-native-screens": "~3.20.0",
     "react-native-web": "~0.18.10",
     "setimmediate": "^1.0.5",
-    "@expo/webpack-config": "^18.0.1"
+    "@expo/webpack-config": "^18.0.1",
+    "expo-barcode-scanner": "~12.3.2"
   },
   "overrides": {
     "metro": "0.76.0",

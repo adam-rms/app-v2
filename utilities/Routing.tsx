@@ -5,6 +5,7 @@ import Login from "../pages/Login";
 import Home from "../pages/Home";
 import useAuth from "../contexts/useAuth";
 import SetManualLocation from "../pages/utilities/SetManualLocation";
+import BarcodeScanner from "../pages/utilities/BarcodeScanner";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -20,6 +21,10 @@ export type RMSDrawerParamList = {
 
   // - Utilities
   SetManualLocation: undefined;
+  BarcodeScanner: {
+    callback: "location"; // Extend this for other callbacks, eg assets
+    returnPage: keyof RMSDrawerParamList;
+  };
 };
 
 //The actual navigator context
@@ -54,6 +59,11 @@ const Routing = () => {
             name="SetManualLocation"
             component={SetManualLocation}
             options={{ title: "Set Manual Location" }}
+          />
+          <Drawer.Screen
+            name="BarcodeScanner"
+            component={BarcodeScanner}
+            options={{ title: "Barcode Scanner", headerShown: false }}
           />
         </>
       ) : (

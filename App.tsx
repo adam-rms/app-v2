@@ -37,7 +37,7 @@ export default function App() {
               <NavigationContainer>
                 <LocationProvider>
                   {/* Location is a Global Context, and depends on the Navigation Container */}
-                  <Routing /> {/* The actual routes for the app */}
+                  <Routing />
                 </LocationProvider>
               </NavigationContainer>
             </AuthProvider>

@@ -35,6 +35,14 @@
         "projectId": "44081300-167d-408a-9854-59fb10a24845"
       }
     },
-    "owner": "adamrms"
+    "owner": "adamrms",
+    "plugins":[
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "Allow AdamRMS to use your camera to scan barcodes."
+        }
+      ]
+    ]
   }
 }

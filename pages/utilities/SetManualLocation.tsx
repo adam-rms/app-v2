@@ -8,8 +8,10 @@ import { Column, Container, Row } from "../../components/Layout";
 const SetManualLocation = () => {
   const styles = useStyles();
   const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
-  const { rmsLocation, setRMSLocation } = useRMSLocation();
+  const { getRMSLocation, setRMSLocation } = useRMSLocation();
   const [userLocation, setUserLocation] = useState<string>("");
+
+  const rmsLocation = getRMSLocation();
 
   return (
     <Container>
@@ -18,22 +20,16 @@ const SetManualLocation = () => {
           <Card wrapperStyle={styles.card}>
             <Card.Title>Current Location</Card.Title>
             <Card.Divider />
-            <Text>
-              Name: <i>{rmsLocation.name}</i>
-            </Text>
-            <Text>
-              Value: <i>{rmsLocation.value}</i>
-            </Text>
-            <Text>
-              Type: <i>{rmsLocation.type}</i>
-            </Text>
+            <Text>Name: {rmsLocation.name}</Text>
+            <Text>Value: {rmsLocation.value}</Text>
+            <Text>Type: {rmsLocation.type}</Text>
           </Card>
         </Column>
         <Column>
           <Card wrapperStyle={styles.card}>
             <Card.Title>Set Location</Card.Title>
             <Card.Divider />
-            <label htmlFor="locationName">Location Name</label>
+            <Text>Location Name</Text>
             <Input
               id="locationName"
               placeholder="Location Name"
