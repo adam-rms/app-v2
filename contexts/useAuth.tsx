@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { FetchData, RemoveData, StoreData } from "../utilities/DataStorage";
+import { FetchData, StoreData } from "../utilities/DataStorage";
 import {
   DiscoveryDocument,
   makeRedirectUri,
@@ -37,6 +37,7 @@ export function AuthProvider({
   children: ReactNode;
 }): JSX.Element {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const [initialLoading, setInitialLoading] = useState<boolean>(true); // Used to prevent the app overwriting the endpoint and token with null values
   const [endpoint, setEndpoint] = useState<string>("https://dash.adam-rms.com");
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -59,6 +60,23 @@ export function AuthProvider({
     discovery,
   );
 
+  // Check if we've already stored a token and endpoint when we first load the app.
+  useEffect(() => {
+    (async () => {
+      const storedEndpoint = await FetchData("Endpoint");
+      const storedToken = await FetchData("AuthToken");
+      if (storedEndpoint && storedToken) {
+        setEndpoint(storedEndpoint);
+        setToken(storedToken);
+        setAuthenticated(true);
+        setInitialLoading(false); //Allow saving to occur
+      } else {
+        setAuthenticated(false);
+        setInitialLoading(false);
+      }
+    })();
+  }, []);
+
   // Map loading var to useAuthRequest request
   useEffect(() => {
     setLoading(!!request);
@@ -67,12 +85,9 @@ export function AuthProvider({
   //Store the token when the context is updated
   useEffect(() => {
     const storeToken = async () => {
-      if (token) {
+      if (token && !initialLoading) {
         await StoreData("AuthToken", token);
         setAuthenticated(true);
-      } else {
-        RemoveData("AuthToken");
-        setAuthenticated(false);
       }
     };
     storeToken();
@@ -80,50 +95,40 @@ export function AuthProvider({
 
   //store the Endpoint when the context is updated
   useEffect(() => {
-    const storeEndpoint = async () => {
-      await StoreData("Endpoint", endpoint);
-      // Update the Discovery document
-      setDiscovery({
-        authorizationEndpoint: endpoint + "/login",
-      });
-    };
-    storeEndpoint();
-  }, [endpoint]);
-
-  // Check if we've already stored a token and endpoint
-  // when we first load the app.
-  useEffect(() => {
-    const getData = async () => {
-      const storedEndpoint = await FetchData("Endpoint");
-      const storedToken = await FetchData("AuthToken");
-      if (storedEndpoint && storedToken) {
-        setEndpoint(storedEndpoint);
-        setToken(storedToken);
-        setAuthenticated(true);
+    (async () => {
+      if (endpoint && !initialLoading) {
+        await StoreData("Endpoint", endpoint);
+        // Update the Discovery document
+        setDiscovery({
+          authorizationEndpoint: endpoint + "/login",
+        });
       }
-    };
-    getData();
-  }, []);
+    })();
+  }, [endpoint]);
 
   //Handle the Auth response
   useEffect(() => {
-    if (result) {
-      if (result.type === "success") {
-        //we have a token so store it
-        setToken(result.params.token);
-      } else {
-        Toast.show("There was an issue logging in", {
-          duration: Toast.durations.LONG,
-        });
+    (async () => {
+      if (result) {
+        if (result.type === "success" && result.params.token) {
+          //we have a token so store it
+          await StoreData("AuthToken", result.params.token);
+          setAuthenticated(true);
+        } else {
+          Toast.show("There was an issue logging in", {
+            duration: Toast.durations.LONG,
+          });
+        }
       }
-    }
+    })();
   }, [result]);
 
-  function logout() {
+  const logout = async () => {
     //clear our storage of the token and reset the endpoint
+    setAuthenticated(false);
     setToken(null);
     setEndpoint("https://dash.adam-rms.com");
-  }
+  };
 
   //Memoize the context to prevent unnecessary re-renders
   const memoedValue = useMemo(
@@ -152,7 +157,7 @@ export function AuthProvider({
  * Wraps the AuthProvider component
  * @link https://docs.expo.dev/versions/latest/sdk/auth-session/
  * ---
- * @returns An object containing:
+ * @returns The useAuth Hook, containing:
  * - authenticated: boolean - whether the user is authenticated
  * - loading: boolean - whether the auth request is loading
  * - endpoint: string - the current endpoint
