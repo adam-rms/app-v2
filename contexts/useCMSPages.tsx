@@ -2,6 +2,7 @@
 
 import { ReactNode, createContext, useContext, useMemo, useState } from "react";
 import Api from "../utilities/Api";
+import { useToast } from "native-base";
 
 /** Parameters returned from the context
  * @see useAssetTypes
@@ -24,6 +25,7 @@ export const CmsPageProvider = ({
 }: {
   children: ReactNode;
 }): JSX.Element => {
+  const toast = useToast();
   //Create default state for the page list (used in menus etc)
   const [CmsPages, setCmsPages] = useState<ICmsPageProvider>([]);
 
@@ -35,17 +37,33 @@ export const CmsPageProvider = ({
    * Replace pages in context
    */
   async function refreshPages() {
-    setCmsPages(await Api("cms/list.php"));
+    const cmsResponse = await Api("cms/list.php");
+    if (cmsResponse.result) {
+      setCmsPages(cmsResponse.response);
+    } else {
+      toast.show({
+        title: "Error Loading Pages",
+        description: cmsResponse.error,
+      });
+    }
   }
 
   /**
    * Get or refresh the content of a page
    */
   async function getPage(id: number) {
-    setCmsContent([
-      ...CmsContent.filter((page: CmsContent) => page.cmsPages_id != id),
-      await Api("cms/get.php", { p: id }),
-    ]);
+    const contentResponse = await Api("cms/get.php", { p: id });
+    if (contentResponse.result) {
+      setCmsContent([
+        ...CmsContent.filter((page: CmsContent) => page.cmsPages_id != id),
+        contentResponse.response,
+      ]);
+    } else {
+      toast.show({
+        title: "Error Loading Page",
+        description: contentResponse.error,
+      });
+    }
   }
 
   //Memoize the context to prevent unnecessary re-renders

@@ -12,6 +12,7 @@ import Api from "../utilities/Api";
 import { FetchData, StoreData } from "../utilities/DataStorage";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RMSDrawerParamList } from "../utilities/Routing";
+import { useToast } from "native-base";
 /**
  * Parameters returned from the context
  * @see useLocations
@@ -34,6 +35,7 @@ export const LocationProvider = ({
 }: {
   children: ReactNode;
 }): JSX.Element => {
+  const toast = useToast();
   const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
   const { showActionSheetWithOptions } = useActionSheet();
   //Create default state
@@ -99,27 +101,37 @@ export const LocationProvider = ({
       text: barcodeData,
       type: barcodeType,
     });
-    console.log(result);
-    if (result.location) {
-      //barcode is of a location, so save that
-      setRMSLocation({
-        name: result.location["barcode"]["locationsBarcodes_id"],
-        value: result.location["locations_name"],
-        type: "barcode",
-      });
-    } else if (result.asset) {
-      //barcode is another asset (eg. a case)
-      setRMSLocation({
-        name: result.asset["assets_id"],
-        value: result.asset["tag"] + " " + result.asset["assetTypes_name"],
-        type: "asset",
-      });
+    if (result.result) {
+      if (result.response.location) {
+        //barcode is of a location, so save that
+        setRMSLocation({
+          name: result.response.location["barcode"]["locationsBarcodes_id"],
+          value: result.response.location["locations_name"],
+          type: "barcode",
+        });
+      } else if (result.response.asset) {
+        //barcode is another asset (eg. a case)
+        setRMSLocation({
+          name: result.response.asset["assets_id"],
+          value:
+            result.response.asset["tag"] +
+            " " +
+            result.response.asset["assetTypes_name"],
+          type: "asset",
+        });
+      } else {
+        //not found
+        setRMSLocation({
+          name: "Location Not Found",
+          value: "",
+          type: undefined,
+        });
+      }
     } else {
-      //not found
-      setRMSLocation({
-        name: "Location Not Found",
-        value: "",
-        type: undefined,
+      //error
+      toast.show({
+        title: "Error",
+        description: result.error,
       });
     }
   };

@@ -78,7 +78,7 @@ const BarcodeScanner = () => {
         default:
           // We don't have a valid callback
           navigation.navigate("Home");
-          break;
+          return;
       }
       navigation.navigate(returnPage);
     }

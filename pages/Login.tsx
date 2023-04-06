@@ -1,39 +1,27 @@
-import { View } from "react-native";
-import { makeStyles, Button, Input } from "@rneui/themed";
 import Logo from "../components/images/Logo";
 import useAuth from "../contexts/useAuth";
+import { Container, Input, Button, FormControl } from "native-base";
 
 const Login = () => {
-  const styles = useStyles();
   const { loading, promptAsync, setEndpoint, endpoint } = useAuth();
 
   return (
-    <View style={styles.container}>
+    <Container>
       <Logo />
-      <Input
-        placeholder="AdamRMS Endpoint"
-        label="AdamRMS Endpoint"
-        value={endpoint}
-        onChangeText={(text) => setEndpoint(text)}
-      />
+      <FormControl>
+        <FormControl.Label>AdamRMS Endpoint</FormControl.Label>
+        <Input
+          placeholder="AdamRMS Endpoint"
+          value={endpoint}
+          onChangeText={(text) => setEndpoint(text)}
+        />
+      </FormControl>
+
       <Button disabled={!loading} onPress={() => promptAsync()}>
         Log In
       </Button>
-    </View>
+    </Container>
   );
 };
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-    alignItems: "center",
-    marginTop: theme.spacing.xl,
-    padding: theme.spacing.lg,
-  },
-  text: {
-    marginVertical: theme.spacing.lg,
-  },
-}));
 
 export default Login;

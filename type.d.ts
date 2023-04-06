@@ -196,6 +196,20 @@ interface IProjectCrewRoleQuestion {
   placeholder: string;
 }
 
+interface IProjectCrewAssignment {
+  crewAssignments_id: number;
+  users_userid: number;
+  projects_id: number;
+  crewAssignments_personName: string;
+  crewAssignments_role: string;
+  crewAssignments_comment: string;
+  crewAssignments_deleted: number;
+  crewAssignments_rank: number;
+  users_name1: string;
+  users_name2: string;
+  users_email: string;
+}
+
 /**
  * CMS Page List
  */

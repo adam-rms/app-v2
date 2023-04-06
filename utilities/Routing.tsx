@@ -6,6 +6,8 @@ import Home from "../pages/Home";
 import useAuth from "../contexts/useAuth";
 import SetManualLocation from "../pages/utilities/SetManualLocation";
 import BarcodeScanner from "../pages/utilities/BarcodeScanner";
+import ProjectList from "../pages/projects/ProjectList";
+import Project from "../pages/projects/Project";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -18,6 +20,10 @@ export type RMSDrawerParamList = {
 
   //Authenticated Routes
   Home: undefined;
+
+  // - Projects
+  ProjectList: undefined;
+  Project: { projectId: number };
 
   // - Utilities
   SetManualLocation: undefined;
@@ -53,6 +59,20 @@ const Routing = () => {
         //Routes that require authentication
         <>
           <Drawer.Screen name="Home" component={Home} />
+
+          {/*- Projects*/}
+          <Drawer.Screen
+            name="ProjectList"
+            component={ProjectList}
+            options={{ title: "Projects" }}
+          />
+          <Drawer.Screen
+            name="Project"
+            component={Project}
+            options={{ title: "Project" }}
+          />
+
+          {/*- Assets*/}
 
           {/*- Utilities*/}
           <Drawer.Screen

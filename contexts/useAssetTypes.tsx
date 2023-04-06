@@ -2,6 +2,7 @@
 
 import { ReactNode, createContext, useContext, useMemo, useState } from "react";
 import Api from "../utilities/Api";
+import { useToast } from "native-base";
 
 /** Parameters returned from the context
  * @see useAssetTypes
@@ -23,6 +24,7 @@ export const AssetTypeProvider = ({
 }: {
   children: ReactNode;
 }): JSX.Element => {
+  const toast = useToast();
   //Create default state
   const [AssetTypes, setAssetTypes] = useState<IAssetType>({
     assets: [],
@@ -38,11 +40,29 @@ export const AssetTypeProvider = ({
    */
   async function refreshAssetTypes(assetTypes_id?: number) {
     if (assetTypes_id) {
-      setAssetTypes(
-        await Api("assets/list.php", { assetTypes_id: assetTypes_id }),
-      );
+      const assetList = await Api("assets/list.php", {
+        assetTypes_id: assetTypes_id,
+      });
+      if (assetList.result) {
+        setAssetTypes(assetList.response);
+      } else {
+        toast.show({
+          title: "Error Loading Assets",
+          description: assetList.error,
+        });
+      }
     } else {
-      setAssetTypes(await Api("assets/list.php", { all: true }));
+      const assetList = await Api("assets/list.php", {
+        all: true,
+      });
+      if (assetList.result) {
+        setAssetTypes(assetList.response);
+      } else {
+        toast.show({
+          title: "Error Loading Assets",
+          description: assetList.error,
+        });
+      }
     }
   }
 
@@ -54,12 +74,20 @@ export const AssetTypeProvider = ({
     //check if there are more pages to get
     if (AssetTypes.pagination.page < AssetTypes.pagination.total) {
       //get assets
-      const newassets: IAssetType = await Api("assets/list.php", {
+      const assetResponse = await Api("assets/list.php", {
         all: true,
         page: AssetTypes.pagination.page + 1,
       });
-      newassets.assets = AssetTypes.assets.concat(newassets.assets);
-      setAssetTypes(newassets);
+      if (assetResponse.result) {
+        const newassets: IAssetType = assetResponse.response;
+        newassets.assets = AssetTypes.assets.concat(newassets.assets);
+        setAssetTypes(newassets);
+      } else {
+        toast.show({
+          title: "Error Loading Assets",
+          description: assetResponse.error,
+        });
+      }
     }
   }
 
