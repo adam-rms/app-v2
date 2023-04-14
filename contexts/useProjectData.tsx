@@ -11,8 +11,8 @@ interface ProjectDataContextType {
   projectData: IProjectData;
   projectComments: IComment[];
   projectCrewRoles: IProjectCrewRole[];
-  refreshProjectData: (id: number, event?: CustomEvent) => void;
-  refreshProjectCrewRoles: (id: number) => void;
+  refreshProjectData: (id: number, event?: CustomEvent) => Promise<void>;
+  refreshProjectCrewRoles: (id?: number) => Promise<void>;
 }
 
 // The actual context
@@ -76,7 +76,7 @@ export const ProjectDataProvider = ({
    * Just refresh project crew roles
    * @param id project id to refresh
    */
-  async function refreshProjectCrewRoles(id: number) {
+  async function refreshProjectCrewRoles(id?: number) {
     const crewRolesResponse = await Api("/projects/crew/crewRoles/list.php", {
       projects_id: id,
     });

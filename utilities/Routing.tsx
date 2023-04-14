@@ -8,6 +8,8 @@ import SetManualLocation from "../pages/utilities/SetManualLocation";
 import BarcodeScanner from "../pages/utilities/BarcodeScanner";
 import ProjectList from "../pages/projects/ProjectList";
 import Project from "../pages/projects/Project";
+import CrewRecruitment from "../pages/projects/CrewRecruitment";
+import CrewRecruitmentApplication from "../pages/projects/CrewRecruitmentApplication";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -24,6 +26,8 @@ export type RMSDrawerParamList = {
   // - Projects
   ProjectList: undefined;
   Project: { projectId: number };
+  CrewRecruitment: undefined;
+  CrewRecruitmentApplication: { applicationId: number };
 
   // - Utilities
   SetManualLocation: undefined;
@@ -70,6 +74,17 @@ const Routing = () => {
             name="Project"
             component={Project}
             options={{ title: "Project" }}
+          />
+
+          <Drawer.Screen
+            name="CrewRecruitment"
+            component={CrewRecruitment}
+            options={{ title: "Crew Recruitment" }}
+          />
+          <Drawer.Screen
+            name="CrewRecruitmentApplication"
+            component={CrewRecruitmentApplication}
+            options={{ title: "Crew Recruitment Application" }}
           />
 
           {/*- Assets*/}

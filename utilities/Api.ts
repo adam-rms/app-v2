@@ -10,7 +10,7 @@ import { FetchData } from "./DataStorage";
 interface APIResponse {
   result: boolean;
   response?: any;
-  error?: string;
+  error?: any;
 }
 
 /**

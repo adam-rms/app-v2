@@ -41,11 +41,15 @@ const Project = ({
   const { getRMSLocation } = useRMSLocation();
   const [loading, setLoading] = useState<boolean>(true);
 
+  const doRefresh = async () => {
+    setLoading(true);
+    await refreshProjectData(projectId);
+    setLoading(false);
+  };
+
   //get individual project data
   useEffect(() => {
-    setLoading(true);
-    refreshProjectData(projectId);
-    setLoading(false);
+    doRefresh();
   }, [projectId]);
 
   if (projectData && projectData.project) {
@@ -94,7 +98,7 @@ const Project = ({
           h="100%"
           refreshControl={
             <RefreshControl
-              onRefresh={refreshProjectData(projectId)}
+              onRefresh={() => refreshProjectData(projectId)}
               refreshing={loading}
             />
           }

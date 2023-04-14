@@ -22,10 +22,6 @@ const ProjectList = () => {
   }, []);
 
   useEffect(() => {
-    console.log(listItems);
-  }, [listItems]);
-
-  useEffect(() => {
     if (!projects) return;
     const items = projects.map((project: IProject): NavListItemType => {
       return {
