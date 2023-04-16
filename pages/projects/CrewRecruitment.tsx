@@ -14,6 +14,8 @@ import { RMSDrawerParamList } from "../../utilities/Routing";
 import SkeletonCard from "../../components/SkeletonCard";
 import useProjectData from "../../contexts/useProjectData";
 import Card from "../../components/Card";
+import ScrollContainer from "../../components/ScrollContainer";
+import { RefreshControl } from "react-native";
 
 interface crewRole {
   projects_id: number;
@@ -29,10 +31,20 @@ const CrewRecruitmentItem = (
   navigation: NavigationProp<RMSDrawerParamList>,
   role: IProjectCrewRole,
 ) => (
-  <Container w="full" maxW="full" key={role.projectsVacantRoles_id}>
-    <HStack>
-      <Text>{role.projectsVacantRoles_name}</Text>
+  <Container
+    w="full"
+    maxW="full"
+    justifyContent="center"
+    key={role.projectsVacantRoles_id}
+  >
+    <HStack w="100%">
+      <Text my="auto" ml="10">
+        {role.projectsVacantRoles_name}
+      </Text>
       <Button
+        ml="auto"
+        mr="10"
+        backgroundColor={"primary"}
         onPress={() =>
           navigation.navigate("CrewRecruitmentApplication", {
             applicationId: role.projectsVacantRoles_id,
@@ -87,33 +99,53 @@ const CrewRecruitment = () => {
   if (projectCrewRoles && projectCrewRoles.length > 0) {
     return (
       <Container>
-        {crewRoles.map((project) => {
-          return (
-            <Card key={project.projects_id}>
-              <Heading>{project.projects_name}</Heading>
-              <Divider />
-              <Box>
-                <Button
-                  size="small"
-                  onPress={() =>
-                    navigation.navigate("Project", {
-                      projectId: project.projects_id,
-                    })
-                  }
-                >
-                  Project Information
-                </Button>
-              </Box>
-              <FlatList
-                w="full"
-                data={project.projects_roles}
-                renderItem={({ item }) => CrewRecruitmentItem(navigation, item)}
-                keyExtractor={(item) => item.projectsVacantRoles_id.toString()}
-                scrollEnabled={false}
-              />
-            </Card>
-          );
-        })}
+        <ScrollContainer
+          refreshControl={
+            <RefreshControl onRefresh={refresh} refreshing={loading} />
+          }
+        >
+          {crewRoles.map((project) => {
+            return (
+              <Card key={project.projects_id}>
+                <Box px="2">
+                  <HStack>
+                    <Heading my="auto" ml="5">
+                      {project.projects_name}
+                    </Heading>
+                    <Button
+                      ml="auto"
+                      mr="2"
+                      my="2"
+                      backgroundColor={"primary"}
+                      onPress={() =>
+                        navigation.navigate("Project", {
+                          projectId: project.projects_id,
+                        })
+                      }
+                    >
+                      Project Information
+                    </Button>
+                  </HStack>
+
+                  <Divider />
+
+                  <FlatList
+                    my="2"
+                    w="full"
+                    data={project.projects_roles}
+                    renderItem={({ item }) =>
+                      CrewRecruitmentItem(navigation, item)
+                    }
+                    keyExtractor={(item) =>
+                      item.projectsVacantRoles_id.toString()
+                    }
+                    scrollEnabled={false}
+                  />
+                </Box>
+              </Card>
+            );
+          })}
+        </ScrollContainer>
       </Container>
     );
   } else if (!(projectCrewRoles && projectCrewRoles.length > 0) && loading) {
@@ -127,13 +159,20 @@ const CrewRecruitment = () => {
   } else {
     return (
       <Container>
-        <Card>
-          <Heading>No Vacancies</Heading>
-          <Divider />
-          <Text>
-            There are no vacancies at the moment. Please check back later.
-          </Text>
-        </Card>
+        <ScrollContainer
+          refreshControl={
+            <RefreshControl onRefresh={refresh} refreshing={loading} />
+          }
+        >
+          <Card>
+            <Box p="2" alignItems="center">
+              <Heading>No Vacancies</Heading>
+              <Divider />
+              <Text>There are no vacancies at the moment.</Text>
+              <Text>Please check back later.</Text>
+            </Box>
+          </Card>
+        </ScrollContainer>
       </Container>
     );
   }

@@ -1,4 +1,5 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import * as Linking from "expo-linking";
 
 // Screen Imports
 import Login from "../pages/Login";
@@ -10,6 +11,9 @@ import ProjectList from "../pages/projects/ProjectList";
 import Project from "../pages/projects/Project";
 import CrewRecruitment from "../pages/projects/CrewRecruitment";
 import CrewRecruitmentApplication from "../pages/projects/CrewRecruitmentApplication";
+import { useEffect } from "react";
+import { useWindowDimensions } from "react-native";
+import MenuContent from "../components/menu/MenuContent";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -19,6 +23,7 @@ import CrewRecruitmentApplication from "../pages/projects/CrewRecruitmentApplica
 export type RMSDrawerParamList = {
   //UnAuthenticated Routes
   Login: undefined;
+  HandleMagicLink: undefined;
 
   //Authenticated Routes
   Home: undefined;
@@ -35,6 +40,7 @@ export type RMSDrawerParamList = {
     callback: "location"; // Extend this for other callbacks, eg assets
     returnPage: keyof RMSDrawerParamList;
   };
+  Logout: undefined;
 };
 
 //The actual navigator context
@@ -51,13 +57,35 @@ const Drawer = createDrawerNavigator<RMSDrawerParamList>();
  * @link https://reactnavigation.org/docs/drawer-navigator
  */
 const Routing = () => {
-  const { authenticated } = useAuth();
+  const { authenticated, handleLogin } = useAuth();
+  const dimensions = useWindowDimensions();
+  const url = Linking.useURL();
+
+  useEffect(() => {
+    //Handle the magic link callback first
+    if (url) {
+      const { path, queryParams } = Linking.parse(url);
+      if (
+        path === "magic-link" &&
+        queryParams &&
+        queryParams.token &&
+        typeof queryParams.token === "string"
+      ) {
+        //we have a token so store it
+        handleLogin(queryParams.token);
+      }
+    }
+  }, [url]);
 
   return (
     <Drawer.Navigator
       id="rms-drawer"
       initialRouteName="Login"
       backBehavior="history"
+      screenOptions={{
+        drawerType: dimensions.width >= 768 ? "permanent" : "front",
+      }}
+      drawerContent={(props) => <MenuContent {...props} />}
     >
       {authenticated ? (
         //Routes that require authentication

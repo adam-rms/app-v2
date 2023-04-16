@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
+import {
+  useForm,
+  useFieldArray,
+  SubmitHandler,
+  Controller,
+} from "react-hook-form";
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import Api from "../../utilities/Api";
 import { RMSDrawerParamList } from "../../utilities/Routing";
@@ -15,6 +20,9 @@ import {
   useToast,
   TextArea,
   Button,
+  VStack,
+  HStack,
+  FormControl,
 } from "native-base";
 import Card from "../../components/Card";
 import { RefreshControl } from "react-native";
@@ -187,109 +195,141 @@ const CrewRecruitmentApplication = ({
           }
         >
           <Card>
-            <Heading>
-              {thisRole.projects_name +
-                ` - ` +
-                thisRole.projectsVacantRoles_name}
-            </Heading>
+            <Box p="2" alignItems="center">
+              <Heading>
+                {thisRole.projects_name +
+                  ` - ` +
+                  thisRole.projectsVacantRoles_name}
+              </Heading>
+            </Box>
           </Card>
           <Card>
-            <Heading>Role Information</Heading>
-            <Divider />
-            <IonGrid>
-              <IonRow>
-                <IonCol size="12" sizeMd="6">
-                  {information.map((item, index) => {
-                    if (item.value || item.value === 0) {
-                      return (
-                        <IonCol className="container" key={index} size="12">
-                          <IonText color="medium">
-                            <h2>{item.title}</h2>
-                          </IonText>
-                          <IonText>{item.value}</IonText>
-                        </IonCol>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
-                </IonCol>
-                <IonCol size="12" sizeMd="6">
-                  <IonRow>
-                    <IonCol size="12" sizeMd="3">
-                      <IonText color="primary">
-                        <h1>Description</h1>
-                      </IonText>
-                    </IonCol>
-                    <IonCol size="12" sizeMd="9">
-                      <p>{thisRole.projectsVacantRoles_description}</p>
-                    </IonCol>
-                  </IonRow>
-                  <IonRow>
-                    <IonCol size="12" sizeMd="3">
-                      <IonText color="primary">
-                        <h1>Person Specification</h1>
-                      </IonText>
-                    </IonCol>
-                    <IonCol size="12" sizeMd="9">
-                      <p>{thisRole.projectsVacantRoles_personSpecification}</p>
-                    </IonCol>
-                  </IonRow>
-                </IonCol>
-              </IonRow>
-            </IonGrid>
+            <Box p="4">
+              <Heading alignSelf="center">Role Information</Heading>
+              <Divider />
+              <Container>
+                <VStack width="full" space={3}>
+                  <VStack size="12" space={3}>
+                    {information.map((item, index) => {
+                      if (item.value || item.value === 0) {
+                        return (
+                          <VStack key={index} size="12">
+                            <Text color="medium">
+                              <Heading>{item.title}</Heading>
+                            </Text>
+                            <Text>{item.value}</Text>
+                          </VStack>
+                        );
+                      } else {
+                        return null;
+                      }
+                    })}
+                    <VStack>
+                      <HStack size="12" space={3}>
+                        <Text color="primary">
+                          <Heading>Description</Heading>
+                        </Text>
+                      </HStack>
+                      <HStack size="12">
+                        <Text>{thisRole.projectsVacantRoles_description}</Text>
+                      </HStack>
+                    </VStack>
+                    <VStack>
+                      <HStack size="12">
+                        <Text color="primary">
+                          <Heading>Person Specification</Heading>
+                        </Text>
+                      </HStack>
+                      <HStack size="12">
+                        <Text>
+                          {thisRole.projectsVacantRoles_personSpecification}
+                        </Text>
+                      </HStack>
+                    </VStack>
+                  </VStack>
+                </VStack>
+              </Container>
+            </Box>
           </Card>
           {!applied ? (
             <Card>
-              <Heading>Apply</Heading>
-              <Divider />
-              <form onSubmit={handleSubmit(onSubmit)}>
-                {thisRole.projectsVacantRoles_collectPhone == 1 && (
+              <Box p="2">
+                <Heading>Apply</Heading>
+                <Divider />
+                <Container>
+                  {thisRole.projectsVacantRoles_collectPhone == 1 && (
+                    <>
+                      <Text>Phone Number</Text>
+                      <Controller
+                        control={control}
+                        name="projectsVacantRolesApplications_phone"
+                        render={({ field: { onChange, value } }) => (
+                          <Input
+                            placeholder="Phone Number"
+                            onChangeText={onChange}
+                            value={value}
+                          />
+                        )}
+                      />
+                    </>
+                  )}
+                  {fields.map((field, index) => {
+                    return (
+                      <Box key={field.id}>
+                        <Text>{field.name}</Text>
+                        {field.type == "textarea" ? (
+                          <Controller
+                            control={control}
+                            name={
+                              `projectsVacantRolesApplications_questionAnswers.${index}.value` as const
+                            }
+                            render={({ field: { onChange, value } }) => (
+                              <TextArea
+                                placeholder={field.placeholder}
+                                autoCompleteType={undefined}
+                                onChangeText={onChange}
+                                value={value}
+                              />
+                            )}
+                          />
+                        ) : (
+                            <Controller
+                              control={control}
+                              name={
+                                `projectsVacantRolesApplications_questionAnswers.${index}.value` as const
+                              }
+                              render={({ field: { onChange, value } }) => (
+                              <Input
+                                placeholder={field.placeholder}
+                                onChangeText={onChange}
+                                value={value}
+                              />
+                            )}
+                          />
+                        )}
+                      </Box>
+                    );
+                  })}
                   <Box>
-                    <Text>Phone Number</Text>
-                    <Input
-                      type="text"
-                      {...register("projectsVacantRolesApplications_phone")}
-                    />
-                  </Box>
-                )}
-                {fields.map((field, index) => {
-                  return (
-                    <Box key={field.id}>
-                      <Text>{field.name}</Text>
-                      {field.type == "textarea" ? (
+                    <Text>Comments</Text>
+                    <Controller
+                      control={control}
+                      name="projectsVacantRolesApplications_applicantComment"
+                      render={({ field: { onChange, value } }) => (
                         <TextArea
                           autoCompleteType={undefined}
-                          placeholder={field.placeholder}
-                          w="full"
-                          {...register(
-                            `projectsVacantRolesApplications_questionAnswers.${index}.value` as const,
-                          )}
-                        />
-                      ) : (
-                        <Input
-                          type={field.type as any}
-                          placeholder={field.placeholder}
-                          {...register(
-                            `projectsVacantRolesApplications_questionAnswers.${index}.value` as const,
-                          )}
+                          placeholder="Anything you'd like to add?"
+                          onChangeText={onChange}
+                          value={value}
                         />
                       )}
-                    </Box>
-                  );
-                })}
-                <Box>
-                  <Text>Comments</Text>
-                  <TextArea
-                    autoCompleteType={undefined}
-                    placeholder="Anything you'd like to add?"
-                    {...register(
-                      "projectsVacantRolesApplications_applicantComment",
-                    )}
-                  />
-                </Box>
-                <Button>Submit Application</Button>
-              </form>
+                    />
+                  </Box>
+                  <Button bg="primary" onPress={handleSubmit(onSubmit)}>
+                    Submit Application
+                  </Button>
+                </Container>
+              </Box>
             </Card>
           ) : (
             <Card>
@@ -312,4 +352,4 @@ const CrewRecruitmentApplication = ({
   }
 };
 
-export default ProjectCrewApplication;
+export default CrewRecruitmentApplication;

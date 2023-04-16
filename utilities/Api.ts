@@ -24,7 +24,7 @@ const Api = async (
   endpoint: string,
   formData: FormData | Record<any, any> = {},
 ): Promise<APIResponse> => {
-  const baseURL = await FetchData("BaseURL");
+  const baseURL = await FetchData("Endpoint");
   const token = await FetchData("AuthToken");
   if (token === null || baseURL === null) {
     console.error("[API] Not logged in");
@@ -39,13 +39,7 @@ const Api = async (
     formData["jwt"] = token;
   }
 
-  axios.head(baseURL + "/api/" + endpoint).catch((error) => {
-    console.error("[API]", error);
-    return {
-      result: false,
-      error: "Unable to connect to server",
-    };
-  });
+  console.log("[API] Sending request to " + baseURL + "/api/" + endpoint);
 
   return axios
     .post(baseURL + "/api/" + endpoint, formData)
@@ -64,7 +58,7 @@ const Api = async (
       }
     })
     .catch(function (error) {
-      console.error(error);
+      console.error("[API]", error);
       return {
         result: false,
         error: "Unable to connect to server",

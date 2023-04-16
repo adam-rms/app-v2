@@ -1,5 +1,5 @@
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { StyleSheet, View, RefreshControl, ScrollView } from "react-native";
+import { View, RefreshControl } from "react-native";
 import {
   faArrowAltCircleDown,
   faChevronRight,
@@ -10,6 +10,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { RMSDrawerParamList } from "../utilities/Routing";
 import { Pressable, Container, HStack, FlatList, Skeleton } from "native-base";
 import Card from "./Card";
+import ScrollContainer from "./ScrollContainer";
 
 export type NavListItemType = {
   id: number;
@@ -129,8 +130,7 @@ const NavList: React.FC<NavListType> = ({
   return (
     <Container w="full" maxW="full" h="auto">
       <Card>
-        <ScrollView
-          style={styles.fullHeight}
+        <ScrollContainer
           refreshControl={
             <RefreshControl onRefresh={onRefresh} refreshing={isLoading} />
           }
@@ -156,17 +156,10 @@ const NavList: React.FC<NavListType> = ({
               scrollEnabled={false}
             ></FlatList>
           )}
-        </ScrollView>
+        </ScrollContainer>
       </Card>
     </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  fullHeight: {
-    height: "100%",
-    width: "100%",
-  },
-});
 
 export default NavList;

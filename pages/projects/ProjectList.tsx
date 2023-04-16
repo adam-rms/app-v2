@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { Heading, Text, Container, VStack } from "native-base";
+import { Heading, Text, Container, VStack, Box } from "native-base";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import useProjects from "../../contexts/useProjects";
 import NavList, { NavListItemType } from "../../components/NavList";
+import Card from "../../components/Card";
+import ScrollContainer from "../../components/ScrollContainer";
+import { RefreshControl } from "react-native";
 
 const ProjectList = () => {
   const { projects, refreshProjects } = useProjects();
@@ -42,8 +45,18 @@ const ProjectList = () => {
 
   return (
     <Container w="full" maxW="full" minW="full" p="4">
-      {!projects && !isLoading ? (
-        <Text> No Projects Found</Text>
+      {projects.length == 0 && !isLoading ? (
+        <Card>
+          <ScrollContainer
+            refreshControl={
+              <RefreshControl onRefresh={doRefresh} refreshing={isLoading} />
+            }
+          >
+            <Box h="full" alignItems="center">
+              <Heading my="2">No Projects Found</Heading>
+            </Box>
+          </ScrollContainer>
+        </Card>
       ) : (
         <NavList
           items={listItems}

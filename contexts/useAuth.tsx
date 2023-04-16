@@ -7,24 +7,17 @@ import {
   useState,
 } from "react";
 import { FetchData, StoreData } from "../utilities/DataStorage";
-import {
-  DiscoveryDocument,
-  makeRedirectUri,
-  useAuthRequest,
-} from "expo-auth-session";
-import Toast from "react-native-root-toast";
 
 /** Parameters returned from the context
  * @see useAuth
  */
 interface AuthContextType {
   authenticated: boolean;
-  loading: boolean;
   endpoint: string;
   token: string | null;
-  promptAsync: () => void;
-  logout: () => void;
-  setEndpoint: (endpoint: string) => void;
+  handleLogin: (token: string) => void;
+  logout: () => Promise<void>;
+  handleEndpointChange: (endpoint: string) => void;
 }
 
 // The actual Context
@@ -40,25 +33,6 @@ export function AuthProvider({
   const [initialLoading, setInitialLoading] = useState<boolean>(true); // Used to prevent the app overwriting the endpoint and token with null values
   const [endpoint, setEndpoint] = useState<string>("https://dash.adam-rms.com");
   const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  // Auth handling
-  const [discovery, setDiscovery] = useState<DiscoveryDocument>({
-    authorizationEndpoint: endpoint,
-  });
-  const redirectUri = makeRedirectUri();
-  // Create and load an auth request
-  const [request, result, promptAsync] = useAuthRequest(
-    {
-      clientId: "com.bstudios.adamrms",
-      redirectUri: redirectUri,
-      responseType: "token",
-      extraParams: {
-        "app-oauth": "v2",
-      },
-    },
-    discovery,
-  );
 
   // Check if we've already stored a token and endpoint when we first load the app.
   useEffect(() => {
@@ -77,11 +51,6 @@ export function AuthProvider({
     })();
   }, []);
 
-  // Map loading var to useAuthRequest request
-  useEffect(() => {
-    setLoading(!!request);
-  }, [request]);
-
   //Store the token when the context is updated
   useEffect(() => {
     const storeToken = async () => {
@@ -98,50 +67,39 @@ export function AuthProvider({
     (async () => {
       if (endpoint && !initialLoading) {
         await StoreData("Endpoint", endpoint);
-        // Update the Discovery document
-        setDiscovery({
-          authorizationEndpoint: endpoint + "/login",
-        });
       }
     })();
   }, [endpoint]);
 
-  //Handle the Auth response
-  useEffect(() => {
-    (async () => {
-      if (result) {
-        if (result.type === "success" && result.params.token) {
-          //we have a token so store it
-          await StoreData("AuthToken", result.params.token);
-          setAuthenticated(true);
-        } else {
-          Toast.show("There was an issue logging in", {
-            duration: Toast.durations.LONG,
-          });
-        }
-      }
-    })();
-  }, [result]);
+  const handleEndpointChange = (endpoint: string) => {
+    setEndpoint(endpoint);
+  };
+
+  // Update token
+  const handleLogin = (token: string) => {
+    //TODO: Validate the token
+    setToken(token);
+    setAuthenticated(true);
+  };
 
   const logout = async () => {
     //clear our storage of the token and reset the endpoint
-    setAuthenticated(false);
     setToken(null);
     setEndpoint("https://dash.adam-rms.com");
+    setAuthenticated(false);
   };
 
   //Memoize the context to prevent unnecessary re-renders
   const memoedValue = useMemo(
     () => ({
       authenticated,
-      loading,
       endpoint,
       token,
-      promptAsync,
+      handleLogin,
       logout,
-      setEndpoint,
+      handleEndpointChange,
     }),
-    [authenticated, loading, endpoint, token, promptAsync],
+    [authenticated, endpoint, token],
   );
 
   return (
