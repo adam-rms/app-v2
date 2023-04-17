@@ -44,17 +44,19 @@ const Api = async (
   return axios
     .post(baseURL + "/api/" + endpoint, formData)
     .then(function (response) {
-      if (response.data["result"] == true) {
+      if (response.data["result"] === true) {
         return {
           result: true,
           response: response.data["response"],
         };
       } else {
-        return {
-          result: false,
-          response: response.data["response"],
-          error: response.data["error"],
-        };
+        if (response.data["error"]["message"]) {
+          return {
+            result: false,
+            error: response.data["error"]["message"],
+          };
+        }
+        return { result: false };
       }
     })
     .catch(function (error) {
