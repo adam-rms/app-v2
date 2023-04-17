@@ -16,6 +16,8 @@ import useProjectData from "../../contexts/useProjectData";
 import Card from "../../components/Card";
 import ScrollContainer from "../../components/ScrollContainer";
 import { RefreshControl } from "react-native";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 interface crewRole {
   projects_id: number;
@@ -123,7 +125,7 @@ const CrewRecruitment = () => {
                         })
                       }
                     >
-                      Project Information
+                      <FontAwesomeIcon icon={faInfoCircle} color="white" />
                     </Button>
                   </HStack>
 

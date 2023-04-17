@@ -22,7 +22,6 @@ import {
   Button,
   VStack,
   HStack,
-  FormControl,
 } from "native-base";
 import Card from "../../components/Card";
 import { RefreshControl } from "react-native";
@@ -128,8 +127,11 @@ const CrewRecruitmentApplication = ({
     //information to display
     const information = [
       {
-        title: "Project",
-        value: thisRole.projects_name,
+        title: "Project Dates",
+        value:
+          thisRole.projects_dates_deliver_start +
+          " - " +
+          thisRole.projects_dates_deliver_end,
       },
       {
         title: "Project Manager",
@@ -142,28 +144,16 @@ const CrewRecruitmentApplication = ({
           ")",
       },
       {
-        title: "Project Starts",
-        value: thisRole.projects_dates_deliver_start,
-      },
-      {
-        title: "Project Ends",
-        value: thisRole.projects_dates_deliver_end,
-      },
-      {
-        title: "Role",
-        value: thisRole.projectsVacantRoles_name,
-      },
-      {
-        title: "Role Deadline",
+        title: "Application Deadline",
         value: thisRole.projectsVacantRoles_deadline,
       },
       {
         title: "Places Available",
-        value: thisRole.projectsVacantRoles_slots,
-      },
-      {
-        title: "Places Filled",
-        value: thisRole.projectsVacantRoles_slotsFilled,
+        value:
+          thisRole.projectsVacantRoles_slots -
+          thisRole.projectsVacantRoles_slotsFilled +
+          " / " +
+          thisRole.projectsVacantRoles_slots,
       },
     ];
 
@@ -214,7 +204,7 @@ const CrewRecruitmentApplication = ({
                       if (item.value || item.value === 0) {
                         return (
                           <VStack key={index} size="12">
-                            <Text color="medium">
+                            <Text>
                               <Heading>{item.title}</Heading>
                             </Text>
                             <Text>{item.value}</Text>
@@ -252,90 +242,97 @@ const CrewRecruitmentApplication = ({
             </Box>
           </Card>
           {!applied ? (
-            <Card>
-              <Box p="2">
-                <Heading>Apply</Heading>
-                <Divider />
-                <Container>
-                  {thisRole.projectsVacantRoles_collectPhone == 1 && (
-                    <>
-                      <Text>Phone Number</Text>
-                      <Controller
-                        control={control}
-                        name="projectsVacantRolesApplications_phone"
-                        render={({ field: { onChange, value } }) => (
-                          <Input
-                            placeholder="Phone Number"
-                            onChangeText={onChange}
-                            value={value}
-                          />
-                        )}
-                      />
-                    </>
-                  )}
-                  {fields.map((field, index) => {
-                    return (
-                      <Box key={field.id}>
-                        <Text>{field.name}</Text>
-                        {field.type == "textarea" ? (
-                          <Controller
-                            control={control}
-                            name={
-                              `projectsVacantRolesApplications_questionAnswers.${index}.value` as const
-                            }
-                            render={({ field: { onChange, value } }) => (
-                              <TextArea
-                                placeholder={field.placeholder}
-                                autoCompleteType={undefined}
-                                onChangeText={onChange}
-                                value={value}
-                              />
-                            )}
-                          />
-                        ) : (
-                            <Controller
-                              control={control}
-                              name={
-                                `projectsVacantRolesApplications_questionAnswers.${index}.value` as const
-                              }
-                              render={({ field: { onChange, value } }) => (
-                              <Input
-                                placeholder={field.placeholder}
-                                onChangeText={onChange}
-                                value={value}
-                              />
-                            )}
-                          />
-                        )}
-                      </Box>
-                    );
-                  })}
-                  <Box>
-                    <Text>Comments</Text>
+            <Card mb="10" p="2">
+              <Heading mx="auto" mb="2">
+                Apply
+              </Heading>
+              <Divider />
+              <Container>
+                {thisRole.projectsVacantRoles_collectPhone == 1 && (
+                  <Box w="full" p="1">
+                    <Text>Phone Number</Text>
                     <Controller
                       control={control}
-                      name="projectsVacantRolesApplications_applicantComment"
+                      name="projectsVacantRolesApplications_phone"
                       render={({ field: { onChange, value } }) => (
-                        <TextArea
-                          autoCompleteType={undefined}
-                          placeholder="Anything you'd like to add?"
+                        <Input
+                          placeholder="Phone Number"
                           onChangeText={onChange}
                           value={value}
                         />
                       )}
                     />
                   </Box>
-                  <Button bg="primary" onPress={handleSubmit(onSubmit)}>
-                    Submit Application
-                  </Button>
-                </Container>
-              </Box>
+                )}
+                {fields.map((field, index) => {
+                  return (
+                    <Box key={field.id} w="full" p="1">
+                      <Text>{field.name}</Text>
+                      {field.type == "textarea" ? (
+                        <Controller
+                          control={control}
+                          name={
+                            `projectsVacantRolesApplications_questionAnswers.${index}.value` as const
+                          }
+                          render={({ field: { onChange, value } }) => (
+                            <TextArea
+                              placeholder={field.placeholder}
+                              autoCompleteType={undefined}
+                              onChangeText={onChange}
+                              value={value}
+                            />
+                          )}
+                        />
+                      ) : (
+                        <Controller
+                          control={control}
+                          name={
+                            `projectsVacantRolesApplications_questionAnswers.${index}.value` as const
+                          }
+                          render={({ field: { onChange, value } }) => (
+                            <Input
+                              placeholder={field.placeholder}
+                              onChangeText={onChange}
+                              value={value}
+                            />
+                          )}
+                        />
+                      )}
+                    </Box>
+                  );
+                })}
+                <Box w="full" p="1">
+                  <Text>Comments</Text>
+                  <Controller
+                    control={control}
+                    name="projectsVacantRolesApplications_applicantComment"
+                    render={({ field: { onChange, value } }) => (
+                      <TextArea
+                        autoCompleteType={undefined}
+                        placeholder="Anything you'd like to add?"
+                        onChangeText={onChange}
+                        value={value}
+                      />
+                    )}
+                  />
+                </Box>
+                <Button
+                  mt="2"
+                  mx="auto"
+                  bg="primary"
+                  onPress={handleSubmit(onSubmit)}
+                >
+                  Submit Application
+                </Button>
+              </Container>
             </Card>
           ) : (
-            <Card>
-              <Heading>Apply</Heading>
+            <Card mb="10" p="2">
+              <Heading mx="auto">Apply</Heading>
               <Divider />
-              <Text>You have already applied for this role.</Text>
+              <Text mx="auto" my="5">
+                You have already applied for this role.
+              </Text>
             </Card>
           )}
         </ScrollView>

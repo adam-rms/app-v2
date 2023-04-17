@@ -1,12 +1,12 @@
 import { Box } from "native-base";
+import { InterfaceBoxProps } from "native-base/lib/typescript/components/primitives/Box";
 
-interface CardProps {
-  children: React.ReactNode;
-}
-
-const Card = (props: CardProps) => {
+const Card = ({
+  children,
+  ...wrapperProps
+}: React.PropsWithChildren<InterfaceBoxProps>) => {
   return (
-    <Box alignContent="center" m="2" maxW="full">
+    <Box alignContent="center" m="2" maxW="full" {...wrapperProps}>
       <Box
         minW="full"
         rounded="lg"
@@ -25,7 +25,7 @@ const Card = (props: CardProps) => {
           backgroundColor: "gray.50",
         }}
       >
-        {props.children}
+        {children}
       </Box>
     </Box>
   );
