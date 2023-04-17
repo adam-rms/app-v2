@@ -9,8 +9,8 @@ import { useToast } from "native-base";
  */
 interface AssetTypeContextType {
   AssetTypes: IAssetType;
-  refreshAssetTypes: (assetTypes_id?: number) => void;
-  getMoreAssets: () => void;
+  refreshAssetTypes: (assetTypes_id?: number) => Promise<void>;
+  getMoreAssets: () => Promise<void>;
 }
 
 // The actual context

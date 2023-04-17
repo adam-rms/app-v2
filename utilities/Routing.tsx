@@ -14,6 +14,7 @@ import CrewRecruitmentApplication from "../pages/projects/CrewRecruitmentApplica
 import { useEffect } from "react";
 import { useWindowDimensions } from "react-native";
 import MenuContent from "../components/menu/MenuContent";
+import AssetTypeList from "../pages/assets/AssetTypeList";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -27,6 +28,9 @@ export type RMSDrawerParamList = {
 
   //Authenticated Routes
   Home: undefined;
+
+  // - Assets
+  AssetList: undefined;
 
   // - Projects
   ProjectList: undefined;
@@ -91,6 +95,13 @@ const Routing = () => {
         //Routes that require authentication
         <>
           <Drawer.Screen name="Home" component={Home} />
+
+          {/*- Assets*/}
+          <Drawer.Screen
+            name="AssetList"
+            component={AssetTypeList}
+            options={{ title: "Assets" }}
+          />
 
           {/*- Projects*/}
           <Drawer.Screen

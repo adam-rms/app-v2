@@ -36,7 +36,7 @@ const MenuContent = (props: any) => {
     {
       type: "route",
       title: "Assets",
-      url: "/assets/",
+      url: "AssetList",
       icon: faCube,
     },
     {
