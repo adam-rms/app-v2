@@ -1,5 +1,8 @@
+import { useEffect } from "react";
+import { useWindowDimensions } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import * as Linking from "expo-linking";
+import MenuContent from "../components/menu/MenuContent";
 
 // Screen Imports
 import Login from "../pages/Login";
@@ -11,9 +14,6 @@ import ProjectList from "../pages/projects/ProjectList";
 import Project from "../pages/projects/Project";
 import CrewRecruitment from "../pages/projects/CrewRecruitment";
 import CrewRecruitmentApplication from "../pages/projects/CrewRecruitmentApplication";
-import { useEffect } from "react";
-import { useWindowDimensions } from "react-native";
-import MenuContent from "../components/menu/MenuContent";
 import AssetTypeList from "../pages/assets/AssetTypeList";
 import Asset from "../pages/assets/Asset";
 import ProjectAssets from "../pages/projects/ProjectAssets";

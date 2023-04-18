@@ -311,3 +311,11 @@ type IPermittedBarcode =
   | "CODE_93"
   | "CODE_128"
   | undefined;
+
+/* Instances */
+interface IInstance {
+  this: boolean;
+  instances_id: number;
+  instances_name: string;
+  permissions: string[];
+}

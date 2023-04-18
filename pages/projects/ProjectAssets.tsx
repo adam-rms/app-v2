@@ -21,7 +21,6 @@ interface IInstanceAssets {
  */
 const ProjectAssets = ({
   route,
-  navigation,
 }: DrawerScreenProps<RMSDrawerParamList, "ProjectAssets">) => {
   const { projectId } = route.params;
   const { projectData, refreshProjectData } = useProjectData();

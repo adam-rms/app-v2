@@ -3,9 +3,11 @@ import {
   Button,
   Container,
   Divider,
+  HStack,
   Heading,
   Input,
   Text,
+  VStack,
   View,
   useBreakpointValue,
 } from "native-base";
@@ -27,20 +29,32 @@ const SetManualLocation = () => {
   });
 
   return (
-    <Container w="full" maxW="full">
-      <View alignItems="center" flexDir={flexDir} w="full">
-        <Card>
-          <Heading>Current Location</Heading>
+    <Container>
+      <View flexDir={flexDir} w="full">
+        <Card p="2">
+          <Heading mx="auto">Current Location</Heading>
           <Divider />
-          <Text>Name: {rmsLocation.name}</Text>
-          <Text>Value: {rmsLocation.value}</Text>
-          <Text>Type: {rmsLocation.type}</Text>
+          <HStack>
+            <VStack mx="auto">
+              <Text bold>Name</Text>
+              <Text mx="auto">{rmsLocation.name}</Text>
+            </VStack>
+            <VStack mx="auto">
+              <Text bold>Value</Text>
+              <Text mx="auto">{rmsLocation.value}</Text>
+            </VStack>
+            <VStack mx="auto">
+              <Text bold>Type</Text>
+              <Text mx="auto">{rmsLocation.type}</Text>
+            </VStack>
+          </HStack>
         </Card>
-        <Card>
-          <Heading>Set Location</Heading>
+        <Card p="2">
+          <Heading mx="auto">Set Location</Heading>
           <Divider />
           <Text mt="2">Location Name</Text>
           <Input
+            size="lg"
             id="locationName"
             placeholder="Location Name"
             mb="2"
@@ -48,6 +62,7 @@ const SetManualLocation = () => {
             onChangeText={(text) => setUserLocation(text)}
           />
           <Button
+            bg="primary"
             onPress={() => {
               setRMSLocation({
                 name: userLocation,

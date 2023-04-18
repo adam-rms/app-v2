@@ -7,7 +7,9 @@ import {
   faClipboardList,
   faCube,
   faList,
+  faMapLocation,
   faSignOutAlt,
+  faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
 import { RMSDrawerParamList } from "../../utilities/Routing";
 import { MenuItem } from "./MenuItem";
@@ -15,6 +17,8 @@ import SkeletonLink from "../SkeletonLink";
 import Logo from "../images/Logo";
 
 import useAuth from "../../contexts/useAuth";
+import useRMSLocation from "../../contexts/useRMSLocation";
+import useInstances from "../../contexts/useInstances";
 
 /**
  * Custom content for sidebar menu
@@ -23,6 +27,10 @@ import useAuth from "../../contexts/useAuth";
 const MenuContent = (props: any) => {
   const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
   const { logout } = useAuth();
+  const { getRMSLocation, updateRMSLocation } = useRMSLocation();
+  const { switchInstance } = useInstances();
+
+  const rmsLocation = getRMSLocation(false);
 
   const doLogout = () => {
     logout();
@@ -62,10 +70,10 @@ const MenuContent = (props: any) => {
       type: "section",
       title: "Settings",
     },
-    /*{
+    {
       type: "function",
-      title: rmsLocation.name + " - Change Location",
-      icon: ["fas", "map-marker-alt"],
+      title: rmsLocation.name ?? "No Location Set",
+      icon: faMapLocation,
       function: () => {
         updateRMSLocation();
       },
@@ -73,17 +81,11 @@ const MenuContent = (props: any) => {
     {
       type: "function",
       title: "Change Business",
-      icon: ["fas", "building"],
+      icon: faBuilding,
       function: () => {
-        getInstances().then((buttons) => {
-          present({
-            header: "Change Business",
-            buttons: buttons,
-            onDidDismiss: ({ detail }) => handleInstanceSwitch(detail),
-          });
-        });
+        switchInstance();
       },
-    },*/
+    },
     {
       type: "function",
       title: "Logout",
