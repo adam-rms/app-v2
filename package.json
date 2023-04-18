@@ -66,7 +66,8 @@
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.10",
     "setimmediate": "^1.0.5",
-    "styled-components": "^5.3.9"
+    "styled-components": "^5.3.9",
+    "expo-device": "~5.2.1"
   },
   "overrides": {
     "metro": "0.76.0",

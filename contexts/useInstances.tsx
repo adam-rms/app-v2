@@ -48,7 +48,9 @@ export const InstanceProvider = ({
     if (response.result) {
       setInstances(response.response);
       setThisInstance(
-        response.response.filter((instance: IInstance) => instance.this),
+        response.response.filter((instance: IInstance) => {
+          return instance.this;
+        })[0],
       );
     }
   };
@@ -71,7 +73,6 @@ export const InstanceProvider = ({
         title: "Set Location",
       },
       async (buttonIndex: number | undefined) => {
-        console.log(buttonIndex);
         if (buttonIndex !== undefined) {
           const instanceName = buttons[buttonIndex];
           const instanceId = instanceIds[instanceName];

@@ -17,6 +17,7 @@ import CrewRecruitmentApplication from "../pages/projects/CrewRecruitmentApplica
 import AssetTypeList from "../pages/assets/AssetTypeList";
 import Asset from "../pages/assets/Asset";
 import ProjectAssets from "../pages/projects/ProjectAssets";
+import DebugInfo from "../pages/DebugInfo";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -48,6 +49,9 @@ export type RMSDrawerParamList = {
     callback: "location"; // Extend this for other callbacks, eg assets
     returnPage: keyof RMSDrawerParamList;
   };
+
+  // - Dev Tools
+  DebugInfo: undefined;
 };
 
 //The actual navigator context
@@ -162,6 +166,13 @@ const Routing = () => {
             options={{ headerShown: false }}
           />
         </>
+      )}
+      {__DEV__ && (
+        <Drawer.Screen
+          name="DebugInfo"
+          component={DebugInfo}
+          options={{ title: "Debug Info" }}
+        />
       )}
     </Drawer.Navigator>
   );

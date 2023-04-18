@@ -10,6 +10,7 @@ import {
   faMapLocation,
   faSignOutAlt,
   faBuilding,
+  faCogs,
 } from "@fortawesome/free-solid-svg-icons";
 import { RMSDrawerParamList } from "../../utilities/Routing";
 import { MenuItem } from "./MenuItem";
@@ -93,6 +94,19 @@ const MenuContent = (props: any) => {
       function: doLogout,
     },
   ];
+
+  if (__DEV__) {
+    menuItems.push({
+      type: "section",
+      title: "Dev Tools",
+    });
+    menuItems.push({
+      type: "route",
+      title: "Debug Info",
+      url: "DebugInfo",
+      icon: faCogs,
+    });
+  }
 
   return (
     <DrawerContentScrollView {...props}>
