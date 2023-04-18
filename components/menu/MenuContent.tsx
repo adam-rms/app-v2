@@ -1,5 +1,5 @@
 import { DrawerContentScrollView } from "@react-navigation/drawer";
-import { Box, Divider, HStack, Heading, Pressable, Text } from "native-base";
+import { Box, Divider, HStack, Heading, Pressable } from "native-base";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { faNewspaper } from "@fortawesome/free-regular-svg-icons";
@@ -140,6 +140,7 @@ const MenuContent = (props: any) => {
           // Create the component for both a item or a route
           const renderMenuItem = (
             <Pressable
+              key={index}
               onPress={() => {
                 item.type == "route"
                   ? navigation.navigate(item.url)

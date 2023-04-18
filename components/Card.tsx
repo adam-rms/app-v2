@@ -6,7 +6,7 @@ const Card = ({
   ...wrapperProps
 }: React.PropsWithChildren<InterfaceBoxProps>) => {
   return (
-    <Box alignContent="center" m="2" maxW="full" {...wrapperProps}>
+    <Box alignContent="center" m="2" maxW="full">
       <Box
         minW="full"
         rounded="lg"
@@ -24,6 +24,7 @@ const Card = ({
         _light={{
           backgroundColor: "gray.50",
         }}
+        {...wrapperProps}
       >
         {children}
       </Box>

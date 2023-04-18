@@ -23,6 +23,7 @@ export type ImageListItemType = {
   mainContent: any;
   endContent?: any;
   link?: string;
+  linkAttributes?: object;
 };
 
 type ImageListType = {
@@ -67,17 +68,21 @@ const ImageList: React.FC<ImageListType> = ({
       borderBottomWidth="1"
     >
       <Pressable
-        onPress={() => (item.link ? navigation.navigate(item.link) : "")}
+        onPress={() =>
+          item.link ? navigation.navigate(item.link, item.linkAttributes) : ""
+        }
       >
         <HStack w="full">
-          <Box m="4">
+          <Box m="2">
             {item.image && item.image.url ? (
-              <Avatar size="lg" source={{ uri: item.image.url }} />
+              <Avatar size="md" source={{ uri: item.image.url }} />
             ) : (
-              <FontAwesomeIcon icon={faQuestionCircle} />
+              <Box my="auto" mr="2">
+                <FontAwesomeIcon icon={faQuestionCircle} />
+              </Box>
             )}
           </Box>
-          <Heading flexShrink={1}>{item.mainContent}</Heading>
+          <Heading my="auto">{item.mainContent}</Heading>
           <Text ml="auto" my="auto" mr="2">
             {item.endContent ? item.endContent : null}
           </Text>

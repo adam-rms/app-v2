@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ImageList, { ImageListItemType } from "../../components/ImageList";
 import useAssetTypes from "../../contexts/useAssetTypes";
-import { Box, Container, Heading, Text, VStack } from "native-base";
+import { Container, Heading, Text, VStack } from "native-base";
 import Card from "../../components/Card";
 
 /**
@@ -43,7 +43,8 @@ const AssetTypeList = () => {
             </VStack>
           ),
           endContent: <Text>x{assetType.tags.length}</Text>,
-          link: "/assets/" + assetType.assetTypes_id,
+          link: "Asset",
+          linkAttributes: { typeid: assetType.assetTypes_id },
         };
       });
     } else {
@@ -69,19 +70,6 @@ const AssetTypeList = () => {
             <Heading mx="auto" mt="5">
               No Assets found
             </Heading>
-          }
-          ListFooterComponent={
-            <Box
-              mt="auto"
-              mb="0"
-              borderTopColor="gray.300"
-              borderTopStyle="solid"
-              borderTopWidth="1"
-            >
-              <Text mx="auto" my="2" italic>
-                Scroll to load more assets
-              </Text>
-            </Box>
           }
         />
       </Card>

@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { useWindowDimensions } from "react-native";
 import MenuContent from "../components/menu/MenuContent";
 import AssetTypeList from "../pages/assets/AssetTypeList";
+import Asset from "../pages/assets/Asset";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -31,6 +32,7 @@ export type RMSDrawerParamList = {
 
   // - Assets
   AssetList: undefined;
+  Asset: { typeid: number; assetid?: number };
 
   // - Projects
   ProjectList: undefined;
@@ -44,7 +46,6 @@ export type RMSDrawerParamList = {
     callback: "location"; // Extend this for other callbacks, eg assets
     returnPage: keyof RMSDrawerParamList;
   };
-  Logout: undefined;
 };
 
 //The actual navigator context
@@ -101,6 +102,11 @@ const Routing = () => {
             name="AssetList"
             component={AssetTypeList}
             options={{ title: "Assets" }}
+          />
+          <Drawer.Screen
+            name="Asset"
+            component={Asset}
+            options={{ title: "Asset" }}
           />
 
           {/*- Projects*/}

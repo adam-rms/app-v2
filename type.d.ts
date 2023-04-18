@@ -99,6 +99,26 @@ interface IAsset {
   files: IFile[];
 }
 
+// Asset type when used in a project context.
+interface IProjectAssets {
+  assets: IAsset[];
+  totals: {
+    status: string;
+    discountPrice: {
+      amount: string;
+      currency: string;
+    };
+    formattedDiscountPrice: string;
+    price: {
+      amount: string;
+      currency: string;
+    };
+    formattedPrice: string;
+    mass: number;
+    formattedMass: string;
+  };
+}
+
 interface IFile {
   s3files_extension: string;
   s3files_id: number;
