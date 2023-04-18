@@ -23,12 +23,12 @@ interface IAssetItemInformationProps {
 
 const AssetItemInformation = (props: IAssetItemInformationProps) => {
   return (
-    <Box>
+    <Box w="full">
       <VStack>
-        <HStack size="6">
-          <Text>Status</Text>
+        <HStack size="6" mx="auto">
+          <Text bold>Status: </Text>
           <Text>
-            {props.item.status}
+            {props.item.status ?? "Unknown"}
             {props.item.latestScan && "/"}
 
             {/*Location Scan*/}
@@ -50,17 +50,19 @@ const AssetItemInformation = (props: IAssetItemInformationProps) => {
               )}
           </Text>
         </HStack>
-        <HStack size="6">
-          <Text bold>Mass</Text>
-          <Text>{props.item.formattedMass}</Text>
-        </HStack>
-        <HStack size="6">
-          <Text bold>Price</Text>
-          <Text>{props.item.formattedPrice}</Text>
-        </HStack>
-        <HStack size="6">
-          <Text bold>Discount Price</Text>
-          <Text>{props.item.formattedDiscountPrice}</Text>
+        <HStack my="2">
+          <VStack mx="auto">
+            <Text bold>Mass</Text>
+            <Text>{props.item.formattedMass}</Text>
+          </VStack>
+          <VStack mx="auto">
+            <Text bold>Price</Text>
+            <Text>{props.item.formattedPrice}</Text>
+          </VStack>
+          <VStack mx="auto">
+            <Text bold>Discount Price</Text>
+            <Text>{props.item.formattedDiscountPrice}</Text>
+          </VStack>
         </HStack>
       </VStack>
     </Box>

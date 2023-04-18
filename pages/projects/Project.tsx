@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { Button, Container, ScrollView } from "native-base";
 import { DrawerScreenProps } from "@react-navigation/drawer";
+import { RefreshControl } from "react-native";
 import { RMSDrawerParamList } from "../../utilities/Routing";
 import useProjectData from "../../contexts/useProjectData";
 import useRMSLocation from "../../contexts/useRMSLocation";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import SkeletonCard from "../../components/SkeletonCard";
 import ProjectOverview from "../../components/projects/ProjectOverview";
-import ProjectComments from "../../components/projects/ProjectComments";
+import ProjectAssetSummary from "../../components/projects/ProjectAssetSummary";
 import ProjectCrew from "../../components/projects/ProjectCrew";
-import { RefreshControl } from "react-native";
 
 //props interface for any component using project data
 export interface ProjectDataProps {
@@ -105,7 +104,7 @@ const Project = ({
         >
           <ProjectOverview projectData={projectData} />
           {/*<ProjectComments projectComments={projectComments} />*/}
-          {/*<ProjectAssetSummary projectData={projectData} />*/}
+          <ProjectAssetSummary projectData={projectData} />
           <ProjectCrew projectData={projectData} />
           {/*<ProjectCrewRoles projectCrewRoles={projectCrewRoles} />*/}
         </ScrollView>

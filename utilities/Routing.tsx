@@ -16,6 +16,7 @@ import { useWindowDimensions } from "react-native";
 import MenuContent from "../components/menu/MenuContent";
 import AssetTypeList from "../pages/assets/AssetTypeList";
 import Asset from "../pages/assets/Asset";
+import ProjectAssets from "../pages/projects/ProjectAssets";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -37,6 +38,7 @@ export type RMSDrawerParamList = {
   // - Projects
   ProjectList: undefined;
   Project: { projectId: number };
+  ProjectAssets: { projectId: number };
   CrewRecruitment: undefined;
   CrewRecruitmentApplication: { applicationId: number };
 
@@ -119,6 +121,11 @@ const Routing = () => {
             name="Project"
             component={Project}
             options={{ title: "Project" }}
+          />
+          <Drawer.Screen
+            name="ProjectAssets"
+            component={ProjectAssets}
+            options={{ title: "Project Assets" }}
           />
 
           <Drawer.Screen

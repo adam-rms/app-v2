@@ -58,22 +58,20 @@ const ProjectCrew = ({ projectData }: ProjectDataProps) => {
     projectData.project.crewAssignments.length > 0
   ) {
     return (
-      <Card>
-        <Container p={4}>
-          <Heading alignSelf="center" mb="2">
-            Project Crew
-          </Heading>
-          <Divider />
-          <FlatList
-            w="full"
-            data={projectData.project.crewAssignments}
-            renderItem={({ item }) => CrewItem(item as IProjectCrewAssignment)}
-            keyExtractor={(item: IProjectCrewAssignment) =>
-              item.crewAssignments_id.toString()
-            }
-            scrollEnabled={false}
-          />
-        </Container>
+      <Card p="2">
+        <Heading alignSelf="center" mb="2">
+          Project Crew
+        </Heading>
+        <Divider />
+        <FlatList
+          w="full"
+          data={projectData.project.crewAssignments}
+          renderItem={({ item }) => CrewItem(item as IProjectCrewAssignment)}
+          keyExtractor={(item: IProjectCrewAssignment) =>
+            item.crewAssignments_id.toString()
+          }
+          scrollEnabled={false}
+        />
       </Card>
     );
   } else {

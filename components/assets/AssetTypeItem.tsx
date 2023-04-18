@@ -1,5 +1,7 @@
+import { VStack, Text, Container, Heading } from "native-base";
 import AssetItem from "./AssetItem";
 import AssetItemInformation from "./AssetItemInformation";
+import RMSAccordion from "../RMSAccordion";
 
 interface IAssetTypeItemProps {
   assetTypeKey: string; //Key
@@ -8,39 +10,35 @@ interface IAssetTypeItemProps {
 }
 
 const AssetTypeItem = (props: IAssetTypeItemProps) => {
-  return <></>;
+  //generate list of individual assets
+  const assets = props.typedAsset.assets.map((item: IAsset) => {
+    return {
+      header: <Heading>{item.assets_tag}</Heading>,
+      content: (
+        <AssetItem
+          AssetTypeId={parseInt(props.assetTypeKey)}
+          assetID={item.assets_id}
+          item={item}
+          subHire={props.subHire}
+        />
+      ),
+    };
+  });
+
   return (
-    <IonAccordion value={props.assetTypeKey} key={props.assetTypeKey}>
-      <IonItem slot="header">
-        <IonLabel>
+    <Container key={props.assetTypeKey} w="full">
+      <VStack w="full">
+        <Text mx="auto" bold>
           {props.typedAsset.assets.length}x{" "}
           {props.typedAsset.assets[0].assetTypes_name}
-        </IonLabel>
-      </IonItem>
-      <IonList slot="content">
+        </Text>
         <AssetItemInformation item={props.typedAsset.totals} />
-        <IonItem>
-          <IonText color="primary">
-            <h2>Assets</h2>
-          </IonText>
-        </IonItem>
-        <IonAccordionGroup multiple={true}>
-          {
-            //generate list of individual assets
-            props.typedAsset.assets.map((item: IAsset) => {
-              return (
-                <AssetItem
-                  AssetTypeId={parseInt(props.assetTypeKey)}
-                  assetID={item.assets_id}
-                  item={item}
-                  subHire={props.subHire}
-                />
-              );
-            })
-          }
-        </IonAccordionGroup>
-      </IonList>
-    </IonAccordion>
+        <Heading size="md" mx="auto">
+          Assets
+        </Heading>
+        <RMSAccordion sections={assets} />
+      </VStack>
+    </Container>
   );
 };
 

@@ -44,7 +44,7 @@ const ProjectList = () => {
   }, [projects]);
 
   return (
-    <Container w="full" maxW="full" minW="full" p="4">
+    <Container>
       {projects.length == 0 && !isLoading ? (
         <Card>
           <ScrollContainer

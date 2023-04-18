@@ -1,7 +1,7 @@
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Accordion, Button } from "native-base";
+import { Box, Button, Container, Text, HStack } from "native-base";
 import AssetItemInformation from "./AssetItemInformation";
 import { RMSDrawerParamList } from "../../utilities/Routing";
 
@@ -13,34 +13,35 @@ interface IAssetItemProps {
 }
 
 const AssetItem = (props: IAssetItemProps) => {
-  return <></>;
   const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
   return (
-    <Accordion key={props.assetID}>
-      <Accordion.Summary>
-        <IonLabel>{props.item.assets_tag}</IonLabel>
-      </Accordion.Summary>
-      <IonList slot="content">
-        <AssetItemInformation item={props.item} />
-        {!props.subHire && (
-          <IonItem>
-            <Button
-              onPress={() => {
-
-              }}
-              routerLink={"/assets/" + props.AssetTypeId + "/" + props.assetID}
-              size="default"
-              slot="end"
-            >
+    <Container w="full">
+      <AssetItemInformation item={props.item} />
+      {!props.subHire && (
+        <Button
+          w="full"
+          background="primary"
+          onPress={() => {
+            navigation.navigate("Asset", {
+              typeid: props.AssetTypeId,
+              assetid: props.assetID,
+            });
+          }}
+        >
+          <HStack>
+            <Text color="white" bold>
               View Asset
-              <div slot="end" className="ion-padding-start">
-                <FontAwesomeIcon icon={faChevronRight}></FontAwesomeIcon>
-              </div>
-            </IonButton>
-          </IonItem>
-        )}
-      </IonList>
-    </IonAccordion>
+            </Text>
+            <Box my="auto">
+              <FontAwesomeIcon
+                icon={faChevronRight}
+                color="white"
+              ></FontAwesomeIcon>
+            </Box>
+          </HStack>
+        </Button>
+      )}
+    </Container>
   );
 };
 

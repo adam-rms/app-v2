@@ -49,10 +49,10 @@ export const ProjectDataProvider = ({
    */
   async function refreshProjectData(id: number, event?: CustomEvent) {
     const dataResponse = await Api("projects/data.php", { id: id });
-    const commentsResponse = await Api("/projects/getComments.php", {
+    const commentsResponse = await Api("projects/getComments.php", {
       projects_id: id,
     });
-    const crewRolesResponse = await Api("/projects/crew/crewRoles/list.php", {
+    const crewRolesResponse = await Api("projects/crew/crewRoles/list.php", {
       projects_id: id,
     });
     if (
@@ -77,7 +77,7 @@ export const ProjectDataProvider = ({
    * @param id project id to refresh
    */
   async function refreshProjectCrewRoles(id?: number) {
-    const crewRolesResponse = await Api("/projects/crew/crewRoles/list.php", {
+    const crewRolesResponse = await Api("projects/crew/crewRoles/list.php", {
       projects_id: id,
     });
     if (crewRolesResponse.result) {
