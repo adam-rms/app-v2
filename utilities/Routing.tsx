@@ -46,8 +46,9 @@ export type RMSDrawerParamList = {
   // - Utilities
   SetManualLocation: undefined;
   BarcodeScanner: {
-    callback: "location"; // Extend this for other callbacks, eg assets
+    callback: "location" | "addAssetToProject"; // Extend this for other callbacks, eg assets
     returnPage: keyof RMSDrawerParamList;
+    additionalData?: any;
   };
 
   // - Dev Tools
@@ -95,6 +96,7 @@ const Routing = () => {
       backBehavior="history"
       screenOptions={{
         drawerType: dimensions.width >= 768 ? "permanent" : "front",
+        swipeEnabled: authenticated,
       }}
       drawerContent={(props) => <MenuContent {...props} />}
     >

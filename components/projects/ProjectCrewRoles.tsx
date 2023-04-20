@@ -1,14 +1,8 @@
-import {
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonButton,
-} from "@ionic/react";
+import { Button, Divider, FlatList, HStack, Heading } from "native-base";
 import { ProjectCrewRoleProps } from "../../pages/projects/Project";
+import Card from "../Card";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RMSDrawerParamList } from "../../utilities/Routing";
 
 /**
  * Available Crew Roles card for Project in current context
@@ -16,31 +10,34 @@ import { ProjectCrewRoleProps } from "../../pages/projects/Project";
 const ProjectCrewRoles = ({
   projectCrewRoles,
 }: ProjectCrewRoleProps): JSX.Element => {
+  const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
   if (projectCrewRoles && projectCrewRoles.length > 0) {
     return (
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>Available Crew Roles</IonCardTitle>
-        </IonCardHeader>
-        <IonCardContent>
-          <IonList>
-            {projectCrewRoles.map((role: IProjectCrewRole) => {
-              return (
-                <IonItem key={role.projectsVacantRoles_id}>
-                  <IonLabel>{role.projectsVacantRoles_name}</IonLabel>
-                  <IonButton
-                    routerLink={
-                      "/projects/crew/" + role.projectsVacantRoles_id + "/apply"
-                    }
-                  >
-                    {role.application === null ? "Apply" : "Applied"}
-                  </IonButton>
-                </IonItem>
-              );
-            })}
-          </IonList>
-        </IonCardContent>
-      </IonCard>
+      <Card p="2">
+        <Heading mx="auto">Available Crew Roles</Heading>
+        <Divider />
+        <FlatList
+          data={projectCrewRoles}
+          keyExtractor={(item) => item.projectsVacantRoles_id.toString()}
+          renderItem={({ item }) => (
+            <HStack p="2">
+              <Heading my="auto">{item.projectsVacantRoles_name}</Heading>
+              <Button
+                ml="auto"
+                bg="primary"
+                onPress={() =>
+                  navigation.navigate("CrewRecruitmentApplication", {
+                    applicationId: item.projectsVacantRoles_id,
+                  })
+                }
+              >
+                {item.application === null ? "Apply" : "Applied"}
+              </Button>
+            </HStack>
+          )}
+          scrollEnabled={false}
+        />
+      </Card>
     );
   } else {
     return <></>;

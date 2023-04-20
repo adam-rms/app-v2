@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { RefreshControl } from "react-native";
+import { Container, Divider, Heading, ScrollView } from "native-base";
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import AssetTypeItem from "../../components/assets/AssetTypeItem";
 import { RMSDrawerParamList } from "../../utilities/Routing";
 import useProjectData from "../../contexts/useProjectData";
 import Card from "../../components/Card";
-import { Container, Divider, Heading, ScrollView } from "native-base";
+
 import RMSAccordion from "../../components/RMSAccordion";
 
 interface IInstanceAssets {
@@ -24,9 +26,16 @@ const ProjectAssets = ({
 }: DrawerScreenProps<RMSDrawerParamList, "ProjectAssets">) => {
   const { projectId } = route.params;
   const { projectData, refreshProjectData } = useProjectData();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const doRefresh = () => {
+    setLoading(true);
+    refreshProjectData(projectId);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    refreshProjectData(projectId);
+    doRefresh();
   }, []);
 
   //Generate Project Assets
@@ -107,7 +116,13 @@ const ProjectAssets = ({
   }
   return (
     <Container>
-      <ScrollView>{content}</ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={doRefresh} />
+        }
+      >
+        {content}
+      </ScrollView>
     </Container>
   );
 };

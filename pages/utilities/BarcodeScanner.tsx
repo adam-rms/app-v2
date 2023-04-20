@@ -6,9 +6,13 @@ import {
 } from "@react-navigation/native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { useState, useEffect } from "react";
-import { View, Button, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { RMSDrawerParamList } from "../../utilities/Routing";
 import useRMSLocation from "../../contexts/useRMSLocation";
+import HandleAddAssetToProject from "../../utilities/barcode/HandleAddAssetToProject";
+import { Box, Button, HStack, Text } from "native-base";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 /** Convert the barcode type to the expected format
  * @param {string} type - The barcode type
@@ -40,6 +44,7 @@ const BarcodeTypeConverter = (type: string): IPermittedBarcode => {
  * Parameters are passed via the navigation object
  * @param {string} callback - The callback to return the result to
  * @param {keyof RMSDrawerParamList} returnPage - The page to return to after the scan & callback
+ * @param {any} additionalData - Any additional data to pass to the callback
  * @returns
  */
 const BarcodeScanner = () => {
@@ -52,16 +57,21 @@ const BarcodeScanner = () => {
   if (!route.params || !route.params.callback || !route.params.returnPage) {
     navigation.navigate("Home");
   }
-  const { callback, returnPage } = route.params;
+  const { callback, returnPage, additionalData } = route.params;
 
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === "granted");
     })();
+    setScanned(false);
   }, []);
 
-  const handleBarCodeScanned = ({
+  useEffect(() => {
+    setScanned(false);
+  }, [callback, returnPage, additionalData]);
+
+  const handleBarCodeScanned = async ({
     type,
     data,
   }: {
@@ -74,6 +84,13 @@ const BarcodeScanner = () => {
       switch (callback) {
         case "location":
           handleLocationBarCodeScanned(BarcodeTypeConverter(type), data);
+          break;
+        case "addAssetToProject":
+          await HandleAddAssetToProject(
+            BarcodeTypeConverter(type),
+            data,
+            additionalData,
+          );
           break;
         default:
           // We don't have a valid callback
@@ -92,18 +109,27 @@ const BarcodeScanner = () => {
         justifyContent: "flex-end",
       }}
     >
-      {hasPermission ? (
+      {hasPermission && !scanned ? (
         <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          onBarCodeScanned={handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
       ) : (
-        <Text>Sorry! AdamRMS can't access your camera.</Text>
+        <Text mx="auto">Sorry! AdamRMS can't access your camera.</Text>
       )}
-
-      {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
+      <Button
+        bg="primary"
+        p="4"
+        w="full"
+        onPress={() => navigation.navigate("Home")}
+      >
+        <HStack>
+          <Box mx="2" my="auto">
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </Box>
+          <Text my="auto">Cancel Scan</Text>
+        </HStack>
+      </Button>
     </View>
   );
 };

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Container, ScrollView } from "native-base";
+import { Box, Button, Container, ScrollView } from "native-base";
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { RefreshControl } from "react-native";
 import { RMSDrawerParamList } from "../../utilities/Routing";
@@ -9,6 +9,9 @@ import SkeletonCard from "../../components/SkeletonCard";
 import ProjectOverview from "../../components/projects/ProjectOverview";
 import ProjectAssetSummary from "../../components/projects/ProjectAssetSummary";
 import ProjectCrew from "../../components/projects/ProjectCrew";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import ProjectCrewRoles from "../../components/projects/ProjectCrewRoles";
 
 //props interface for any component using project data
 export interface ProjectDataProps {
@@ -31,11 +34,11 @@ const Project = ({
 }: DrawerScreenProps<RMSDrawerParamList, "Project">) => {
   if (!route.params) {
     navigation.navigate("ProjectList");
-    return;
+    return <></>;
   }
 
   const { projectId } = route.params;
-  const { projectData, projectComments, projectCrewRoles, refreshProjectData } =
+  const { projectData, projectCrewRoles, refreshProjectData } =
     useProjectData();
   const { getRMSLocation } = useRMSLocation();
   const [loading, setLoading] = useState<boolean>(true);
@@ -57,39 +60,33 @@ const Project = ({
     if (projectData.project && projectData.project.projects_name) {
       project_name = projectData.project.projects_name;
     }
-    navigation.setOptions({ title: project_name });
 
-    /*const buttons = [
-      {
-        icon: faShoppingCart,
-        onClick: () => {
-          if (projectData) {
-            getRMSLocation(true).then((location: ILocation) => {
-              AddAssetToProject(projectData.project.projects_id, location).then(
-                (result) => {
-                  if (result) {
-                    if (typeof result === "string") {
-                      //we've got an error message
-                      present(result);
-                    } else {
-                      //successfully added
-                      present("Added to " + projectData.project.projects_name);
-                    }
-                  } else {
-                    if (location.value) {
-                      //if there is a valid location, the asset couldn't be found
-                      present("There was an error adding this asset");
-                    } else {
-                      present("Please set your location");
-                    }
-                  }
-                },
-              );
-            });
-          }
-        },
-      },
-    ];*/
+    const buttons = (
+      <Box>
+        <Button
+          onPress={() => {
+            if (projectData) {
+              const location = getRMSLocation(true);
+              if (location.type !== undefined) {
+                //we have a location, so can add assets to a project.
+                navigation.navigate("BarcodeScanner", {
+                  callback: "addAssetToProject",
+                  returnPage: "Project",
+                  additionalData: {
+                    project_id: projectData.project.projects_id,
+                    location: location,
+                  },
+                });
+              }
+            }
+          }}
+        >
+          <FontAwesomeIcon icon={faShoppingCart} />
+        </Button>
+      </Box>
+    );
+
+    navigation.setOptions({ title: project_name, headerRight: () => buttons });
 
     return (
       <Container>
@@ -106,7 +103,7 @@ const Project = ({
           {/*<ProjectComments projectComments={projectComments} />*/}
           <ProjectAssetSummary projectData={projectData} />
           <ProjectCrew projectData={projectData} />
-          {/*<ProjectCrewRoles projectCrewRoles={projectCrewRoles} />*/}
+          <ProjectCrewRoles projectCrewRoles={projectCrewRoles} />
         </ScrollView>
       </Container>
     );

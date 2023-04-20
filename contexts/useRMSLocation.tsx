@@ -68,6 +68,7 @@ export const LocationProvider = ({
   /**
    * Get the RMS Location
    * @param withCheck If true, will prompt to set a location if none is set
+   * @param callback Optional callback to run after the location is set
    * @returns The location object
    */
   const getRMSLocation = (withCheck = false) => {
