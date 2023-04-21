@@ -29,7 +29,7 @@ const ProjectList = () => {
     const items = projects.map((project: IProject): NavListItemType => {
       return {
         id: project.projects_id,
-        link: "Project", //`/projects/${project.projects_id}/`,
+        link: "Project",
         linkAttributes: { projectId: project.projects_id },
         icon: project.thisProjectManager ? faStar : faCircle,
         content: (

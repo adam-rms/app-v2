@@ -7,6 +7,7 @@ import { RMSDrawerParamList } from "../../navigation/RMSDrawer";
 interface MenuListItem {
   icon?: IconProp | null;
   title?: string;
+  permission?: string;
   isLoading?: boolean;
 }
 
@@ -29,19 +30,19 @@ interface MenuItemRoute extends MenuListItem {
 /*
 A separator Menu Item
  */
-interface MenuItemSeparator {
+interface MenuItemSeparator extends MenuListItem {
   type: "separator";
 }
 
 /**
  * A menu item that creates a heading for a section
  */
-interface MenuItemSection {
+interface MenuItemSection extends MenuListItem {
   type: "section";
   title: string;
 }
 
-interface MenuInstanceSwitcher {
+interface MenuInstanceSwitcher extends MenuListItem {
   type: "instanceSwitcher";
 }
 

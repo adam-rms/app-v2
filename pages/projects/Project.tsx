@@ -12,6 +12,7 @@ import ProjectCrew from "../../components/projects/ProjectCrew";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import ProjectCrewRoles from "../../components/projects/ProjectCrewRoles";
+import useInstances from "../../contexts/useInstances";
 
 //props interface for any component using project data
 export interface ProjectDataProps {
@@ -32,16 +33,16 @@ const Project = ({
   route,
   navigation,
 }: DrawerScreenProps<RMSDrawerParamList, "Project">) => {
-  if (!route.params) {
-    navigation.navigate("ProjectList");
-    return <></>;
-  }
-
   const { projectId } = route.params;
   const { projectData, projectCrewRoles, refreshProjectData } =
     useProjectData();
   const { getRMSLocation } = useRMSLocation();
+  const { instancePermissionCheck } = useInstances();
   const [loading, setLoading] = useState<boolean>(true);
+
+  if (!route.params || !instancePermissionCheck("PROJECTS:VIEW")) {
+    navigation.navigate("ProjectList");
+  }
 
   const doRefresh = async () => {
     setLoading(true);
@@ -63,26 +64,31 @@ const Project = ({
 
     const buttons = (
       <Box>
-        <Button
-          onPress={() => {
-            if (projectData) {
-              const location = getRMSLocation(true);
-              if (location.type !== undefined) {
-                //we have a location, so can add assets to a project.
-                navigation.navigate("BarcodeScanner", {
-                  callback: "addAssetToProject",
-                  returnPage: "Project",
-                  additionalData: {
-                    project_id: projectData.project.projects_id,
-                    location: location,
-                  },
-                });
-              }
-            }
-          }}
-        >
-          <FontAwesomeIcon icon={faShoppingCart} />
-        </Button>
+        {instancePermissionCheck("ASSETS:ASSET_BARCODES:VIEW:SCAN_IN_APP") &&
+          instancePermissionCheck(
+            "PROJECTS:PROJECT_ASSETS:CREATE:ASSIGN_AND_UNASSIGN",
+          ) && (
+            <Button
+              onPress={() => {
+                if (projectData) {
+                  const location = getRMSLocation(true);
+                  if (location.type !== undefined) {
+                    //we have a location, so can add assets to a project.
+                    navigation.navigate("BarcodeScanner", {
+                      callback: "addAssetToProject",
+                      returnPage: "Project",
+                      additionalData: {
+                        project_id: projectData.project.projects_id,
+                        location: location,
+                      },
+                    });
+                  }
+                }
+              }}
+            >
+              <FontAwesomeIcon icon={faShoppingCart} />
+            </Button>
+          )}
       </Box>
     );
 
@@ -102,8 +108,12 @@ const Project = ({
           <ProjectOverview projectData={projectData} />
           {/*<ProjectComments projectComments={projectComments} />*/}
           <ProjectAssetSummary projectData={projectData} />
-          <ProjectCrew projectData={projectData} />
-          <ProjectCrewRoles projectCrewRoles={projectCrewRoles} />
+          {instancePermissionCheck("PROJECTS:PROJECT_CREW:VIEW") && (
+            <ProjectCrew projectData={projectData} />
+          )}
+          {instancePermissionCheck(
+            "PROJECTS:PROJECT_CREW:VIEW:VIEW_AND_APPLY_FOR_CREW_ROLES",
+          ) && <ProjectCrewRoles projectCrewRoles={projectCrewRoles} />}
         </ScrollView>
       </Container>
     );

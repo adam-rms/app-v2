@@ -13,6 +13,7 @@ import HandleAddAssetToProject from "../../utilities/barcode/HandleAddAssetToPro
 import { Box, Button, HStack, Text } from "native-base";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import useInstances from "../../contexts/useInstances";
 
 /** Convert the barcode type to the expected format
  * @param {string} type - The barcode type
@@ -51,10 +52,16 @@ const BarcodeScanner = () => {
   const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
   const route = useRoute<RouteProp<RMSDrawerParamList, "BarcodeScanner">>();
   const { handleLocationBarCodeScanned } = useRMSLocation();
+  const { instancePermissionCheck } = useInstances();
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [scanned, setScanned] = useState<boolean>(false);
   //Check the page has been passed params - occurs when the user navigates to the page directly
-  if (!route.params || !route.params.callback || !route.params.returnPage) {
+  if (
+    !route.params ||
+    !route.params.callback ||
+    !route.params.returnPage ||
+    !instancePermissionCheck("ASSETS:ASSET_BARCODES:VIEW:SCAN_IN_APP")
+  ) {
     navigation.navigate("Home");
   }
   const { callback, returnPage, additionalData } = route.params;

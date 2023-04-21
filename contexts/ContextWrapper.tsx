@@ -6,6 +6,11 @@ import { ProjectProvider } from "./useProjects";
 import { LocationProvider } from "./useRMSLocation";
 import { InstanceProvider } from "./useInstances";
 
+/**
+ * ContextWrapper
+ * This component is a wrapper for all the contexts used in the application.
+ * It has been created to avoid having to import all the contexts in the App.tsx file.
+ */
 const ContextWrapper = ({ children }: { children: ReactNode }): JSX.Element => {
   return (
     <InstanceProvider>

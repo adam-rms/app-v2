@@ -13,6 +13,7 @@ import { FetchData, StoreData } from "../utilities/DataStorage";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RMSDrawerParamList } from "../utilities/Routing";
 import { useToast } from "native-base";
+import useInstances from "./useInstances";
 /**
  * Parameters returned from the context
  * @see useLocations
@@ -38,6 +39,7 @@ export const LocationProvider = ({
   const toast = useToast();
   const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
   const { showActionSheetWithOptions } = useActionSheet();
+  const { instancePermissionCheck } = useInstances();
   //Create default state
   const [rmsLocation, setRMSLocation] = useState<ILocation>({} as ILocation);
 
@@ -145,7 +147,10 @@ export const LocationProvider = ({
     let thisLocation: ILocation = rmsLocation;
 
     const buttons = [];
-    if (Platform.OS !== "web") {
+    if (
+      Platform.OS !== "web" &&
+      instancePermissionCheck("ASSETS:ASSET_BARCODES:VIEW:SCAN_IN_APP ")
+    ) {
       //allow scanning
       buttons.push("Scan");
     }

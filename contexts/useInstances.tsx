@@ -20,6 +20,7 @@ interface LocationContextType {
   thisInstance: IInstance;
   getInstances: () => Promise<void>;
   switchInstance: () => Promise<void>;
+  instancePermissionCheck: (permission: string) => boolean;
 }
 
 // The actual context
@@ -59,6 +60,10 @@ export const InstanceProvider = ({
     const buttons: string[] = [];
     const instanceIds: { [key: string]: number } = {};
 
+    if (instances.length === 0) {
+      await getInstances();
+    }
+
     instances.map((instance: IInstance) => {
       buttons.push(instance.instances_name);
       instanceIds[instance.instances_name] = instance.instances_id;
@@ -73,7 +78,7 @@ export const InstanceProvider = ({
         title: "Set Location",
       },
       async (buttonIndex: number | undefined) => {
-        if (buttonIndex !== undefined) {
+        if (buttonIndex !== undefined && buttonIndex !== buttons.length - 1) {
           const instanceName = buttons[buttonIndex];
           const instanceId = instanceIds[instanceName];
           const data = { instances_id: instanceId };
@@ -89,6 +94,19 @@ export const InstanceProvider = ({
     );
   };
 
+  const instancePermissionCheck = (permission: string) => {
+    console.log(
+      "[PERMISSIONS] (" +
+        thisInstance.permissions.includes(permission) +
+        ") " +
+        permission,
+    );
+    if (thisInstance && thisInstance.permissions) {
+      return thisInstance.permissions.includes(permission);
+    }
+    return false;
+  };
+
   //Memoize the context so it doesn't change on every render
   const memoedValue = useMemo(
     () => ({
@@ -96,6 +114,7 @@ export const InstanceProvider = ({
       thisInstance,
       getInstances,
       switchInstance,
+      instancePermissionCheck,
     }),
     [instances, thisInstance],
   );

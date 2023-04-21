@@ -3,6 +3,7 @@
 import { ReactNode, createContext, useContext, useMemo, useState } from "react";
 import Api from "../utilities/Api";
 import { useToast } from "native-base";
+import useInstances from "./useInstances";
 
 /** Parameters returned from the context
  * @see useProjectData
@@ -27,6 +28,7 @@ export const ProjectDataProvider = ({
   children: ReactNode;
 }): JSX.Element => {
   const toast = useToast();
+  const { instancePermissionCheck } = useInstances();
   //State for project data
   const [projectData, setProjectData] = useState<IProjectData>({
     project: {},
@@ -48,28 +50,35 @@ export const ProjectDataProvider = ({
    * Replace all projects in context
    */
   async function refreshProjectData(id: number, event?: CustomEvent) {
-    const dataResponse = await Api("projects/data.php", { id: id });
-    const commentsResponse = await Api("projects/getComments.php", {
-      projects_id: id,
-    });
-    const crewRolesResponse = await Api("projects/crew/crewRoles/list.php", {
-      projects_id: id,
-    });
-    if (
-      dataResponse.result &&
-      commentsResponse.result &&
-      crewRolesResponse.result
-    ) {
-      setProjectData(dataResponse.response);
-      setProjectComments(commentsResponse.response);
-      setprojectCrewRoles(crewRolesResponse.response);
-    } else {
-      toast.show({
-        title: "Error Loading Project Data",
-        description: dataResponse.error,
+    if (instancePermissionCheck("PROJECTS:VIEW")) {
+      const dataResponse = await Api("projects/data.php", { id: id });
+      const commentsResponse = await Api("projects/getComments.php", {
+        projects_id: id,
       });
+      if (dataResponse.result) setProjectData(dataResponse.response);
+      if (commentsResponse.result)
+        setProjectComments(commentsResponse.response);
+
+      //Check if user has permission to view crew roles
+      if (
+        instancePermissionCheck(
+          "PROJECTS:PROJECT_CREW:VIEW:VIEW_AND_APPLY_FOR_CREW_ROLES",
+        )
+      ) {
+        const crewRolesResponse = await Api(
+          "projects/crew/crewRoles/list.php",
+          {
+            projects_id: id,
+          },
+        );
+        if (crewRolesResponse.result)
+          setprojectCrewRoles(crewRolesResponse.response);
+      }
+
+      if (event) event.detail.complete();
+    } else {
+      console.info("No permission to view projects");
     }
-    if (event) event.detail.complete();
   }
 
   /**
@@ -77,16 +86,23 @@ export const ProjectDataProvider = ({
    * @param id project id to refresh
    */
   async function refreshProjectCrewRoles(id?: number) {
-    const crewRolesResponse = await Api("projects/crew/crewRoles/list.php", {
-      projects_id: id,
-    });
-    if (crewRolesResponse.result) {
-      setprojectCrewRoles(crewRolesResponse.response);
-    } else {
-      toast.show({
-        title: "Error Loading Crew Roles",
-        description: crewRolesResponse.error,
+    if (
+      instancePermissionCheck("PROJECTS:VIEW") &&
+      instancePermissionCheck(
+        "PROJECTS:PROJECT_CREW:VIEW:VIEW_AND_APPLY_FOR_CREW_ROLES",
+      )
+    ) {
+      const crewRolesResponse = await Api("projects/crew/crewRoles/list.php", {
+        projects_id: id,
       });
+      if (crewRolesResponse.result) {
+        setprojectCrewRoles(crewRolesResponse.response);
+      } else {
+        toast.show({
+          title: "Error Loading Crew Roles",
+          description: crewRolesResponse.error,
+        });
+      }
     }
   }
 

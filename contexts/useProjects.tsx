@@ -3,6 +3,7 @@
 import { ReactNode, createContext, useContext, useMemo, useState } from "react";
 import Api from "../utilities/Api";
 import { useToast } from "native-base";
+import useInstances from "./useInstances";
 
 /** Parameters returned from the context
  * @see useProjects
@@ -24,6 +25,7 @@ export const ProjectProvider = ({
   children: ReactNode;
 }): JSX.Element => {
   const toast = useToast();
+  const { instancePermissionCheck } = useInstances();
   //Create default state
   const [projects, setProjects] = useState<IProject[]>([]);
 
@@ -32,14 +34,16 @@ export const ProjectProvider = ({
    * Replace all projects in context
    */
   async function refreshProjects() {
-    const projectResponse = await Api("projects/list.php");
-    if (projectResponse.result) {
-      setProjects(projectResponse.response);
-    } else {
-      toast.show({
-        title: "Error Loading Projects",
-        description: projectResponse.error,
-      });
+    if (instancePermissionCheck("PROJECTS:VIEW")) {
+      const projectResponse = await Api("projects/list.php");
+      if (projectResponse.result) {
+        setProjects(projectResponse.response);
+      } else {
+        toast.show({
+          title: "Error Loading Projects",
+          description: projectResponse.error,
+        });
+      }
     }
   }
 

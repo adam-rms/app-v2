@@ -39,13 +39,12 @@ interface IFormInput {
 
 const CrewRecruitmentApplication = ({
   route,
-  navigation,
 }: DrawerScreenProps<RMSDrawerParamList, "CrewRecruitmentApplication">) => {
   const { applicationId } = route.params;
   const { projectCrewRoles, refreshProjectCrewRoles } = useProjectData();
   const toast = useToast();
   const [applied, setApplied] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const doRefresh = async () => {
     setLoading(true);
@@ -54,7 +53,7 @@ const CrewRecruitmentApplication = ({
   };
 
   //react-hook-form
-  const { register, handleSubmit, control } = useForm<IFormInput>();
+  const { handleSubmit, control } = useForm<IFormInput>();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -201,7 +200,7 @@ const CrewRecruitmentApplication = ({
                 <VStack width="full" space={3}>
                   <VStack size="12" space={3}>
                     {information.map((item, index) => {
-                      if (item.value || item.value === 0) {
+                      if (item.value || item.value === "0") {
                         return (
                           <VStack key={index} size="12">
                             <Text>
