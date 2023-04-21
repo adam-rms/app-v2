@@ -65,7 +65,7 @@ const MenuContent = (props: any) => {
     {
       type: "route",
       title: "CMS Pages",
-      url: "/cms/",
+      url: "CmsPageList",
       icon: faNewspaper,
     },
     //...CmsPageList(),

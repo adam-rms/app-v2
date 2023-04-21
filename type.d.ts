@@ -259,7 +259,7 @@ interface CmsContent extends CmsPageList {
     cmsPagesDrafts_id: number;
     cmsPagesDrafts_data: string;
     cmsPagesDrafts_revisionID: number;
-    cmsPagesDrafts_dataARRAY: Array<CmsContentCard>;
+    cmsPagesDrafts_dataARRAY: { cards: Array<CmsContentCard> };
   };
   CONTENT: string;
 }
@@ -273,6 +273,7 @@ interface CmsContentCard {
   outline: string;
   title: string;
   width: string;
+  type: string;
 }
 
 /**

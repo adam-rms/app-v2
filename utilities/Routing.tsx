@@ -18,6 +18,8 @@ import AssetTypeList from "../pages/assets/AssetTypeList";
 import Asset from "../pages/assets/Asset";
 import ProjectAssets from "../pages/projects/ProjectAssets";
 import DebugInfo from "../pages/DebugInfo";
+import CmsPageList from "../pages/cms/CmsPageList";
+import CmsPage from "../pages/cms/CmsPage";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -42,6 +44,10 @@ export type RMSDrawerParamList = {
   ProjectAssets: { projectId: number };
   CrewRecruitment: undefined;
   CrewRecruitmentApplication: { applicationId: number };
+
+  // - CMS
+  CmsPageList: undefined;
+  CmsPage: { pageId: number };
 
   // - Utilities
   SetManualLocation: undefined;
@@ -145,7 +151,17 @@ const Routing = () => {
             options={{ title: "Crew Recruitment Application" }}
           />
 
-          {/*- Assets*/}
+          {/*- CMS Pages*/}
+          <Drawer.Screen
+            name="CmsPageList"
+            component={CmsPageList}
+            options={{ title: "CMS Pages" }}
+          />
+          <Drawer.Screen
+            name="CmsPage"
+            component={CmsPage}
+            options={{ title: "CMS Page" }}
+          />
 
           {/*- Utilities*/}
           <Drawer.Screen

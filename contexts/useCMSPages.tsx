@@ -10,8 +10,8 @@ import { useToast } from "native-base";
 interface CMSPageContextType {
   CmsPages: ICmsPageProvider;
   CmsContent: ICmsContentProvider;
-  refreshPages: () => void;
-  getPage: (id: number) => void;
+  refreshPages: () => Promise<void>;
+  getPage: (id: number) => Promise<void>;
 }
 
 // The actual context

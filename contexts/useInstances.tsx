@@ -95,12 +95,6 @@ export const InstanceProvider = ({
   };
 
   const instancePermissionCheck = (permission: string) => {
-    console.log(
-      "[PERMISSIONS] (" +
-        thisInstance.permissions.includes(permission) +
-        ") " +
-        permission,
-    );
     if (thisInstance && thisInstance.permissions) {
       return thisInstance.permissions.includes(permission);
     }

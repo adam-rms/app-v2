@@ -40,6 +40,7 @@ const Api = async (
   }
 
   console.log("[API] Sending request to " + baseURL + "/api/" + endpoint);
+  console.log("[API] Data: ", formData);
 
   return axios
     .post(baseURL + "/api/" + endpoint, formData)
