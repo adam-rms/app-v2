@@ -87,10 +87,12 @@ const Routing = () => {
         path === "magic-link" &&
         queryParams &&
         queryParams.token &&
-        typeof queryParams.token === "string"
+        queryParams.referer &&
+        typeof queryParams.token === "string" &&
+        typeof queryParams.referer === "string"
       ) {
         //we have a token so store it
-        handleLogin(queryParams.token);
+        handleLogin(queryParams.token, queryParams.referer);
       }
     }
   }, [url]);

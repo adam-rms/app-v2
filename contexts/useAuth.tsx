@@ -8,6 +8,8 @@ import {
 } from "react";
 import { FetchData, StoreData } from "../utilities/DataStorage";
 
+const DEFAULT_ENDPOINT = "https://dash.adam-rms.com";
+
 /** Parameters returned from the context
  * @see useAuth
  */
@@ -15,7 +17,7 @@ interface AuthContextType {
   authenticated: boolean;
   endpoint: string;
   token: string | null;
-  handleLogin: (token: string) => void;
+  handleLogin: (token: string, referer: string) => void;
   logout: () => Promise<void>;
   handleEndpointChange: (endpoint: string) => void;
 }
@@ -31,7 +33,7 @@ export function AuthProvider({
 }): JSX.Element {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [initialLoading, setInitialLoading] = useState<boolean>(true); // Used to prevent the app overwriting the endpoint and token with null values
-  const [endpoint, setEndpoint] = useState<string>("https://dash.adam-rms.com");
+  const [endpoint, setEndpoint] = useState<string>(DEFAULT_ENDPOINT);
   const [token, setToken] = useState<string | null>(null);
 
   // Check if we've already stored a token and endpoint when we first load the app.
@@ -76,16 +78,18 @@ export function AuthProvider({
   };
 
   // Update token
-  const handleLogin = (token: string) => {
+  const handleLogin = (token: string, referer: string) => {
     //TODO: Validate the token
     setToken(token);
+    setEndpoint(referer);
     setAuthenticated(true);
   };
 
   const logout = async () => {
     //clear our storage of the token and reset the endpoint
+    // TODO - cancel the token on the server
     setToken(null);
-    setEndpoint("https://dash.adam-rms.com");
+    setEndpoint(DEFAULT_ENDPOINT);
     setAuthenticated(false);
   };
 
