@@ -1,9 +1,12 @@
+name: Expo Build
+
 on:
   push:
     branches:
       - main
+
 jobs:
-  update:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup repo
@@ -28,5 +31,5 @@ jobs:
       - name: 📦 Install dependencies
         run: npm install
 
-      - name: 🚀 Create update
+      - name: 🚀 Create build
         run: eas build --non-interactive --platform all

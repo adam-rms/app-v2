@@ -1,4 +1,7 @@
+name: Expo Preview 
+
 on: [pull_request]
+
 jobs:
   preview:
     runs-on: ubuntu-latest

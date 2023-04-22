@@ -21,7 +21,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "Allow AdamRMS to use your camera to scan barcodes."
-      }
+      },
+      "bundleIdentifier": "com.bstudios.adamrms"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +31,8 @@
       },
       "permissions": [
         "android.permission.CAMERA"
-      ]
+      ],
+      "package": "com.bstudios.adamrms"
     },
     "web": {
       "favicon": "./assets/favicon.png",
