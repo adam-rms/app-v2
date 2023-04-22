@@ -5,20 +5,16 @@
 		}
 	],
 	"settings": {
-		"editor.tabSize": 4,
-		"typescript.preferences.importModuleSpecifier": "relative",
-		"typescript.preferences.quoteStyle": "double",
-		"eslint.workingDirectories": [
-			"app",
-			"api",
-			"docs"
-		],
-		"editor.codeActionsOnSave": {
-			"source.fixAll.eslint": true
-		},
-		"eslint.validate": ["typescript", "typescriptreact"],
-		"files.eol": "\n"
-	},
+    "editor.tabSize": 2,
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "typescript.preferences.quoteStyle": "double",
+    "eslint.workingDirectories": ["app", "api", "docs"],
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "eslint.validate": ["typescript", "typescriptreact"],
+    "files.eol": "\n"
+  },
 	"launch": {
 		"version": "0.2.0",
 		"compounds": [

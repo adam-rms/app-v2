@@ -44,9 +44,14 @@ interface MenuInstanceSwitcher {
   type: "instanceSwitcher";
 }
 
+interface MenuFunction extends MenuListItem {
+  type: "function";
+  function: () => void;
+}
+
 export type MenuItem =
   | BlankMenuItem
   | MenuItemRoute
   | MenuItemSeparator
   | MenuItemSection
-  | MenuInstanceSwitcher;
+  | MenuFunction;

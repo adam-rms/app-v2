@@ -4,7 +4,7 @@ import {
   IonCardHeader,
   IonCardTitle,
 } from "@ionic/react";
-import StyledIonSkeletonText from "./StyledIonSkeletonText";
+import StyledIonSkeletonText from "./styled/StyledIonSkeletonText";
 
 /**
  * Creates an Ionic card with a skeleton text title and

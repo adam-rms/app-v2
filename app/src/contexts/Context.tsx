@@ -1,5 +1,6 @@
 import AssetTypeProvider from "./asset/AssetTypeContext";
 import CmsPageProvider from "./cms/CmsPageContext";
+import LocationProvider from "./location/LocationContext";
 import ProjectProvider from "./project/ProjectContext";
 import ProjectDataProvider from "./project/ProjectDataContext";
 
@@ -11,13 +12,15 @@ import ProjectDataProvider from "./project/ProjectDataContext";
 export default function Contexts(props: any) {
   return (
     <>
-      <AssetTypeProvider>
-        <ProjectProvider>
-          <ProjectDataProvider>
-            <CmsPageProvider>{props.children}</CmsPageProvider>
-          </ProjectDataProvider>
-        </ProjectProvider>
-      </AssetTypeProvider>
+      <LocationProvider>
+        <AssetTypeProvider>
+          <ProjectProvider>
+            <ProjectDataProvider>
+              <CmsPageProvider>{props.children}</CmsPageProvider>
+            </ProjectDataProvider>
+          </ProjectProvider>
+        </AssetTypeProvider>
+      </LocationProvider>
     </>
   );
 }

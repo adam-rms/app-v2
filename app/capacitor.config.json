@@ -1,6 +1,6 @@
 {
-	"appId": "com.bstudios.adamrms",
-	"appName": "AdamRMS",
-	"webDir": "build",
-	"bundledWebRuntime": false
+  "appId": "com.bstudios.adamrms",
+  "appName": "AdamRMS",
+  "webDir": "build",
+  "bundledWebRuntime": false
 }

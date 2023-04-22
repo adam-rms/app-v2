@@ -19,9 +19,14 @@ const AssetTypeProvider: React.FC<React.ReactNode> = ({ children }) => {
    * Refresh Context
    * Replace all assets in context
    */
-  async function refreshAssetTypes() {
-    //
-    setAssetTypes(await Api("assets/list.php", { all: true }));
+  async function refreshAssetTypes(assetTypes_id?: number) {
+    if (assetTypes_id) {
+      setAssetTypes(
+        await Api("assets/list.php", { assetTypes_id: assetTypes_id }),
+      );
+    } else {
+      setAssetTypes(await Api("assets/list.php", { all: true }));
+    }
   }
 
   /**

@@ -7,7 +7,7 @@ const IonicTheme = createGlobalStyle`
     /** Ionic CSS Variables **/
     :root {
       /** primary **/
-      --ion-color-primary: #FFFFFF;
+      --ion-color-primary: #F77E9D;
       --ion-color-primary-rgb: 247, 126, 157;
       --ion-color-primary-contrast: #000000;
       --ion-color-primary-contrast-rgb: 0, 0, 0;

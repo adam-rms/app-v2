@@ -6,7 +6,7 @@ export const ProjectDataContext = createContext<any>(null);
 
 //Create a provider wrapper to make the interaction with the context easier
 const ProjectDataProvider: React.FC<React.ReactNode> = ({ children }) => {
-  //Create default state
+  //State for project data
   const [projectData, setProjectData] = useState<IProjectData>({
     project: {},
     files: [],
@@ -14,17 +14,50 @@ const ProjectDataProvider: React.FC<React.ReactNode> = ({ children }) => {
     FINANCIALS: {},
   });
 
+  //State for project comments
+  const [projectComments, setProjectComments] = useState<IComment[]>([]);
+
+  //State for Project Crew
+  const [projectCrewRoles, setprojectCrewRoles] = useState<IProjectCrewRole[]>(
+    [],
+  );
+
   /**
    * Refresh Context
    * Replace all projects in context
    */
-  async function refreshProjectData(id: number) {
+  async function refreshProjectData(id?: number, event?: CustomEvent) {
     setProjectData(await Api("projects/data.php", { id: id }));
+    setProjectComments(
+      await Api("/projects/getComments.php", { projects_id: id }),
+    );
+    setprojectCrewRoles(
+      await Api("/projects/crew/crewRoles/list.php", { projects_id: id }),
+    );
+    if (event) event.detail.complete();
+  }
+
+  /**
+   * Just refresh project crew roles
+   * @param id project id to refresh
+   */
+  async function refreshProjectCrewRoles(id: number) {
+    setprojectCrewRoles(
+      await Api("/projects/crew/crewRoles/list.php", { projects_id: id }),
+    );
   }
 
   // Don't forget to add new functions to the value of the provider!
   return (
-    <ProjectDataContext.Provider value={{ projectData, refreshProjectData }}>
+    <ProjectDataContext.Provider
+      value={{
+        projectData,
+        projectComments,
+        projectCrewRoles,
+        refreshProjectCrewRoles,
+        refreshProjectData,
+      }}
+    >
       {children}
     </ProjectDataContext.Provider>
   );
