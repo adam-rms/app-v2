@@ -1,15 +1,12 @@
 {
   "name": "adam-rms-app-v2",
-  "version": "0.1.0",
-  "description": "Rental Management System for Theatre, AV & Broadcast",
+  "version": "2.0.0",
   "main": "node_modules/expo/AppEntry.js",
+  "description": "Rental Management System for Theatre, AV & Broadcast",
   "author": "Bithell Studios Ltd",
-  "keywords": [
-    "react-native",
-    "react-native-elements",
-    "react-native-template",
-    "expo"
-  ],
+  "private": false,
+  "license": "AGPL-3.0-only",
+  "repository": "https://github.com/adam-rms/app-v2.git",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -87,6 +84,5 @@
     "eslint-plugin-react": "^7.32.2",
     "prettier": "2.8.7",
     "typescript": "~4.9.4"
-  },
-  "private": true
+  }
 }

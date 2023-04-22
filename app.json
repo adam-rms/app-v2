@@ -2,8 +2,8 @@
   "expo": {
     "scheme": "com.bstudios.adamrms",
     "name": "AdamRMS",
-    "slug": "adamrms",
-    "version": "0.1.0",
+    "slug": "adam-rms-app-v2",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -18,13 +18,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow AdamRMS to use your camera to scan barcodes."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -32,11 +38,11 @@
     },
     "extra": {
       "eas": {
-        "projectId": "44081300-167d-408a-9854-59fb10a24845"
+        "projectId": "1fd2c987-e1de-4169-afb7-9c6648dc8277"
       }
     },
-    "owner": "adamrms",
-    "plugins":[
+    "owner": "bithellstudios",
+    "plugins": [
       [
         "expo-barcode-scanner",
         {
