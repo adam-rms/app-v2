@@ -50,7 +50,15 @@
         {
           "cameraPermission": "Allow AdamRMS to use your camera to scan barcodes."
         }
-      ]
+      ],
+      [
+        "expo-build-properties",
+         {
+          "ios": {
+             "useFrameworks": "static"
+           }
+         }
+       ]
     ]
   }
 }
