@@ -48,7 +48,7 @@ jobs:
         run: npm install
 
       - name: 🚀 Create build
-        run: eas export:web
+        run: npx expo export:web
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
