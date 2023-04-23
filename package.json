@@ -31,7 +31,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-native-fontawesome": "^0.3.0",
-    "@react-native-async-storage/async-storage": "1.17.11",
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
@@ -43,8 +42,9 @@
     "expo-build-properties": "^0.6.0",
     "expo-constants": "^14.2.1",
     "expo-device": "^5.2.1",
-    "expo-image": "^1.2.1",
+    "expo-image": "~1.0.0",
     "expo-linking": "^4.0.1",
+    "expo-permissions": "^14.1.1",
     "expo-random": "^13.1.1",
     "expo-secure-store": "^12.1.1",
     "expo-status-bar": "^1.4.4",
@@ -67,8 +67,7 @@
     "styled-components": "^5.3.9"
   },
   "overrides": {
-    "metro": "0.76.0",
-    "metro-resolver": "0.76.0"
+    "@expo/config-plugins": "~6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
@@ -82,6 +81,8 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
+    "metro": "^0.76.2",
+    "metro-react-native-babel-preset": "^0.76.2",
     "prettier": "2.8.7",
     "typescript": "^4.9.5"
   },
