@@ -203,7 +203,7 @@ export const LocationProvider = ({
       setRMSLocation,
       handleLocationBarCodeScanned,
     }),
-    [rmsLocation],
+    [rmsLocation, instancePermissionCheck],
   );
 
   return (

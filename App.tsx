@@ -3,7 +3,6 @@ import "setimmediate";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
-import { RootSiblingParent } from "react-native-root-siblings";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { AuthProvider } from "./contexts/useAuth";
 import ContextWrapper from "./contexts/ContextWrapper";
@@ -36,18 +35,16 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NativeBaseProvider theme={theme}>
-        <RootSiblingParent>
-          <ActionSheetProvider>
-            <AuthProvider>
-              {/* Our Authentication, which Navigation depends on */}
-              <NavigationContainer>
-                <ContextWrapper>
-                  <Routing />
-                </ContextWrapper>
-              </NavigationContainer>
-            </AuthProvider>
-          </ActionSheetProvider>
-        </RootSiblingParent>
+        <ActionSheetProvider>
+          <AuthProvider>
+            {/* Our Authentication, which Navigation depends on */}
+            <NavigationContainer>
+              <ContextWrapper>
+                <Routing />
+              </ContextWrapper>
+            </NavigationContainer>
+          </AuthProvider>
+        </ActionSheetProvider>
       </NativeBaseProvider>
     </SafeAreaProvider>
   );

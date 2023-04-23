@@ -53,7 +53,7 @@ export const ProjectProvider = ({
       projects,
       refreshProjects,
     }),
-    [projects],
+    [projects, instancePermissionCheck],
   );
 
   return (

@@ -36,7 +36,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "bundler": "webpack"
+      "bundler": "metro"
     },
     "extra": {
       "eas": {

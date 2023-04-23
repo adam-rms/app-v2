@@ -2,11 +2,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { DateTime } from "luxon";
 import { ProjectCommentsProps } from "../../pages/projects/Project";
 import Card from "../Card";
-import { Divider, Heading, Link, View } from "native-base";
+import { Box, Divider, Heading, Link, View } from "native-base";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { useWindowDimensions } from "react-native";
 import RenderHtml from "react-native-render-html";
-import { Timeline } from "./Timeline";
 
 const ProjectComments = ({ projectComments }: ProjectCommentsProps) => {
   const { width } = useWindowDimensions();
@@ -95,7 +94,7 @@ const ProjectComments = ({ projectComments }: ProjectCommentsProps) => {
         <Heading>Project Comments</Heading>
         <Divider />
 
-        <Timeline>
+        <Box>
           {commentsList}
           <View>
             {/* End with a clock to show "now" */}
@@ -104,7 +103,7 @@ const ProjectComments = ({ projectComments }: ProjectCommentsProps) => {
               style={{ backgroundColor: "#6c757d" }}
             />
           </View>
-        </Timeline>
+        </Box>
       </Card>
     );
   } else {
