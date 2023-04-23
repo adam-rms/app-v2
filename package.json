@@ -81,6 +81,8 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
+    "metro": "^0.76.2",
+    "metro-react-native-babel-preset": "^0.76.2",
     "prettier": "2.8.7",
     "typescript": "^4.9.5"
   },
