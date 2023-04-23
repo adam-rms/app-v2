@@ -115,7 +115,7 @@ export const ProjectDataProvider = ({
       refreshProjectCrewRoles,
       refreshProjectData,
     }),
-    [projectData, projectComments, projectCrewRoles],
+    [projectData, projectComments, projectCrewRoles, instancePermissionCheck],
   );
 
   // Don't forget to add new functions to the value of the provider!
