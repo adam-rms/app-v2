@@ -2,10 +2,17 @@ import { Container, Input, Button, FormControl, Box } from "native-base";
 import * as Linking from "expo-linking";
 import Logo from "../components/images/Logo";
 import useAuth from "../contexts/useAuth";
+import { RMSDrawerParamList } from "../utilities/Routing";
+import { DrawerScreenProps } from "@react-navigation/drawer";
 
-const Login = () => {
+const Login = ({
+  navigation,
+}: DrawerScreenProps<RMSDrawerParamList, "Login">) => {
   const { handleEndpointChange, endpoint } = useAuth();
   const magicLinkURL = Linking.createURL("magic-link"); //Returns url, based on environment
+
+  // Close the drawer - it sometimes gets stuck open when navigating back to this page
+  navigation.closeDrawer();
 
   return (
     <Container>
