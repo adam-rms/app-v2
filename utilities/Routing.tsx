@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import { useWindowDimensions } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import * as Linking from "expo-linking";
 import MenuContent from "../components/menu/MenuContent";
 
 // Screen Imports
@@ -20,6 +18,7 @@ import ProjectAssets from "../pages/projects/ProjectAssets";
 import DebugInfo from "../pages/DebugInfo";
 import CmsPageList from "../pages/cms/CmsPageList";
 import CmsPage from "../pages/cms/CmsPage";
+import HandleMagicLink from "../pages/utilities/HandleMagicLink";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -29,7 +28,10 @@ import CmsPage from "../pages/cms/CmsPage";
 export type RMSDrawerParamList = {
   //UnAuthenticated Routes
   Login: undefined;
-  HandleMagicLink: undefined;
+  "magic-link": {
+    token: string;
+    referer: string;
+  };
 
   //Authenticated Routes
   Home: undefined;
@@ -75,27 +77,8 @@ const Drawer = createDrawerNavigator<RMSDrawerParamList>();
  * @link https://reactnavigation.org/docs/drawer-navigator
  */
 const Routing = () => {
-  const { authenticated, handleLogin } = useAuth();
+  const { authenticated } = useAuth();
   const dimensions = useWindowDimensions();
-  const url = Linking.useURL();
-
-  useEffect(() => {
-    //Handle the magic link callback first
-    if (url) {
-      const { path, queryParams } = Linking.parse(url);
-      if (
-        path === "magic-link" &&
-        queryParams &&
-        queryParams.token &&
-        queryParams.referer &&
-        typeof queryParams.token === "string" &&
-        typeof queryParams.referer === "string"
-      ) {
-        //we have a token so store it
-        handleLogin(queryParams.token, queryParams.referer);
-      }
-    }
-  }, [url]);
 
   return (
     <Drawer.Navigator
@@ -183,6 +166,11 @@ const Routing = () => {
           <Drawer.Screen
             name="Login"
             component={Login}
+            options={{ headerShown: false }}
+          />
+          <Drawer.Screen
+            name="magic-link"
+            component={HandleMagicLink}
             options={{ headerShown: false }}
           />
         </>
