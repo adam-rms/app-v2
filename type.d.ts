@@ -320,3 +320,13 @@ interface IInstance {
   instances_name: string;
   permissions: string[];
 }
+
+/* JWT */
+interface IJwt {
+  iss: string;
+  uid: string;
+  token: string;
+  exp: number;
+  iat: number;
+  type: string;
+}

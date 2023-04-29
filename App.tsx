@@ -1,9 +1,10 @@
 import "react-native-gesture-handler"; // Must be listed first
 import "setimmediate";
-import { extendTheme, NativeBaseProvider } from "native-base";
+import { extendTheme, NativeBaseProvider, Text } from "native-base";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import * as Linking from "expo-linking";
 import { AuthProvider } from "./contexts/useAuth";
 import ContextWrapper from "./contexts/ContextWrapper";
 import Routing from "./utilities/Routing";
@@ -32,13 +33,22 @@ const theme = extendTheme({
 });
 
 export default function App() {
+  //Deep Linking
+  const prefix = Linking.createURL("/");
+  const linking = {
+    prefixes: [prefix],
+  };
+
   return (
     <SafeAreaProvider>
       <NativeBaseProvider theme={theme}>
         <ActionSheetProvider>
           <AuthProvider>
             {/* Our Authentication, which Navigation depends on */}
-            <NavigationContainer>
+            <NavigationContainer
+              linking={linking}
+              fallback={<Text>Loading...</Text>}
+            >
               <ContextWrapper>
                 <Routing />
               </ContextWrapper>

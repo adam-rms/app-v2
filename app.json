@@ -3,7 +3,7 @@
     "scheme": "com.bstudios.adamrms",
     "name": "AdamRMS",
     "slug": "adam-rms-app-v2",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

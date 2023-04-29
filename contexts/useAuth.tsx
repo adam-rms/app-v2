@@ -7,6 +7,8 @@ import {
   useState,
 } from "react";
 import { FetchData, StoreData } from "../utilities/DataStorage";
+import jwt_decode from "jwt-decode";
+import { useToast } from "native-base";
 
 const DEFAULT_ENDPOINT = "https://dash.adam-rms.com";
 
@@ -35,6 +37,7 @@ export function AuthProvider({
   const [initialLoading, setInitialLoading] = useState<boolean>(true); // Used to prevent the app overwriting the endpoint and token with null values
   const [endpoint, setEndpoint] = useState<string>(DEFAULT_ENDPOINT);
   const [token, setToken] = useState<string | null>(null);
+  const toast = useToast();
 
   // Check if we've already stored a token and endpoint when we first load the app.
   useEffect(() => {
@@ -42,10 +45,18 @@ export function AuthProvider({
       const storedEndpoint = await FetchData("Endpoint");
       const storedToken = await FetchData("AuthToken");
       if (storedEndpoint && storedToken) {
-        setEndpoint(storedEndpoint);
-        setToken(storedToken);
-        setAuthenticated(true);
-        setInitialLoading(false); //Allow saving to occur
+        if (validateJWT(storedToken, storedEndpoint)) {
+          setEndpoint(storedEndpoint);
+          setToken(storedToken);
+          setAuthenticated(true);
+          setInitialLoading(false); //Allow saving to occur
+        } else {
+          //Token isn't valid, clear the storage
+          setEndpoint(DEFAULT_ENDPOINT);
+          setToken(null);
+          setAuthenticated(false);
+          setInitialLoading(false);
+        }
       } else {
         setAuthenticated(false);
         setInitialLoading(false);
@@ -73,16 +84,30 @@ export function AuthProvider({
     })();
   }, [endpoint]);
 
+  const validateJWT = (token: string, referer: string) => {
+    const decodedToken: IJwt = jwt_decode(token);
+    const currentTime = Date.now() / 1000;
+    if (decodedToken.exp < currentTime) return false; // Token has expired
+    if (decodedToken.iss !== referer) return false; // Token is for a different endpoint
+    return true;
+  };
+
   const handleEndpointChange = (endpoint: string) => {
     setEndpoint(endpoint);
   };
 
   // Update token
   const handleLogin = (token: string, referer: string) => {
-    //TODO: Validate the token
-    setToken(token);
-    setEndpoint(referer);
-    setAuthenticated(true);
+    if (validateJWT(token, referer)) {
+      setToken(token);
+      setEndpoint(referer);
+      setAuthenticated(true);
+    } else {
+      toast.show({
+        title: "There was an error logging in",
+        description: "Please try again",
+      });
+    }
   };
 
   const logout = async () => {
