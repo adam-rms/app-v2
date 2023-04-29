@@ -89,7 +89,7 @@ const Routing = () => {
         drawerType: dimensions.width >= 768 ? "permanent" : "front",
         swipeEnabled: authenticated,
       }}
-      drawerContent={(props) => <MenuContent {...props} />}
+      drawerContent={(props) => authenticated ? <MenuContent {...props}/>: null}
     >
       {authenticated ? (
         //Routes that require authentication

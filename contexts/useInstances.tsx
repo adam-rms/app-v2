@@ -10,6 +10,12 @@ import Api from "../utilities/Api";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RMSDrawerParamList } from "../utilities/Routing";
+import useAuth from "./useAuth";
+
+/**
+ * Instances Context
+ * Wraps information surrounding instances and instance permissions
+ */
 
 /**
  * Parameters returned from the context
@@ -37,12 +43,14 @@ export const InstanceProvider = ({
   const [thisInstance, setThisInstance] = useState<IInstance>({} as IInstance);
   const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
   const { showActionSheetWithOptions } = useActionSheet();
+  const { authenticated } = useAuth();
 
+  //Get instances when authenticated state changes
   useEffect(() => {
     (async () => {
-      await getInstances();
+      if (authenticated) await getInstances();
     })();
-  }, []);
+  }, [authenticated]);
 
   const getInstances = async () => {
     const response = await Api("instances/list.php");
@@ -110,7 +118,7 @@ export const InstanceProvider = ({
       switchInstance,
       instancePermissionCheck,
     }),
-    [instances, thisInstance],
+    [instances, thisInstance, authenticated],
   );
 
   return (

@@ -1,4 +1,4 @@
-import { Container, Input, Button, FormControl, Box } from "native-base";
+import { Container, Input, Button, FormControl, Box, Text } from "native-base";
 import * as Linking from "expo-linking";
 import Logo from "../components/images/Logo";
 import useAuth from "../contexts/useAuth";
