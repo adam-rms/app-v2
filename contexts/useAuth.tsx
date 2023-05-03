@@ -19,9 +19,8 @@ interface AuthContextType {
   authenticated: boolean;
   endpoint: string;
   token: string | null;
-  handleLogin: (token: string, referer: string) => void;
+  handleLogin: (token: string, referer: string) => Promise<void>;
   logout: () => Promise<void>;
-  handleEndpointChange: (endpoint: string) => void;
 }
 
 // The actual Context
@@ -67,10 +66,6 @@ export function AuthProvider({
     return true;
   };
 
-  const handleEndpointChange = async (endpoint: string) => {
-    await StoreData("Endpoint", endpoint);
-  };
-
   // Update token
   const handleLogin = async (token: string, referer: string) => {
     if (validateJWT(token, referer)) {
@@ -105,7 +100,6 @@ export function AuthProvider({
       token,
       handleLogin,
       logout,
-      handleEndpointChange,
     }),
     [authenticated, endpoint, token],
   );
