@@ -1,15 +1,24 @@
-import { Container, Input, Button, FormControl, Box, Text } from "native-base";
+import { Container, Input, Button, FormControl, Box } from "native-base";
 import * as Linking from "expo-linking";
 import Logo from "../components/images/Logo";
-import useAuth from "../contexts/useAuth";
 import { RMSDrawerParamList } from "../utilities/Routing";
 import { DrawerScreenProps } from "@react-navigation/drawer";
+import { useEffect, useState } from "react";
+import { DEFAULT_ENDPOINT } from "../contexts/useAuth";
 
 const Login = ({
   navigation,
 }: DrawerScreenProps<RMSDrawerParamList, "Login">) => {
-  const { handleEndpointChange, endpoint } = useAuth();
+  const [endpoint, setEndpoint] = useState(DEFAULT_ENDPOINT); //endpoint is only ever local to this page
   const magicLinkURL = Linking.createURL("magic-link"); //Returns url, based on environment
+
+  useEffect(() => {
+    fetch("https://adam-rms.com/.well-known/dash-url.txt").then((response) => {
+      response.text().then((text) => {
+        setEndpoint(text);
+      });
+    });
+  }, []);
 
   // Close the drawer - it sometimes gets stuck open when navigating back to this page
   navigation.closeDrawer();
@@ -24,7 +33,7 @@ const Login = ({
             placeholder="AdamRMS Endpoint"
             size="lg"
             value={endpoint}
-            onChangeText={(text) => handleEndpointChange(text)}
+            onChangeText={(text) => setEndpoint(text)}
           />
         </FormControl>
 

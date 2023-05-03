@@ -1,6 +1,6 @@
 import { useWindowDimensions } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import MenuContent from "../components/menu/MenuContent";
+import MenuContent, { LoginMenuContent } from "../components/menu/MenuContent";
 
 // Screen Imports
 import Login from "../pages/Login";
@@ -89,7 +89,13 @@ const Routing = () => {
         drawerType: dimensions.width >= 768 ? "permanent" : "front",
         swipeEnabled: authenticated,
       }}
-      drawerContent={(props) => authenticated ? <MenuContent {...props}/>: null}
+      drawerContent={(props) =>
+        authenticated ? (
+          <MenuContent {...props} />
+        ) : (
+          <LoginMenuContent {...props} />
+        )
+      }
     >
       {authenticated ? (
         //Routes that require authentication
