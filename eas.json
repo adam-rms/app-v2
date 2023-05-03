@@ -10,21 +10,23 @@
       "ios": {
         "resourceClass": "m-medium",
         "image": "latest"
-      }
+      },
+      "channel": "development"
     },
     "preview": {
       "distribution": "internal",
       "ios": {
         "resourceClass": "m-medium",
         "image": "latest"
-      }
+      },
+      "channel": "preview"
     },
     "production": {
       "ios": {
         "resourceClass": "m-medium",
         "image": "latest"
-
-      }
+      },
+      "channel": "production"
     }
   },
   "submit": {
