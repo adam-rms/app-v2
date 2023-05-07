@@ -42,7 +42,9 @@ const Login = ({
           w="full"
           my="2"
           onPress={() => {
-            Linking.openURL(endpoint + "/login/?app-magiclink=" + magicLinkURL);
+            Linking.openURL(
+              endpoint.trim() + "/login/?app-magiclink=" + magicLinkURL,
+            );
           }}
         >
           Log In
