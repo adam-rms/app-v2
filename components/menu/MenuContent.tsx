@@ -11,6 +11,7 @@ import {
   faSignOutAlt,
   faBuilding,
   faCogs,
+  faPerson,
 } from "@fortawesome/free-solid-svg-icons";
 import { RMSDrawerParamList } from "../../utilities/Routing";
 import { MenuItem } from "./MenuItem";
@@ -183,6 +184,48 @@ const MenuContent = (props: any) => {
             return <Box key={index}>{renderMenuItem}</Box>;
           }
         })}
+      </Box>
+    </DrawerContentScrollView>
+  );
+};
+
+//Menu Content for unauthenticated Routes
+export const LoginMenuContent = (props: any) => {
+  const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
+  return (
+    <DrawerContentScrollView {...props}>
+      <Box m="2" p="2">
+        <Box>
+          <Logo />
+        </Box>
+        <Pressable
+          key="login"
+          onPress={() => {
+            navigation.navigate("Login");
+          }}
+        >
+          <HStack p="1" m="1">
+            <Box my="auto" mr="2">
+              <FontAwesomeIcon icon={faPerson} />
+            </Box>
+            <Heading>Log In</Heading>
+          </HStack>
+        </Pressable>
+        {__DEV__ && (
+          <Pressable
+            key="DebugInfo"
+            onPress={() => {
+              navigation.navigate("DebugInfo");
+            }}
+          >
+            <HStack p="1" m="1">
+              <Box my="auto" mr="2">
+                <FontAwesomeIcon icon={faCogs} />
+              </Box>
+              <Heading>Debug Info</Heading>
+            </HStack>
+          </Pressable>
+        )}
       </Box>
     </DrawerContentScrollView>
   );

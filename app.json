@@ -3,7 +3,7 @@
     "scheme": "com.bstudios.adamrms",
     "name": "AdamRMS",
     "slug": "adam-rms-app-v2",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/1fd2c987-e1de-4169-afb7-9c6648dc8277"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,7 +21,8 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "Allow AdamRMS to use your camera to scan barcodes."
+        "NSCameraUsageDescription": "Allow AdamRMS to use your camera to scan barcodes.",
+        "NSMicrophoneUsageDescription": "Allow AdamRMS to access your microphone"
       },
       "bundleIdentifier": "com.bstudios.adamrms"
     },
@@ -53,12 +55,15 @@
       ],
       [
         "expo-build-properties",
-         {
+        {
           "ios": {
-             "useFrameworks": "static"
-           }
-         }
-       ]
-    ]
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ],
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    }
   }
 }

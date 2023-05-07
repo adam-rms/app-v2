@@ -6,11 +6,11 @@ import {
   useMemo,
   useState,
 } from "react";
-import { FetchData, StoreData } from "../utilities/DataStorage";
+import { FetchData, RemoveData, StoreData } from "../utilities/DataStorage";
 import jwt_decode from "jwt-decode";
 import { useToast } from "native-base";
 
-const DEFAULT_ENDPOINT = "https://dash.adam-rms.com";
+export const DEFAULT_ENDPOINT = "https://dash.adam-rms.com";
 
 /** Parameters returned from the context
  * @see useAuth
@@ -19,9 +19,8 @@ interface AuthContextType {
   authenticated: boolean;
   endpoint: string;
   token: string | null;
-  handleLogin: (token: string, referer: string) => void;
+  handleLogin: (token: string, referer: string) => Promise<void>;
   logout: () => Promise<void>;
-  handleEndpointChange: (endpoint: string) => void;
 }
 
 // The actual Context
@@ -34,7 +33,6 @@ export function AuthProvider({
   children: ReactNode;
 }): JSX.Element {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
-  const [initialLoading, setInitialLoading] = useState<boolean>(true); // Used to prevent the app overwriting the endpoint and token with null values
   const [endpoint, setEndpoint] = useState<string>(DEFAULT_ENDPOINT);
   const [token, setToken] = useState<string | null>(null);
   const toast = useToast();
@@ -49,41 +47,17 @@ export function AuthProvider({
           setEndpoint(storedEndpoint);
           setToken(storedToken);
           setAuthenticated(true);
-          setInitialLoading(false); //Allow saving to occur
         } else {
           //Token isn't valid, clear the storage
           setEndpoint(DEFAULT_ENDPOINT);
           setToken(null);
           setAuthenticated(false);
-          setInitialLoading(false);
         }
       } else {
         setAuthenticated(false);
-        setInitialLoading(false);
       }
     })();
   }, []);
-
-  //Store the token when the context is updated
-  useEffect(() => {
-    const storeToken = async () => {
-      if (token && !initialLoading) {
-        await StoreData("AuthToken", token);
-        setAuthenticated(true);
-      }
-    };
-    storeToken();
-  }, [token]);
-
-  //store the Endpoint when the context is updated
-  useEffect(() => {
-    (async () => {
-      if (endpoint && !initialLoading) {
-        await StoreData("Endpoint", endpoint);
-      }
-    })();
-  }, [endpoint]);
-
   const validateJWT = (token: string, referer: string) => {
     const decodedToken: IJwt = jwt_decode(token);
     const currentTime = Date.now() / 1000;
@@ -92,14 +66,12 @@ export function AuthProvider({
     return true;
   };
 
-  const handleEndpointChange = (endpoint: string) => {
-    setEndpoint(endpoint);
-  };
-
   // Update token
-  const handleLogin = (token: string, referer: string) => {
+  const handleLogin = async (token: string, referer: string) => {
     if (validateJWT(token, referer)) {
+      await StoreData("AuthToken", token);
       setToken(token);
+      await StoreData("Endpoint", referer);
       setEndpoint(referer);
       setAuthenticated(true);
     } else {
@@ -113,7 +85,9 @@ export function AuthProvider({
   const logout = async () => {
     //clear our storage of the token and reset the endpoint
     // TODO - cancel the token on the server
+    await RemoveData("AuthToken");
     setToken(null);
+    await StoreData("Endpoint", DEFAULT_ENDPOINT);
     setEndpoint(DEFAULT_ENDPOINT);
     setAuthenticated(false);
   };
@@ -126,7 +100,6 @@ export function AuthProvider({
       token,
       handleLogin,
       logout,
-      handleEndpointChange,
     }),
     [authenticated, endpoint, token],
   );

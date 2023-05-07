@@ -48,7 +48,12 @@ export const InstanceProvider = ({
   //Get instances when authenticated state changes
   useEffect(() => {
     (async () => {
-      if (authenticated) await getInstances();
+      if (authenticated) {
+        await getInstances();
+      } else {
+        setInstances([]);
+        setThisInstance({} as IInstance);
+      }
     })();
   }, [authenticated]);
 
