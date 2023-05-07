@@ -44,6 +44,7 @@ const ProjectAssetSummary = ({ projectData }: ProjectDataProps) => {
       {numAssetTypes > 0 && (
         <Button
           bg="primary"
+          _text={{ fontWeight: "bold" }}
           onPress={() =>
             navigation.navigate("ProjectAssets", {
               projectId: projectData.project.projects_id,

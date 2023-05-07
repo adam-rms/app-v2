@@ -25,6 +25,7 @@ const ProjectCrewRoles = ({
               <Button
                 ml="auto"
                 bg="primary"
+                _text={{ fontWeight: "bold" }}
                 onPress={() =>
                   navigation.navigate("CrewRecruitmentApplication", {
                     applicationId: item.projectsVacantRoles_id,
