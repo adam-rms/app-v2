@@ -2,8 +2,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { DateTime } from "luxon";
 import { ProjectCommentsProps } from "../../pages/projects/Project";
 import Card from "../Card";
-import { Box, Divider, Heading, Link, View } from "native-base";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import {
+  Box,
+  Divider,
+  HStack,
+  Heading,
+  Link,
+  Text,
+  VStack,
+  View,
+} from "native-base";
+import { faClock, faComment } from "@fortawesome/free-solid-svg-icons";
 import { useWindowDimensions } from "react-native";
 import RenderHtml from "react-native-render-html";
 
@@ -22,88 +31,84 @@ const ProjectComments = ({ projectComments }: ProjectCommentsProps) => {
         //add a date label
         commentsList.push(
           <View
+            width={40}
             borderRadius={4}
             color="#fff"
             backgroundColor="#dc3545"
             fontWeight={600}
-            padding={5}
+            py={2}
+            mt={2}
             key={comment.auditLog_id + "-date"}
           >
-            <View
-              borderRadius={4}
-              color="#fff"
-              backgroundColor="#dc3545"
-              fontWeight={600}
-              padding={5}
-            >
+            <Text mx="auto" color="white" fontWeight="bold">
               {commentDate}
-            </View>
+            </Text>
           </View>,
         );
         currentDate = commentDate;
       }
       commentsList.push(
-        <View key={comment.auditLog_id}>
-          <FontAwesomeIcon icon={["far", "comment"]} />
-          <View
-            shadow="0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%)"
-            borderRadius="0.25rem"
-            backgroundColor="#fff"
-            color="#495057"
-            marginLeft={60}
-            marginRight={15}
-            marginTop={0}
-            padding={0}
-            position="relative"
+        <HStack key={comment.auditLog_id} my={2} mx={2}>
+          <Box
+            p="2"
+            borderColor="#007bff"
+            borderStyle="solid"
+            borderWidth={1}
+            borderRadius="full"
+            height={9}
+            bgColor="#007bff"
           >
-            <View color="#999" ml="auto" fontSize={12} p={10}>
-              <FontAwesomeIcon icon="clock" />{" "}
-              {DateTime.fromSQL(comment.auditLog_timestamp).toLocaleString(
-                DateTime.TIME_WITH_SECONDS,
-              )}
-            </View>
-            <Heading
-              borderBottomColor="rgba(0, 0, 0, 0.125)"
-              borderBottomStyle="solid"
-              borderBottomRightRadius={1}
-              color="#495057"
-              lineHeight={1.1}
-              m={0}
-              p={10}
-            >
-              <Link
-                fontWeight={600}
-                color="#3880FF"
-                href={"mailto:" + comment.users_email}
-              >
-                {comment.users_name1 + " " + comment.users_name2}
-              </Link>{" "}
-              Commented
-            </Heading>
+            <FontAwesomeIcon icon={faComment} color="white" />
+          </Box>
+          <VStack
+            w={width - 100}
+            ml={2}
+            borderStyle="solid"
+            borderWidth={1}
+            borderColor="gray.300"
+            borderRadius={4}
+            p={2}
+          >
+            <HStack mb={2}>
+              <HStack>
+                <Link
+                  href={"mailto:" + comment.users_email}
+                  _text={{
+                    color: "blue.600",
+                  }}
+                >
+                  {comment.users_name1 + " " + comment.users_name2 + " "}
+                </Link>
+                <Text>Commented</Text>
+              </HStack>
+              <HStack ml="auto">
+                <Box my="auto" mr={1}>
+                  <FontAwesomeIcon icon={faClock} color="gray" />
+                </Box>
+                <Text color="gray.600">
+                  {DateTime.fromSQL(comment.auditLog_timestamp).toLocaleString(
+                    DateTime.TIME_WITH_SECONDS,
+                  )}
+                </Text>
+              </HStack>
+            </HStack>
+            <Divider />
             <RenderHtml
               source={{ html: comment.auditLog_actionData }}
               contentWidth={width}
             />
-          </View>
-        </View>,
+          </VStack>
+        </HStack>,
       );
     });
 
     return (
-      <Card>
-        <Heading>Project Comments</Heading>
+      <Card p="2">
+        <Heading mx="auto" mb="2">
+          Project Comments
+        </Heading>
         <Divider />
-
-        <Box>
-          {commentsList}
-          <View>
-            {/* End with a clock to show "now" */}
-            <FontAwesomeIcon
-              icon={faClock}
-              style={{ backgroundColor: "#6c757d" }}
-            />
-          </View>
-        </Box>
+        <Box>{commentsList}</Box>
       </Card>
     );
   } else {

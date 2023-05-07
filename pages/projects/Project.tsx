@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import ProjectCrewRoles from "../../components/projects/ProjectCrewRoles";
 import useInstances from "../../contexts/useInstances";
+import ProjectComments from "../../components/projects/ProjectComments";
 
 //props interface for any component using project data
 export interface ProjectDataProps {
@@ -34,7 +35,7 @@ const Project = ({
   navigation,
 }: DrawerScreenProps<RMSDrawerParamList, "Project">) => {
   const { projectId } = route.params;
-  const { projectData, projectCrewRoles, refreshProjectData } =
+  const { projectData, projectCrewRoles, projectComments, refreshProjectData } =
     useProjectData();
   const { getRMSLocation } = useRMSLocation();
   const { instancePermissionCheck } = useInstances();
@@ -106,7 +107,6 @@ const Project = ({
           }
         >
           <ProjectOverview projectData={projectData} />
-          {/*<ProjectComments projectComments={projectComments} />*/}
           <ProjectAssetSummary projectData={projectData} />
           {instancePermissionCheck("PROJECTS:PROJECT_CREW:VIEW") && (
             <ProjectCrew projectData={projectData} />
@@ -114,6 +114,7 @@ const Project = ({
           {instancePermissionCheck(
             "PROJECTS:PROJECT_CREW:VIEW:VIEW_AND_APPLY_FOR_CREW_ROLES",
           ) && <ProjectCrewRoles projectCrewRoles={projectCrewRoles} />}
+          <ProjectComments projectComments={projectComments} />
         </ScrollView>
       </Container>
     );
