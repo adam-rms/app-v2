@@ -34,13 +34,14 @@ const CrewRecruitmentItem = (
   role: IProjectCrewRole,
 ) => (
   <Container
+    my={1}
     w="full"
     maxW="full"
     justifyContent="center"
     key={role.projectsVacantRoles_id}
   >
     <HStack w="100%">
-      <Text my="auto" ml="10">
+      <Text my="auto" ml="10" bold>
         {role.projectsVacantRoles_name}
       </Text>
       <Button
@@ -53,7 +54,9 @@ const CrewRecruitmentItem = (
           })
         }
       >
-        {role.application === null ? "Apply" : "Applied"}
+        <Text bold color="white">
+          {role.application === null ? "Apply" : "Applied"}
+        </Text>
       </Button>
     </HStack>
   </Container>
