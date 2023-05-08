@@ -131,10 +131,8 @@ const MenuContent = (props: any) => {
             // Render a section
             if (item.type == "section") {
               return (
-                <Box key={index}>
-                  <Heading ml="2" mb="1">
-                    {item.title}
-                  </Heading>
+                <Box key={index} mt={3}>
+                  <Heading ml="2">{item.title}</Heading>
                   <Divider />
                 </Box>
               );
@@ -144,7 +142,7 @@ const MenuContent = (props: any) => {
             if (item.type == "function") {
               return (
                 <Pressable key={index} onPress={item.function}>
-                  <HStack p="1" m="1">
+                  <HStack m="1">
                     <Box my="auto" mr="2">
                       {item.icon && <FontAwesomeIcon icon={item.icon} />}
                     </Box>
@@ -171,7 +169,7 @@ const MenuContent = (props: any) => {
                     : undefined;
                 }}
               >
-                <HStack p="1" m="1">
+                <HStack m="1">
                   <Box my="auto" mr="2">
                     {item.icon && <FontAwesomeIcon icon={item.icon} />}
                   </Box>
