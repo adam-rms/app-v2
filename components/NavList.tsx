@@ -8,7 +8,16 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { RMSDrawerParamList } from "../utilities/Routing";
-import { Pressable, Container, HStack, FlatList, Skeleton } from "native-base";
+import {
+  Pressable,
+  Container,
+  HStack,
+  FlatList,
+  Skeleton,
+  Text,
+  VStack,
+  Box,
+} from "native-base";
 import Card from "./Card";
 import ScrollContainer from "./ScrollContainer";
 
@@ -86,32 +95,36 @@ const NavList: React.FC<NavListType> = ({
           borderColor="coolGray.200"
           borderWidth="1"
         >
-          <Container my="auto" ml="2" mr="2">
+          <HStack my="auto" ml="2" mr="2">
             {/*Generate the spacers or arrows if the depth is not 0*/}
             {[...Array(depth)].map((e, spacer_index) => {
               return (
-                <View key={`${depth}-${item.id}-${spacer_index}`}>
+                <Box key={`${depth}-${item.id}-${spacer_index}`}>
                   {spacer_index == depth - 1 ? (
-                    "↳"
+                    <Text bold>↳</Text>
                   ) : (
-                    <FontAwesomeIcon
-                      icon={
-                        spacer_index == depth - 1
-                          ? faArrowAltCircleDown
-                          : faSquare
-                      }
-                      color={"transparent"}
-                    />
+                    <Box>
+                      <FontAwesomeIcon
+                        icon={
+                          spacer_index == depth - 1
+                            ? faArrowAltCircleDown
+                            : faSquare
+                        }
+                        color={"transparent"}
+                      />
+                    </Box>
                   )}
-                </View>
+                </Box>
               );
             })}
             {/*Generate the Icon, otherwise put a transparent placeholder in for width purposes*/}
-            <FontAwesomeIcon
-              icon={item.icon ? item.icon : faSquare}
-              color={item.icon ? undefined : "transparent"}
-            />
-          </Container>
+            <Box my="auto" mx={1}>
+              <FontAwesomeIcon
+                icon={item.icon ? item.icon : faSquare}
+                color={item.icon ? undefined : "transparent"}
+              />
+            </Box>
+          </HStack>
           {/*Add the content*/}
           <Container m="1">{item.content}</Container>
           <Container my="auto" ml="auto" mr="2">

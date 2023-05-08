@@ -15,48 +15,52 @@ const ProjectAssetSummary = ({ projectData }: ProjectDataProps) => {
       projectData.FINANCIALS.assetsAssignedSUB,
     ).length;
   }
-  return (
-    <Card p="2">
-      <Heading mx="auto" mb="2">
-        Project Assets
-      </Heading>
-      <Divider />
-      <VStack p="2">
-        <Text>
-          {numAssetTypes} Asset
-          {numAssetTypes != 1 ? "s" : ""} assigned to{" "}
-          {projectData.project.projects_name} (
-          {projectData.FINANCIALS.formattedMass})
-        </Text>
-        {projectData.FINANCIALS && projectData.FINANCIALS.priceMaths && (
-          <Box my="2">
-            <Heading size="sm">Hire Charges</Heading>
-            {projectData.FINANCIALS.priceMaths.weeks > 0 && (
-              <Text>Weeks: {projectData.FINANCIALS.priceMaths.weeks}</Text>
-            )}
-            {projectData.FINANCIALS.priceMaths.days > 0 && (
-              <Text>Days: {projectData.FINANCIALS.priceMaths.days}</Text>
-            )}
-            <Text my="2">{projectData.FINANCIALS.priceMaths.string}</Text>
-          </Box>
+  if (numAssetTypes == 0) {
+    return <></>;
+  } else {
+    return (
+      <Card p="2">
+        <Heading mx="auto" mb="2">
+          Project Assets
+        </Heading>
+        <Divider />
+        <VStack p="2">
+          <Text>
+            {numAssetTypes} Asset
+            {numAssetTypes != 1 ? "s" : ""} assigned to{" "}
+            {projectData.project.projects_name} (
+            {projectData.FINANCIALS.formattedMass})
+          </Text>
+          {projectData.FINANCIALS && projectData.FINANCIALS.priceMaths && (
+            <Box my="2">
+              <Heading size="sm">Hire Charges</Heading>
+              {projectData.FINANCIALS.priceMaths.weeks > 0 && (
+                <Text>Weeks: {projectData.FINANCIALS.priceMaths.weeks}</Text>
+              )}
+              {projectData.FINANCIALS.priceMaths.days > 0 && (
+                <Text>Days: {projectData.FINANCIALS.priceMaths.days}</Text>
+              )}
+              <Text my="2">{projectData.FINANCIALS.priceMaths.string}</Text>
+            </Box>
+          )}
+        </VStack>
+        {numAssetTypes > 0 && (
+          <Button
+            bg="primary"
+            _text={{ fontWeight: "bold" }}
+            onPress={() =>
+              navigation.navigate("ProjectAssets", {
+                projectId: projectData.project.projects_id,
+              })
+            }
+            w="full"
+          >
+            View Project Assets
+          </Button>
         )}
-      </VStack>
-      {numAssetTypes > 0 && (
-        <Button
-          bg="primary"
-          _text={{ fontWeight: "bold" }}
-          onPress={() =>
-            navigation.navigate("ProjectAssets", {
-              projectId: projectData.project.projects_id,
-            })
-          }
-          w="full"
-        >
-          View Project Assets
-        </Button>
-      )}
-    </Card>
-  );
+      </Card>
+    );
+  }
 };
 
 export default ProjectAssetSummary;

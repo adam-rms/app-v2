@@ -39,20 +39,23 @@ const AssetTypeInformation: React.FC<AssetTypeInformationProps> = ({
             <Text bold>Category</Text>
             <Text>{assetType.assetCategories_name}</Text>
           </Box>
-          {assetType.assetTypes_productLink && (
-            <Box>
-              <Text bold>Product Link</Text>
-              <Button
-                onPress={() =>
-                  Linking.openURL(assetType.assetTypes_productLink)
-                }
-              >
-                Manufacturer Information
-                <FontAwesomeIcon icon={faChevronRight}></FontAwesomeIcon>
-              </Button>
-            </Box>
-          )}
         </HStack>
+        {assetType.assetTypes_productLink && (
+          <Button
+            bg="primary"
+            my={2}
+            onPress={() => Linking.openURL(assetType.assetTypes_productLink)}
+          >
+            <HStack>
+              <Text my="auto" color="white" bold>
+                Manufacturer Information
+              </Text>
+              <Box my="auto">
+                <FontAwesomeIcon color="white" icon={faChevronRight} />
+              </Box>
+            </HStack>
+          </Button>
+        )}
         <HStack>
           <Box mx="auto">
             <Text bold>Weight</Text>

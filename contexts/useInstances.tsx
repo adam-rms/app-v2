@@ -88,7 +88,7 @@ export const InstanceProvider = ({
       {
         options: buttons,
         cancelButtonIndex: buttons.length - 1, // depends on number of instances
-        title: "Set Location",
+        title: "Change Business",
       },
       async (buttonIndex: number | undefined) => {
         if (buttonIndex !== undefined && buttonIndex !== buttons.length - 1) {

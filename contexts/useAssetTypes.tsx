@@ -9,6 +9,7 @@ import { useToast } from "native-base";
  */
 interface AssetTypeContextType {
   AssetTypes: IAssetType;
+  thisAssetType: IAssetTypeData;
   refreshAssetTypes: (assetTypes_id?: number) => Promise<void>;
   getMoreAssets: () => Promise<void>;
 }
@@ -33,6 +34,9 @@ export const AssetTypeProvider = ({
       total: 0,
     },
   });
+  const [thisAssetType, setThisAssetType] = useState<IAssetTypeData>(
+    {} as IAssetTypeData,
+  );
 
   /**
    * Refresh Context
@@ -40,16 +44,27 @@ export const AssetTypeProvider = ({
    */
   async function refreshAssetTypes(assetTypes_id?: number) {
     if (assetTypes_id) {
-      const assetList = await Api("assets/list.php", {
-        assetTypes_id: assetTypes_id,
-      });
-      if (assetList.result) {
-        setAssetTypes(assetList.response);
+      //filter by requested asset
+      const thisAsset = AssetTypes.assets.find(
+        (element: IAssetTypeData) => element.assetTypes_id == assetTypes_id,
+      );
+      if (thisAsset) {
+        setThisAssetType(thisAsset);
       } else {
-        toast.show({
-          title: "Error Loading Assets",
-          description: assetList.error,
+        const assetList = await Api("assets/list.php", {
+          assetTypes_id: assetTypes_id,
         });
+        if (assetList.result) {
+          const newassets: IAssetType = assetList.response;
+          newassets.assets = AssetTypes.assets.concat(newassets.assets);
+          setAssetTypes(newassets);
+          setThisAssetType(assetList.response);
+        } else {
+          toast.show({
+            title: "Error Loading Assets",
+            description: assetList.error,
+          });
+        }
       }
     } else {
       const assetList = await Api("assets/list.php", {
@@ -72,7 +87,7 @@ export const AssetTypeProvider = ({
    */
   async function getMoreAssets() {
     //check if there are more pages to get
-    if (AssetTypes.pagination.page < AssetTypes.pagination.total) {
+    if (AssetTypes.pagination.page <= AssetTypes.pagination.total) {
       //get assets
       const assetResponse = await Api("assets/list.php", {
         all: true,
@@ -95,10 +110,11 @@ export const AssetTypeProvider = ({
   const memoedValue = useMemo(
     () => ({
       AssetTypes,
+      thisAssetType,
       refreshAssetTypes,
       getMoreAssets,
     }),
-    [AssetTypes],
+    [AssetTypes, thisAssetType],
   );
 
   // Don't forget to add new functions to the value of the provider!
