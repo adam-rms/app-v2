@@ -22,7 +22,7 @@ const Asset = ({
   navigation,
 }: DrawerScreenProps<RMSDrawerParamList, "Asset">) => {
   const { typeid, assetid } = route.params;
-  const { AssetTypes, refreshAssetTypes } = useAssetTypes();
+  const { thisAssetType, refreshAssetTypes } = useAssetTypes();
   const [isLoading, setIsLoading] = useState(false);
 
   const doRefresh = async () => {
@@ -34,12 +34,7 @@ const Asset = ({
 
   useEffect(() => {
     doRefresh();
-  }, []);
-
-  //filter by requested asset type
-  const thisAssetType = AssetTypes.assets.find(
-    (element: IAssetTypeData) => element.assetTypes_id == typeid,
-  );
+  }, [typeid]);
 
   //if we've got the asset, show data
   if (thisAssetType) {

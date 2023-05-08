@@ -2,7 +2,7 @@
  * Asset Type object
  */
 interface IAssetType {
-  assets: [...IAssetTypeData];
+  assets: IAssetTypeData[];
   pagination: {
     page: number;
     total: number;
