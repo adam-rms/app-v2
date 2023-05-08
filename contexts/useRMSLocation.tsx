@@ -149,7 +149,7 @@ export const LocationProvider = ({
     const buttons = [];
     if (
       Platform.OS !== "web" &&
-      instancePermissionCheck("ASSETS:ASSET_BARCODES:VIEW:SCAN_IN_APP ")
+      instancePermissionCheck("ASSETS:ASSET_BARCODES:VIEW:SCAN_IN_APP")
     ) {
       //allow scanning
       buttons.push("Scan");
