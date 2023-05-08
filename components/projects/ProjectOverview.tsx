@@ -24,39 +24,39 @@ const ProjectOverview = ({ projectData }: ProjectDataProps) => {
             <Box m="2">
               <View>
                 <Heading size="xs">Project Manager</Heading>
-                {projectData.project.projects_manager ? (
-                  <Text>
-                    {projectData.project.users_name1}{" "}
-                    {projectData.project.users_name2}
-                  </Text>
-                ) : (
-                  <Text>Unknown</Text>
-                )}
+                <Text>
+                  {projectData.project.users_name1}{" "}
+                  {projectData.project.users_name2}
+                </Text>
               </View>
             </Box>
-            {projectData.project.projectsTypes_config_client && (
+            {projectData.project.projectsTypes_config_client ? (
               <Box m="2">
                 <View>
                   <Heading size="xs">Client</Heading>
                   {projectData.project.clients_id ? (
                     <Text>{projectData.project.clients_name}</Text>
                   ) : (
-                    <Text>Unknown</Text>
+                    <Text italic>Not Set</Text>
                   )}
                 </View>
               </Box>
+            ) : (
+              <></>
             )}
-            {projectData.project.projectsTypes_config_venue && (
+            {projectData.project.projectsTypes_config_venue ? (
               <Box m="2">
                 <View>
                   <Heading size="xs">Venue</Heading>
                   {projectData.project.locations_name ? (
                     <Text>{projectData.project.locations_name}</Text>
                   ) : (
-                    <Text>Unknown</Text>
+                    <Text italic>Not Set</Text>
                   )}
                 </View>
               </Box>
+            ) : (
+              <></>
             )}
           </VStack>
           <VStack w="50%">
@@ -69,26 +69,28 @@ const ProjectOverview = ({ projectData }: ProjectDataProps) => {
             <Box m="2">
               <View>
                 <Heading size="xs">Event Dates</Heading>
-                {projectData.project.projects_dates_use_start ? (
+                {projectData.project.projects_dates_use_start &&
+                projectData.project.projects_dates_use_end ? (
                   <Text>
                     {projectData.project.projects_dates_use_start} -{" "}
                     {projectData.project.projects_dates_use_end}
                   </Text>
                 ) : (
-                  <Text>Unknown</Text>
+                  <Text italic>Not Set</Text>
                 )}
               </View>
             </Box>
             <Box m="2">
               <View>
                 <Heading size="xs">Dates assets in use</Heading>
-                {projectData.project.projects_dates_deliver_start ? (
+                {projectData.project.projects_dates_deliver_start &&
+                projectData.project.projects_dates_deliver_end ? (
                   <Text>
                     {projectData.project.projects_dates_deliver_start} -{" "}
                     {projectData.project.projects_dates_deliver_end}
                   </Text>
                 ) : (
-                  <Text>Unknown</Text>
+                  <Text italic>Not Set</Text>
                 )}
               </View>
             </Box>
