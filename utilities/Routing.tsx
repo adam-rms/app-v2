@@ -19,6 +19,7 @@ import DebugInfo from "../pages/DebugInfo";
 import CmsPageList from "../pages/cms/CmsPageList";
 import CmsPage from "../pages/cms/CmsPage";
 import HandleMagicLink from "../pages/utilities/HandleMagicLink";
+import HeaderLeftButton from "../components/menu/HeaderLeftButton";
 
 /**
  * RMSDrawerParamList is a type that defines the parameters for each page.
@@ -88,6 +89,7 @@ const Routing = () => {
       screenOptions={{
         drawerType: dimensions.width >= 768 ? "permanent" : "front",
         swipeEnabled: authenticated,
+        headerLeft: HeaderLeftButton,
       }}
       drawerContent={(props) =>
         authenticated ? (
