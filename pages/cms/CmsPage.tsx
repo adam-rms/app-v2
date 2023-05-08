@@ -7,7 +7,7 @@ import { Box, Divider, Heading, Text, VStack } from "native-base";
 import Card from "../../components/Card";
 import ScrollContainer from "../../components/ScrollContainer";
 import { RefreshControl } from "react-native";
-import RenderHTML, { useContentWidth } from "react-native-render-html";
+import { RenderHTMLSource, useContentWidth } from "react-native-render-html";
 
 /**
  * Takes the output from the dropdown (bootstrap) colour menu in the dashboard and
@@ -70,7 +70,7 @@ const CmsPage = ({
   );
 
   // Setup variables for the content and title
-  let content = null;
+  const content: JSX.Element[] = [];
   let title = "";
 
   // If there is data for the CMS page and there are cards on the page
@@ -81,63 +81,62 @@ const CmsPage = ({
   ) {
     const cards = cmsPage.DRAFTS.cmsPagesDrafts_dataARRAY.cards;
     title = cmsPage.cmsPages_name;
-    content = (
-      <VStack>
-        {cards.map((card: CmsContentCard, index: number) => {
-          if (card.type == "custom") {
-            // The CMS page endpoint only returns card data for custom cards currently, so we can only display custom cards
-            const background =
-              card.outline == "false" && card.color
-                ? CARD_COLOR_MAP[card.color]
-                : "white";
-            const border =
-              card.outline == "true" && card.color
-                ? CARD_COLOR_MAP[card.color]
-                : "gray.300";
-            return (
-              <Card borderColor={border} size={12} key={index} height="1/2">
-                <VStack w="full" h="full">
-                  <Box w="full" bg={background}>
-                    <Heading mx="auto" pt="2" pb="1">
-                      {card.title}
-                    </Heading>
-                  </Box>
-                  <Divider bg={border} />
-                  <RenderHTML
-                    contentWidth={width}
-                    source={{
-                      html: card.content.replace(/(\r\n|\n|\r)/gm, ""),
-                    }}
-                  />
-                </VStack>
-              </Card>
-            );
-          }
-        })}
-      </VStack>
-    );
+    cards.forEach((card: CmsContentCard, index) => {
+      if (card.type == "custom") {
+        // The CMS page endpoint only returns card data for custom cards currently, so we can only display custom cards
+        const background =
+          card.outline == "false" && card.color
+            ? CARD_COLOR_MAP[card.color]
+            : "white";
+        const border =
+          card.outline == "true" && card.color
+            ? CARD_COLOR_MAP[card.color]
+            : "gray.300";
+        const borderWidth = card.outline == "true" ? 2 : 1;
+        content.push(
+          <Card borderColor={border} borderWidth={borderWidth} key={index}>
+            <VStack>
+              <Box bg={background}>
+                <Heading mx="auto" pt="2" pb="1">
+                  {card.title}
+                </Heading>
+              </Box>
+              <Divider bg={border} />
+              <Box p={2}>
+                <RenderHTMLSource
+                  contentWidth={width}
+                  source={{
+                    html: card.content,
+                  }}
+                />
+              </Box>
+            </VStack>
+          </Card>,
+        );
+      }
+    });
   }
 
   // If the previous condition is not true (meaning we have not content to display),
   // and we are not loading there must not be any content or the api call must have failed
   else if (!isLoading) {
     title = "Error";
-    content = (
-      <Card p="2">
+    content.push(
+      <Card p="2" key="error">
         <Heading mx="auto">There was an error!</Heading>
         <Divider />
         <Text>
           We could not find any content for this page. This may mean there is no
           content or that there is a network error. Please try again later
         </Text>
-      </Card>
+      </Card>,
     );
   }
 
   // If the previous two conditions are not true we must be loading from the api
   else {
     title = "Loading...";
-    content = <SkeletonCard />;
+    content.push(<SkeletonCard key="Loading" />);
   }
 
   navigation.setOptions({ title: title });
@@ -147,7 +146,7 @@ const CmsPage = ({
         <RefreshControl refreshing={isLoading} onRefresh={doRefresh} />
       }
     >
-      {content}
+      <Box>{content}</Box>
     </ScrollContainer>
   );
 };

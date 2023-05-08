@@ -1,5 +1,9 @@
 import "react-native-gesture-handler"; // Must be listed first
 import "setimmediate";
+import {
+  TRenderEngineProvider,
+  RenderHTMLConfigProvider,
+} from "react-native-render-html";
 import { extendTheme, NativeBaseProvider, Text } from "native-base";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
@@ -40,22 +44,26 @@ export default function App() {
   };
 
   return (
-    <SafeAreaProvider>
-      <NativeBaseProvider theme={theme}>
-        <ActionSheetProvider>
-          <AuthProvider>
-            {/* Our Authentication, which Navigation depends on */}
-            <NavigationContainer
-              linking={linking}
-              fallback={<Text>Loading...</Text>}
-            >
-              <ContextWrapper>
-                <Routing />
-              </ContextWrapper>
-            </NavigationContainer>
-          </AuthProvider>
-        </ActionSheetProvider>
-      </NativeBaseProvider>
-    </SafeAreaProvider>
+    <TRenderEngineProvider>
+      <RenderHTMLConfigProvider>
+        <SafeAreaProvider>
+          <NativeBaseProvider theme={theme}>
+            <ActionSheetProvider>
+              <AuthProvider>
+                {/* Our Authentication, which Navigation depends on */}
+                <NavigationContainer
+                  linking={linking}
+                  fallback={<Text>Loading...</Text>}
+                >
+                  <ContextWrapper>
+                    <Routing />
+                  </ContextWrapper>
+                </NavigationContainer>
+              </AuthProvider>
+            </ActionSheetProvider>
+          </NativeBaseProvider>
+        </SafeAreaProvider>
+      </RenderHTMLConfigProvider>
+    </TRenderEngineProvider>
   );
 }

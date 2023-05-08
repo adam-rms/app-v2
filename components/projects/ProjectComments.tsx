@@ -14,7 +14,7 @@ import {
 } from "native-base";
 import { faClock, faComment } from "@fortawesome/free-solid-svg-icons";
 import { useWindowDimensions } from "react-native";
-import RenderHtml from "react-native-render-html";
+import { RenderHTMLSource } from "react-native-render-html";
 
 const ProjectComments = ({ projectComments }: ProjectCommentsProps) => {
   const { width } = useWindowDimensions();
@@ -93,7 +93,7 @@ const ProjectComments = ({ projectComments }: ProjectCommentsProps) => {
               </HStack>
             </HStack>
             <Divider />
-            <RenderHtml
+            <RenderHTMLSource
               source={{ html: comment.auditLog_actionData }}
               contentWidth={width}
             />
