@@ -7,6 +7,12 @@ import Card from "../../components/Card";
 import ScrollContainer from "../../components/ScrollContainer";
 import { RefreshControl } from "react-native-gesture-handler";
 
+// Font Awesome - for this page *only*
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+//We need the entire solid library for this page as we don't know what icon we'll need
+library.add(fas);
+
 /**
  * CMS Page List
  * Displays a single CMS Page
