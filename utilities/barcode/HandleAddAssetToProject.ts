@@ -7,13 +7,13 @@ import GetAssetFromBarcode from "./GetAssetFromBarcode";
  * @param barcodeData data from barcode
  * @param project_id id of project to add asset to
  * @param location for asset fetch
- * @returns {boolean | string} true if asset assigned, false if asset not found, or assignment error message
+ * @returns {boolean | string | IAsset} IAsset if asset assigned, false if asset not found, or assignment error message
  */
 const HandleAddAssetToProject = async (
   barcodeType: IPermittedBarcode,
   barcodeData: string,
   additionalData: { project_id: string; location: ILocation },
-): Promise<string | boolean> => {
+): Promise<IAsset | string | boolean> => {
   const asset = await GetAssetFromBarcode(
     barcodeType,
     barcodeData,
@@ -26,7 +26,7 @@ const HandleAddAssetToProject = async (
       assets_id: asset.assets_id,
     });
     if (assignment.result) {
-      return true;
+      return asset;
     } else {
       return assignment.error.message;
     }

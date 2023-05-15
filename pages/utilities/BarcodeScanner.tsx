@@ -1,3 +1,4 @@
+import React from "react";
 import {
   useNavigation,
   NavigationProp,
@@ -10,9 +11,9 @@ import { View, StyleSheet } from "react-native";
 import { RMSDrawerParamList } from "../../utilities/Routing";
 import useRMSLocation from "../../contexts/useRMSLocation";
 import HandleAddAssetToProject from "../../utilities/barcode/HandleAddAssetToProject";
-import { Box, Button, HStack, Text } from "native-base";
+import { Box, Button, Divider, HStack, Heading, Text, VStack } from "native-base";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import useInstances from "../../contexts/useInstances";
 
 /** Convert the barcode type to the expected format
@@ -55,6 +56,7 @@ const BarcodeScanner = () => {
   const { instancePermissionCheck } = useInstances();
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [scanned, setScanned] = useState<boolean>(false);
+  const [additionalCardData, setAdditionalCardData] = useState<any>(undefined);
   //Check the page has been passed params - occurs when the user navigates to the page directly
   if (
     !route.params ||
@@ -78,6 +80,11 @@ const BarcodeScanner = () => {
     setScanned(false);
   }, [callback, returnPage, additionalData]);
 
+  const scanAgain = () => {
+    setScanned(false);
+    setAdditionalCardData(undefined);
+  }
+
   const handleBarCodeScanned = async ({
     type,
     data,
@@ -91,20 +98,30 @@ const BarcodeScanner = () => {
       switch (callback) {
         case "location":
           handleLocationBarCodeScanned(BarcodeTypeConverter(type), data);
-          break;
+          navigation.navigate(returnPage);
+          return;
         case "addAssetToProject":
-          await HandleAddAssetToProject(
+          const asset = await HandleAddAssetToProject(
             BarcodeTypeConverter(type),
             data,
             additionalData,
           );
+            if (typeof asset === "object" && "assets_id" in asset) {
+            setAdditionalCardData(
+              <Box textAlign="center">
+                <HStack my={2}>
+                  <Heading mx="auto">{asset.assets_tag} - {asset.assetTypes_name}</Heading>
+                </HStack>
+                <Button mx="auto" w="full" bg="primary" onPress={() => navigation.goBack()}>Back to Project</Button>
+              </Box>
+            );
+          }
           break;
         default:
           // We don't have a valid callback
           navigation.navigate("Home");
           return;
       }
-      navigation.navigate(returnPage);
     }
   };
 
@@ -116,27 +133,46 @@ const BarcodeScanner = () => {
         justifyContent: "flex-end",
       }}
     >
-      {hasPermission && !scanned ? (
-        <BarCodeScanner
-          onBarCodeScanned={handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject}
-        />
-      ) : (
-        <Text mx="auto">Sorry! AdamRMS can't access your camera.</Text>
-      )}
       <Button
         bg="primary"
-        p="4"
-        w="full"
-        onPress={() => navigation.navigate("Home")}
+        p={4}
+        w={100}
+        mt={12}
+        ml={5}
+        mb="auto"
+        zIndex={100}
+        onPress={() => { 
+          setScanned(true); //We need this to stop the camera being used by the app
+          navigation.goBack()
+        }}
       >
         <HStack>
           <Box mx="2" my="auto">
             <FontAwesomeIcon icon={faArrowLeft} />
           </Box>
-          <Text my="auto">Cancel Scan</Text>
+          <Text my="auto">{additionalCardData ? "Back" : "Cancel"}</Text>
         </HStack>
       </Button>
+      { !hasPermission && (
+        <Text mx="auto">Sorry! AdamRMS can't access your camera.</Text>
+      )}
+      {hasPermission && !scanned && (
+        <BarCodeScanner
+          onBarCodeScanned={handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+      )}
+      {scanned && (
+      <>
+        <Button mx="auto" mb={10} bg="primary" onPress={() => scanAgain()}>Scan Again</Button>
+        <Box bg="white" pb={10}>
+          <Heading mx="auto" size="lg" my={2}>Scan Result</Heading>
+          <Divider />
+          {additionalCardData}
+        </Box>
+      </>
+      )}
+      
     </View>
   );
 };

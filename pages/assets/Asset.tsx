@@ -94,9 +94,15 @@ const Asset = ({
   } else {
     return (
       <Container>
-        <Card>
-          {isLoading ? <SkeletonCard /> : <Text>Asset not found</Text>}
-        </Card>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={isLoading} onRefresh={doRefresh} />
+          }
+        >
+          <Card>
+            {isLoading ? <SkeletonCard /> : <Text my={2} mx="auto">Asset not found</Text>}
+          </Card>
+        </ScrollView>
       </Container>
     );
   }

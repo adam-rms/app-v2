@@ -69,7 +69,11 @@ const SetManualLocation = () => {
                 value: userLocation,
                 type: "custom",
               });
-              navigation.navigate("Home");
+              if (navigation.canGoBack()){
+                navigation.goBack();
+              } else {
+                navigation.navigate("Home");
+              }
             }}
           >
             Set Location
