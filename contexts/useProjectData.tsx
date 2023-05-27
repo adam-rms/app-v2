@@ -30,12 +30,9 @@ export const ProjectDataProvider = ({
   const toast = useToast();
   const { instancePermissionCheck } = useInstances();
   //State for project data
-  const [projectData, setProjectData] = useState<IProjectData>({
-    project: {},
-    files: [],
-    assetsAssignmentsStatus: [],
-    FINANCIALS: {},
-  });
+  const [projectData, setProjectData] = useState<IProjectData>(
+    {} as IProjectData,
+  );
 
   //State for project comments
   const [projectComments, setProjectComments] = useState<IComment[]>([]);

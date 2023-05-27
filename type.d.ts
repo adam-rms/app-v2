@@ -137,11 +137,67 @@ interface IProject {
   thisProjectManager: boolean;
 }
 
+interface IAssetsAssignmentsStatus {
+  assetsAssignmentsStatus_id: number;
+  instances_id: number;
+  assetsAssignmentsStatus_name: string;
+  assetsAssignmentsStatus_order: number;
+  assetsAssignmentsStatus_deleted: number;
+}
+
 /* Individual Project Object */
 interface IProjectData {
-  project: any;
+  project: {
+    projects_id: number;
+    projects_name: string;
+    instances_id: number;
+    projects_manager: number;
+    projects_description: string;
+    projects_created: string;
+    clients_id: number;
+    projects_deleted: number;
+    projects_archived: number;
+    projects_dates_use_start: string;
+    projects_dates_use_end: string;
+    projects_dates_deliver_start: string;
+    projects_dates_deliver_end: string;
+    projectsStatuses_id: number;
+    locations_id: number;
+    projects_invoiceNotes: string;
+    projects_defaultDiscount: number;
+    projectsTypes_id: number;
+    projects_parent_project_id: number;
+    projects_status_follow_parent: number;
+    projectsTypes_name: string;
+    projectsTypes_deleted: number;
+    projectsTypes_config_finance: number;
+    projectsTypes_config_files: number;
+    projectsTypes_config_assets: number;
+    projectsTypes_config_client: number;
+    projectsTypes_config_venue: number;
+    projectsTypes_config_notes: number;
+    projectsTypes_config_crew: number;
+    clients_name: string;
+    clients_website: null;
+    clients_email: null;
+    clients_notes: null;
+    clients_address: null;
+    clients_phone: null;
+    users_userid: number;
+    users_name1: string;
+    users_name2: string;
+    users_email: string;
+    locations_name: string;
+    locations_address: null;
+    projectsStatuses_name: string;
+    projectsStatuses_foregroundColour: string;
+    projectsStatuses_backgroundColour: string;
+    projectsStatuses_assetsReleased: number;
+    projectsStatuses_description: string;
+    subProjects: [...any];
+  };
   files: [...any];
-  assetsAssignmentsStatus: [...any];
+  assetsAssignmentsStatus: IAssetsAssignmentsStatus[];
   FINANCIALS: any;
 }
 

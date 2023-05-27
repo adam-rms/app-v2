@@ -14,6 +14,7 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import ProjectCrewRoles from "../../components/projects/ProjectCrewRoles";
 import useInstances from "../../contexts/useInstances";
 import ProjectComments from "../../components/projects/ProjectComments";
+import ProjectDispatch from "../../components/projects/ProjectDispatch";
 
 //props interface for any component using project data
 export interface ProjectDataProps {
@@ -111,6 +112,7 @@ const Project = ({
           {instancePermissionCheck("PROJECTS:PROJECT_CREW:VIEW") && (
             <ProjectCrew projectData={projectData} />
           )}
+          <ProjectDispatch />
           {instancePermissionCheck(
             "PROJECTS:PROJECT_CREW:VIEW:VIEW_AND_APPLY_FOR_CREW_ROLES",
           ) && <ProjectCrewRoles projectCrewRoles={projectCrewRoles} />}
