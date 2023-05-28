@@ -39,7 +39,7 @@ export const LocationProvider = ({
   const toast = useToast();
   const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
   const { showActionSheetWithOptions } = useActionSheet();
-  const { instancePermissionCheck } = useInstances();
+  const { instancePermissionCheck, thisInstance } = useInstances();
   //Create default state
   const [rmsLocation, setRMSLocation] = useState<ILocation>({} as ILocation);
 
@@ -66,6 +66,15 @@ export const LocationProvider = ({
     };
     setLocation();
   }, [rmsLocation]);
+
+  //Reset location when instance changes - they're guaranteed to be different
+  useEffect(() => {
+    setRMSLocation({
+      name: "No Location Set",
+      value: "",
+      type: undefined,
+    });
+  }, [thisInstance]);
 
   /**
    * Get the RMS Location

@@ -69,7 +69,7 @@ const SetManualLocation = () => {
                 value: userLocation,
                 type: "custom",
               });
-              navigation.navigate("Home");
+              navigation.goBack();
             }}
           >
             Set Location
