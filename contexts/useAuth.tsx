@@ -20,6 +20,7 @@ interface AuthContextType {
   authenticated: boolean;
   endpoint: string;
   token: string | null;
+  userID: number;
   handleLogin: (token: string, referer: string) => Promise<void>;
   logout: () => Promise<void>;
 }
