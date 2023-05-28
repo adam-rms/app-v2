@@ -101,7 +101,7 @@ const BarcodeScanner = () => {
           break;
         default:
           // We don't have a valid callback
-          navigation.navigate("Home");
+          navigation.goBack();
           return;
       }
       navigation.navigate(returnPage);
@@ -128,7 +128,10 @@ const BarcodeScanner = () => {
         bg="primary"
         p="4"
         w="full"
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => {
+          setScanned(true);
+          navigation.goBack();
+        }}
       >
         <HStack>
           <Box mx="2" my="auto">
