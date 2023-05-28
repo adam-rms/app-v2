@@ -12,6 +12,14 @@ import * as Linking from "expo-linking";
 import { AuthProvider } from "./contexts/useAuth";
 import ContextWrapper from "./contexts/ContextWrapper";
 import Routing from "./utilities/Routing";
+import * as Sentry from "sentry-expo";
+
+Sentry.init({
+  dsn: "https://3937ab95cc404dfa95b0e0cb91db5fc6@o83272.ingest.sentry.io/5204912",
+  enableInExpoDevelopment: true,
+  debug: __DEV__,
+  environment: __DEV__ ? "Development" : "Production",
+});
 
 const theme = extendTheme({
   colors: {
