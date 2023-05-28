@@ -108,18 +108,18 @@ export const LocationProvider = ({
       if (result.response.location) {
         //barcode is of a location, so save that
         setRMSLocation({
-          name: result.response.location["barcode"]["locationsBarcodes_id"],
-          value: result.response.location["locations_name"],
+          name: result.response.location["locations_name"],
+          value: result.response.location["barcode"]["locationsBarcodes_id"],
           type: "barcode",
         });
       } else if (result.response.asset) {
         //barcode is another asset (eg. a case)
         setRMSLocation({
-          name: result.response.asset["assets_id"],
-          value:
+          name:
             result.response.asset["tag"] +
             " " +
             result.response.asset["assetTypes_name"],
+          value: result.response.asset["assets_id"],
           type: "asset",
         });
       } else {
