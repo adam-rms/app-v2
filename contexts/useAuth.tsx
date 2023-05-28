@@ -9,6 +9,7 @@ import {
 import { FetchData, RemoveData, StoreData } from "../utilities/DataStorage";
 import jwt_decode from "jwt-decode";
 import { useToast } from "native-base";
+import * as Sentry from "sentry-expo";
 
 export const DEFAULT_ENDPOINT = "https://dash.adam-rms.com";
 
@@ -35,6 +36,7 @@ export function AuthProvider({
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [endpoint, setEndpoint] = useState<string>(DEFAULT_ENDPOINT);
   const [token, setToken] = useState<string | null>(null);
+  const [userID, setUserID] = useState<number>(0);
   const toast = useToast();
 
   // Check if we've already stored a token and endpoint when we first load the app.
@@ -58,11 +60,21 @@ export function AuthProvider({
       }
     })();
   }, []);
-  const validateJWT = (token: string, referer: string) => {
+
+  /**
+   * Validates the JWT is still live
+   * @param token recieved JWT
+   * @param referer Expected Referrer
+   * @returns true if valid, false otherwise
+   */
+  const validateJWT = (token: string, referer: string): boolean => {
     const decodedToken: IJwt = jwt_decode(token);
     const currentTime = Date.now() / 1000;
     if (decodedToken.exp < currentTime) return false; // Token has expired
     if (decodedToken.iss !== referer) return false; // Token is for a different endpoint
+    //token is valid, store UID
+    setUserID(parseInt(decodedToken.uid));
+    Sentry.Native.setUser({ id: decodedToken.uid });
     return true;
   };
 
@@ -82,11 +94,16 @@ export function AuthProvider({
     }
   };
 
+  /**
+   * Clear the various state variables we have for tracking Auth related information
+   */
   const logout = async () => {
     //clear our storage of the token and reset the endpoint
     // TODO - cancel the token on the server
     await RemoveData("AuthToken");
     setToken(null);
+    setUserID(0);
+    Sentry.Native.setUser(null);
     await StoreData("Endpoint", DEFAULT_ENDPOINT);
     setEndpoint(DEFAULT_ENDPOINT);
     setAuthenticated(false);
@@ -98,10 +115,11 @@ export function AuthProvider({
       authenticated,
       endpoint,
       token,
+      userID,
       handleLogin,
       logout,
     }),
-    [authenticated, endpoint, token],
+    [authenticated, endpoint, token, userID],
   );
 
   return (
