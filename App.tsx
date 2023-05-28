@@ -16,7 +16,7 @@ import * as Sentry from "sentry-expo";
 
 Sentry.init({
   dsn: "https://3937ab95cc404dfa95b0e0cb91db5fc6@o83272.ingest.sentry.io/5204912",
-  enableInExpoDevelopment: true,
+  enableInExpoDevelopment: false,
   debug: __DEV__,
   environment: __DEV__ ? "Development" : "Production",
 });
