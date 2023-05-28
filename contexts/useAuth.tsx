@@ -11,7 +11,6 @@ import jwt_decode from "jwt-decode";
 import { useToast } from "native-base";
 import * as Sentry from "sentry-expo";
 
-
 export const DEFAULT_ENDPOINT = "https://dash.adam-rms.com";
 
 /** Parameters returned from the context
