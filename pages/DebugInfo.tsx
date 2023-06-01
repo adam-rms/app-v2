@@ -12,19 +12,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const DebugInfo = () => {
-  const { endpoint, token } = useAuth();
+  const { endpoint, token, userID } = useAuth();
   const { instances, thisInstance } = useInstances();
   const permissionSections = instances.map((instance) => {
     return {
       header: (
-        <Text>
+        <Text key={"title-" + instance.instances_id}>
           ({instance.instances_id}) {instance.instances_name}
         </Text>
       ),
       content: (
         <VStack>
           {instance.permissions.map((permission) => {
-            return <Text>{permission}</Text>;
+            return <Text key={permission}>{permission}</Text>;
           })}
         </VStack>
       ),
@@ -40,6 +40,9 @@ const DebugInfo = () => {
         </Text>
         <Text>
           <Text bold>Token:</Text> {token}
+        </Text>
+        <Text>
+          <Text bold>User ID:</Text> {userID}
         </Text>
       </Card>
       <Card p="2">

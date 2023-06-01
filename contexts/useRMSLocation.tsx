@@ -39,7 +39,7 @@ export const LocationProvider = ({
   const toast = useToast();
   const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
   const { showActionSheetWithOptions } = useActionSheet();
-  const { instancePermissionCheck } = useInstances();
+  const { instancePermissionCheck, thisInstance } = useInstances();
   //Create default state
   const [rmsLocation, setRMSLocation] = useState<ILocation>({} as ILocation);
 
@@ -66,6 +66,15 @@ export const LocationProvider = ({
     };
     setLocation();
   }, [rmsLocation]);
+
+  //Reset location when instance changes - they're guaranteed to be different
+  useEffect(() => {
+    setRMSLocation({
+      name: "No Location Set",
+      value: "",
+      type: undefined,
+    });
+  }, [thisInstance]);
 
   /**
    * Get the RMS Location
@@ -108,18 +117,18 @@ export const LocationProvider = ({
       if (result.response.location) {
         //barcode is of a location, so save that
         setRMSLocation({
-          name: result.response.location["barcode"]["locationsBarcodes_id"],
-          value: result.response.location["locations_name"],
+          name: result.response.location["locations_name"],
+          value: result.response.location["barcode"]["locationsBarcodes_id"],
           type: "barcode",
         });
       } else if (result.response.asset) {
         //barcode is another asset (eg. a case)
         setRMSLocation({
-          name: result.response.asset["assets_id"],
-          value:
+          name:
             result.response.asset["tag"] +
             " " +
             result.response.asset["assetTypes_name"],
+          value: result.response.asset["assets_id"],
           type: "asset",
         });
       } else {
