@@ -1,3 +1,3 @@
 {
-  "recommendations": ["byCedric.vscode-expo"]
+  "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode", "expo.vscode-expo-tools"]
 }
