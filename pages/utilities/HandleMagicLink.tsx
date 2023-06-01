@@ -1,6 +1,7 @@
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { RMSDrawerParamList } from "../../utilities/Routing";
 import useAuth from "../../contexts/useAuth";
+import { useEffect } from "react";
 
 /**
  * Empty screen to handle magic link logins
@@ -12,7 +13,12 @@ const HandleMagicLink = ({
   const { token, referer } = route.params;
   const { handleLogin } = useAuth();
 
-  handleLogin(token, referer);
+  useEffect(() => {
+    (async () => {
+      await handleLogin(token, referer);
+    })();
+  }, []);
+
   return <></>;
 };
 

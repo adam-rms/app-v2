@@ -46,7 +46,7 @@ export function AuthProvider({
       const storedEndpoint = await FetchData("Endpoint");
       const storedToken = await FetchData("AuthToken");
       if (storedEndpoint && storedToken) {
-        if (validateJWT(storedToken, storedEndpoint)) {
+        if (await validateJWT(storedToken, storedEndpoint)) {
           setEndpoint(storedEndpoint);
           setToken(storedToken);
           setAuthenticated(true);
@@ -68,7 +68,10 @@ export function AuthProvider({
    * @param referer Expected Referrer
    * @returns true if valid, false otherwise
    */
-  const validateJWT = (token: string, referer: string): boolean => {
+  const validateJWT = async (
+    token: string,
+    referer: string,
+  ): Promise<boolean> => {
     const decodedToken: IJwt = jwt_decode(token);
     const currentTime = Date.now() / 1000;
     if (decodedToken.exp < currentTime) return false; // Token has expired
@@ -81,7 +84,7 @@ export function AuthProvider({
 
   // Update token
   const handleLogin = async (token: string, referer: string) => {
-    if (validateJWT(token, referer)) {
+    if (await validateJWT(token, referer)) {
       await StoreData("AuthToken", token);
       setToken(token);
       await StoreData("Endpoint", referer);
