@@ -1,7 +1,17 @@
-import { VStack, Text, Container, Heading } from "native-base";
-import AssetItem from "./AssetItem";
+import {
+  VStack,
+  Text,
+  Container,
+  Heading,
+  Box,
+  Button,
+  HStack,
+} from "native-base";
 import AssetItemInformation from "./AssetItemInformation";
-import RMSAccordion from "../RMSAccordion";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { RMSDrawerParamList } from "../../utilities/Routing";
 
 interface IAssetTypeItemProps {
   assetTypeKey: string; //Key
@@ -10,20 +20,7 @@ interface IAssetTypeItemProps {
 }
 
 const AssetTypeItem = (props: IAssetTypeItemProps) => {
-  //generate list of individual assets
-  const assets = props.typedAsset.assets.map((item: IAsset) => {
-    return {
-      header: <Heading>{item.assets_tag}</Heading>,
-      content: (
-        <AssetItem
-          AssetTypeId={parseInt(props.assetTypeKey)}
-          assetID={item.assets_id}
-          item={item}
-          subHire={props.subHire}
-        />
-      ),
-    };
-  });
+  const navigation = useNavigation<NavigationProp<RMSDrawerParamList>>();
 
   return (
     <Container key={props.assetTypeKey} w="full">
@@ -34,9 +31,41 @@ const AssetTypeItem = (props: IAssetTypeItemProps) => {
         </Text>
         <AssetItemInformation item={props.typedAsset.totals} />
         <Heading size="md" mx="auto">
-          Assets
+          Individual Asset Tags
         </Heading>
-        <RMSAccordion sections={assets} />
+        {props.typedAsset.assets.map((item: IAsset) => {
+          return (
+            <HStack key={item.assets_id} my={1}>
+              <Text ml={props.subHire ? "auto" : 10} mr="auto" bold my="auto">
+                {item.assets_tag}
+              </Text>
+              {!props.subHire && (
+                <Button
+                  mr={10}
+                  background="primary"
+                  onPress={() => {
+                    navigation.navigate("Asset", {
+                      typeid: parseInt(props.assetTypeKey),
+                      assetid: item.assets_id,
+                    });
+                  }}
+                >
+                  <HStack>
+                    <Text color="white" bold>
+                      View Asset
+                    </Text>
+                    <Box my="auto">
+                      <FontAwesomeIcon
+                        icon={faChevronRight}
+                        color="white"
+                      ></FontAwesomeIcon>
+                    </Box>
+                  </HStack>
+                </Button>
+              )}
+            </HStack>
+          );
+        })}
       </VStack>
     </Container>
   );
