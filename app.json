@@ -61,17 +61,6 @@
     ],
     "runtimeVersion": {
       "policy": "sdkVersion"
-    },
-    "hooks": {
-      "postPublish": [
-        {
-          "file": "sentry-expo/upload-sourcemaps",
-          "config": {
-            "organization": "jbithell",
-            "project": "adamrms"
-          }
-        }
-      ]
     }
   }
 }
