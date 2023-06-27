@@ -15,21 +15,21 @@ import * as Linking from "expo-linking";
 import { AuthProvider } from "./contexts/useAuth";
 import ContextWrapper from "./contexts/ContextWrapper";
 import Routing from "./utilities/Routing";
-import * as Sentry from "@sentry/react-native";
-import * as SentryExpo from "sentry-expo";
+import * as Sentry from "sentry-expo";
 
 // Sentry Reporting
 
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
-const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
+const routingInstrumentation =
+  new Sentry.Native.ReactNavigationInstrumentation();
 
-SentryExpo.init({
+Sentry.init({
   dsn: "https://3937ab95cc404dfa95b0e0cb91db5fc6@o83272.ingest.sentry.io/5204912",
   enableInExpoDevelopment: false,
-  debug: false, //logs all sentry info, which is a lot with touch events
+  debug: __DEV__, //logs all sentry info, which is a lot with touch events
   environment: __DEV__ ? "Development" : "Production",
   integrations: [
-    new Sentry.ReactNativeTracing({
+    new Sentry.Native.ReactNativeTracing({
       routingInstrumentation,
     }),
   ],
@@ -69,7 +69,7 @@ function App() {
   };
 
   return (
-    <Sentry.TouchEventBoundary>
+    <Sentry.Native.TouchEventBoundary>
       <TRenderEngineProvider>
         <RenderHTMLConfigProvider>
           <SafeAreaProvider>
@@ -97,8 +97,8 @@ function App() {
           </SafeAreaProvider>
         </RenderHTMLConfigProvider>
       </TRenderEngineProvider>
-    </Sentry.TouchEventBoundary>
+    </Sentry.Native.TouchEventBoundary>
   );
 }
 
-export default Sentry.wrap(App);
+export default Sentry.Native.wrap(App);
