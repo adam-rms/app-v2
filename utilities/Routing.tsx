@@ -87,7 +87,8 @@ const Routing = () => {
       initialRouteName="Login"
       backBehavior="history"
       screenOptions={{
-        drawerType: dimensions.width >= 768 ? "permanent" : "front",
+        drawerType:
+          dimensions.width >= 768 && authenticated ? "permanent" : "front",
         swipeEnabled: authenticated,
         headerLeft: HeaderLeftButton,
       }}

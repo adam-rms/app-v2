@@ -13,22 +13,24 @@ const HandleAddAssetToProject = async (
   barcodeType: IPermittedBarcode,
   barcodeData: string,
   additionalData: { project_id: string; location: ILocation },
-): Promise<IAsset | string | boolean> => {
-  const asset = await GetAssetFromBarcode(
-    barcodeType,
-    barcodeData,
-    additionalData.location,
-  );
+): Promise<string | boolean> => {
+  if (additionalData.location.value !== undefined) {
+    const asset = await GetAssetFromBarcode(
+      barcodeType,
+      barcodeData,
+      additionalData.location,
+    );
 
-  if (asset) {
-    const assignment = await Api("projects/assets/assign.php", {
-      projects_id: additionalData.project_id,
-      assets_id: asset.assets_id,
-    });
-    if (assignment.result) {
-      return asset;
-    } else {
-      return assignment.error.message;
+    if (asset) {
+      const assignment = await Api("projects/assets/assign.php", {
+        projects_id: additionalData.project_id,
+        assets_id: asset.assets_id,
+      });
+      if (assignment.result) {
+        return true;
+      } else {
+        return assignment.error.message;
+      }
     }
   }
   return false;

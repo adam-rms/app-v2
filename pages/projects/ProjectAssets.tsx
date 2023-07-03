@@ -6,8 +6,8 @@ import AssetTypeItem from "../../components/assets/AssetTypeItem";
 import { RMSDrawerParamList } from "../../utilities/Routing";
 import useProjectData from "../../contexts/useProjectData";
 import Card from "../../components/Card";
-
 import RMSAccordion from "../../components/RMSAccordion";
+import useInstances from "../../contexts/useInstances";
 
 interface IInstanceAssets {
   assets: { [key: string]: IProjectAssets };
@@ -27,6 +27,7 @@ const ProjectAssets = ({
   const { projectId } = route.params;
   const { projectData, refreshProjectData } = useProjectData();
   const [loading, setLoading] = useState<boolean>(true);
+  const { thisInstance } = useInstances();
 
   const doRefresh = () => {
     setLoading(true);
@@ -68,7 +69,7 @@ const ProjectAssets = ({
       content.push(
         <Card key="ThisInstance" p="2">
           <Heading mx="auto" mb="1">
-            Your Business Assets
+            {thisInstance.instances_name} Assets
           </Heading>
           <Divider />
           <RMSAccordion sections={thisInstanceSections} />

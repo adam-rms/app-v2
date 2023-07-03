@@ -119,7 +119,7 @@ const BarcodeScanner = () => {
           break;
         default:
           // We don't have a valid callback
-          navigation.navigate("Home");
+          navigation.goBack();
           return;
       }
     }

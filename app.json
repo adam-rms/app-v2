@@ -3,7 +3,7 @@
     "scheme": "com.bstudios.adamrms",
     "name": "AdamRMS",
     "slug": "adam-rms-app-v2",
-    "version": "2.0.6",
+    "version": "2.0.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -15,9 +15,7 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/1fd2c987-e1de-4169-afb7-9c6648dc8277"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -31,9 +29,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "permissions": [
-        "android.permission.CAMERA"
-      ],
+      "permissions": ["android.permission.CAMERA"],
       "package": "com.bstudios.adamrms"
     },
     "web": {
@@ -60,7 +56,8 @@
             "useFrameworks": "static"
           }
         }
-      ]
+      ],
+      "sentry-expo"
     ],
     "runtimeVersion": {
       "policy": "sdkVersion"
