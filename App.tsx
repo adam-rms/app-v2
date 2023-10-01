@@ -5,6 +5,7 @@ import {
   RenderHTMLConfigProvider,
 } from "react-native-render-html";
 import { extendTheme, NativeBaseProvider, Text } from "native-base";
+import { GluestackUIProvider, config } from "@gluestack-ui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   NavigationContainer,
@@ -73,27 +74,29 @@ function App() {
       <TRenderEngineProvider>
         <RenderHTMLConfigProvider>
           <SafeAreaProvider>
-            <NativeBaseProvider theme={theme}>
-              <ActionSheetProvider>
-                <AuthProvider>
-                  {/* Our Authentication, which Navigation depends on */}
-                  <NavigationContainer
-                    linking={linking}
-                    fallback={<Text>Loading...</Text>}
-                    ref={navigationRef}
-                    onReady={() => {
-                      routingInstrumentation.registerNavigationContainer(
-                        navigationRef,
-                      );
-                    }}
-                  >
-                    <ContextWrapper>
-                      <Routing />
-                    </ContextWrapper>
-                  </NavigationContainer>
-                </AuthProvider>
-              </ActionSheetProvider>
-            </NativeBaseProvider>
+            <GluestackUIProvider config={config.theme}>
+              <NativeBaseProvider theme={theme}>
+                <ActionSheetProvider>
+                  <AuthProvider>
+                    {/* Our Authentication, which Navigation depends on */}
+                    <NavigationContainer
+                      linking={linking}
+                      fallback={<Text>Loading...</Text>}
+                      ref={navigationRef}
+                      onReady={() => {
+                        routingInstrumentation.registerNavigationContainer(
+                          navigationRef,
+                        );
+                      }}
+                    >
+                      <ContextWrapper>
+                        <Routing />
+                      </ContextWrapper>
+                    </NavigationContainer>
+                  </AuthProvider>
+                </ActionSheetProvider>
+              </NativeBaseProvider>
+            </GluestackUIProvider>
           </SafeAreaProvider>
         </RenderHTMLConfigProvider>
       </TRenderEngineProvider>
