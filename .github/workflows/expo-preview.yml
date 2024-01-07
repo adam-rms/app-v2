@@ -1,4 +1,4 @@
-name: Expo Preview 
+name: Expo Preview
 
 on: [pull_request]
 

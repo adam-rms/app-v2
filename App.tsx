@@ -13,9 +13,9 @@ import {
 } from "@react-navigation/native";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import * as Linking from "expo-linking";
-import { AuthProvider } from "./contexts/useAuth";
-import ContextWrapper from "./contexts/ContextWrapper";
-import Routing from "./utilities/Routing";
+import { AuthProvider } from "@context/useAuth";
+import ContextWrapper from "@context/ContextWrapper";
+import Routing from "@utility/Routing";
 import * as Sentry from "sentry-expo";
 
 // Sentry Reporting

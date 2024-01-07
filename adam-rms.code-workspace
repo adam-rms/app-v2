@@ -10,7 +10,7 @@
     "typescript.preferences.quoteStyle": "double",
     "eslint.workingDirectories": ["app", "api", "docs"],
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "explicit"
     },
     "eslint.validate": ["typescript", "typescriptreact"],
     "files.eol": "\n"

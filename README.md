@@ -17,7 +17,6 @@ To speed up development, it is recommended to create an Expo CLI account, and th
 Create an account at [expo.dev](https://expo.dev/), then run `expo login` in your terminal to login to Expo CLI, and log in to Expo Go on your device.  
 Next time you run `expo start`, the app will show in Expo Go at the top of the list of projects.
 
-
 ## Deployment
 
 Expo Apps can be deployed in two ways, and the AdamRMS app takes advantage of both.
@@ -54,15 +53,20 @@ When a release is made, the following action occurs:
 Static Images and other local assets used in the app.
 
 ### /components
+
 Reusable components that are used to build up pages. These generally get data through props passed to them, and don't access contexts directly.  
 General components are stored at the root of this folder, with more specific components in subfolders.
+
 ### /contexts
+
 React contexts that store and fetch data from the API. These are generally used by pages, and passed to components as props.
 
 ### /pages
+
 The pages that make up the app. These are rendered by the router, and often take arguments from the router.
 
 ### /utilities
+
 Various files that don't fit elsewhere. These include the main routing links, the API wrapper and data storage.
 
 ## Contributing
