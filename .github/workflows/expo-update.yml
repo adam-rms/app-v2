@@ -1,12 +1,11 @@
-name: Expo Update 
+name: Expo Update
 
-on: 
+on:
   pull_request:
-    types: 
+    types:
       - closed
     branches:
-      - 'main'
-  
+      - "main"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -43,13 +42,13 @@ jobs:
         uses: expo/expo-github-action/preview@v8
         with:
           command: eas update --branch main --message "${{github.event.pull_request.title}}" --json --non-interactive
-          
+
       - name: 🧹 Remove Expo Branch
         continue-on-error: true
         uses: expo/expo-github-action/preview@v8
-        with: 
+        with:
           command: eas branch:delete ${{github.event.pull_request.head.ref}} --json --non-interactive
-          
+
       - name: 🧹 Remove Expo Channel
         continue-on-error: true
         uses: expo/expo-github-action/preview@v8

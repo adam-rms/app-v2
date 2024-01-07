@@ -5,6 +5,7 @@ import {
   RenderHTMLConfigProvider,
 } from "react-native-render-html";
 import { extendTheme, NativeBaseProvider, Text } from "native-base";
+import { GluestackUIProvider, config } from "@gluestack-ui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   NavigationContainer,
@@ -12,9 +13,9 @@ import {
 } from "@react-navigation/native";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import * as Linking from "expo-linking";
-import { AuthProvider } from "./contexts/useAuth";
-import ContextWrapper from "./contexts/ContextWrapper";
-import Routing from "./utilities/Routing";
+import { AuthProvider } from "@context/useAuth";
+import ContextWrapper from "@context/ContextWrapper";
+import Routing from "@utility/Routing";
 import * as Sentry from "sentry-expo";
 
 // Sentry Reporting
@@ -73,27 +74,29 @@ function App() {
       <TRenderEngineProvider>
         <RenderHTMLConfigProvider>
           <SafeAreaProvider>
-            <NativeBaseProvider theme={theme}>
-              <ActionSheetProvider>
-                <AuthProvider>
-                  {/* Our Authentication, which Navigation depends on */}
-                  <NavigationContainer
-                    linking={linking}
-                    fallback={<Text>Loading...</Text>}
-                    ref={navigationRef}
-                    onReady={() => {
-                      routingInstrumentation.registerNavigationContainer(
-                        navigationRef,
-                      );
-                    }}
-                  >
-                    <ContextWrapper>
-                      <Routing />
-                    </ContextWrapper>
-                  </NavigationContainer>
-                </AuthProvider>
-              </ActionSheetProvider>
-            </NativeBaseProvider>
+            <GluestackUIProvider config={config.theme}>
+              <NativeBaseProvider theme={theme}>
+                <ActionSheetProvider>
+                  <AuthProvider>
+                    {/* Our Authentication, which Navigation depends on */}
+                    <NavigationContainer
+                      linking={linking}
+                      fallback={<Text>Loading...</Text>}
+                      ref={navigationRef}
+                      onReady={() => {
+                        routingInstrumentation.registerNavigationContainer(
+                          navigationRef,
+                        );
+                      }}
+                    >
+                      <ContextWrapper>
+                        <Routing />
+                      </ContextWrapper>
+                    </NavigationContainer>
+                  </AuthProvider>
+                </ActionSheetProvider>
+              </NativeBaseProvider>
+            </GluestackUIProvider>
           </SafeAreaProvider>
         </RenderHTMLConfigProvider>
       </TRenderEngineProvider>
